@@ -1,0 +1,6 @@
+[book]
+authors = ["sigoden"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Sigoden's Notebook"
