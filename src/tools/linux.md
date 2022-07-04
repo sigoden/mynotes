@@ -18,7 +18,7 @@
 | timezone   | `cat /etc/timezone`             |
 | login user | `whoami`                        |
 
-## 文件
+## File
 
 ```sh
 # List files
@@ -119,7 +119,7 @@ groupadd -g 344 linuxde
 groupdel linuxde
 ```
 
-## 进程
+## Process
 
 ```sh
 # find process
@@ -225,7 +225,7 @@ cat /etc/paswd | awk -F: '{print $1}'
 cat file | awk '{print $1,$3}'
 ```
 
-## REGEX
+## Regex
 
 | Code   | Explain           |
 | ------ | ----------------- |
