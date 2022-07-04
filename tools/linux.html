@@ -1,0 +1,477 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Linux - Sigoden&#x27;s Notebook</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../collections/index.html"><strong aria-hidden="true">1.</strong> Collections</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../collections/cli.html"><strong aria-hidden="true">1.1.</strong> Cli Tools</a></li><li class="chapter-item expanded "><a href="../collections/sass.html"><strong aria-hidden="true">1.2.</strong> SASS Tools</a></li><li class="chapter-item expanded "><a href="../collections/websites.html"><strong aria-hidden="true">1.3.</strong> Utility Websites</a></li></ol></li><li class="chapter-item expanded "><a href="../languages/index.html"><strong aria-hidden="true">2.</strong> Languages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../languages/shell.html"><strong aria-hidden="true">2.1.</strong> Shell</a></li><li class="chapter-item expanded "><a href="../languages/rust.html"><strong aria-hidden="true">2.2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="../languages/markdown.html"><strong aria-hidden="true">2.3.</strong> Markdown</a></li><li class="chapter-item expanded "><a href="../languages/nodejs.html"><strong aria-hidden="true">2.4.</strong> Nodejs</a></li></ol></li><li class="chapter-item expanded "><a href="../tools/index.html"><strong aria-hidden="true">3.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tools/docker.html"><strong aria-hidden="true">3.1.</strong> Docker</a></li><li class="chapter-item expanded "><a href="../tools/git.html"><strong aria-hidden="true">3.2.</strong> Git</a></li><li class="chapter-item expanded "><a href="../tools/github-ci.html"><strong aria-hidden="true">3.3.</strong> Github CI</a></li><li class="chapter-item expanded "><a href="../tools/linux.html" class="active"><strong aria-hidden="true">3.4.</strong> Linux</a></li><li class="chapter-item expanded "><a href="../tools/redis.html"><strong aria-hidden="true">3.5.</strong> Redis</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Sigoden&#x27;s Notebook</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
+<h2 id="inspect"><a class="header" href="#inspect">Inspect</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Aspect</th><th>Command</th></tr></thead><tbody>
+<tr><td>distro</td><td><code>lsb_release -a</code></td></tr>
+<tr><td>kernel</td><td><code>uname -a</code></td></tr>
+<tr><td>mem</td><td><code>free -m</code></td></tr>
+<tr><td>fs</td><td><code>df -h</code></td></tr>
+<tr><td>net</td><td><code>ip -4 a</code></td></tr>
+<tr><td>disk</td><td><code>lsblk</code></td></tr>
+<tr><td>CPU</td><td><code>lscpu</code></td></tr>
+<tr><td>port</td><td><code>netstat -tulpn \| grep LISTEN</code></td></tr>
+<tr><td>process</td><td><code>top</code></td></tr>
+<tr><td>trafic</td><td><code>vnstat -i eth0 -l</code></td></tr>
+<tr><td>ip</td><td><code>curl ipinfo.io</code></td></tr>
+<tr><td>timezone</td><td><code>cat /etc/timezone</code></td></tr>
+<tr><td>login user</td><td><code>whoami</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="文件"><a class="header" href="#文件">文件</a></h2>
+<pre><code class="language-sh"># List files
+ls -alh file
+
+# Modify user group
+chown -R alice file
+chown -R alice:www-data file
+
+# Modify perms
+chmod 600 file
+chmod -w file
+chmod +x file
+chmod o-x file
+chmod u+w file
+
+# Open with default app
+xdg-open file
+
+# link file
+ln -s /user/bin/vim /usr/bin/vi
+# Link file relative
+ln -sr node_modules/eslint/bin/eslint.js node_modules/.bin/eslint
+
+# Zip
+zip -r data.zip data
+# Inspect zip files
+unzip -t data.zip
+# Unzip file
+unzip data.zip
+# Unzip to specific folder
+unzip -d output-dir data.zip
+# Unzip with pass
+zip -er data.zip data
+
+# Tar
+tar -cf data.tar.gz data
+# Inspect tar files
+tar -tf data.tar.gz
+# Untar
+tar -xf data.tar.gz
+# Untar to specific folders
+tar -xf data.tar.gz -C output-dir
+
+# bz format compression (slower but smaller)
+tar -cjf data.tar.bz2 data
+
+# Download
+wget $url
+wget -O /tmp/file $curl
+curl -o /tmp/file $curl
+
+# Find
+find -name README.md
+find / -name sfz
+find -type -f -name '*.log' -exec rm -rf {} \;
+
+# split by number of copies
+split -d -n 5 data.zip data.zip.part
+# split by size
+split -d -b 256M data.zip data.zip.part
+# Combine split files
+cat data.zip.part* &gt; data.zip
+
+# generate file
+dd if=/dev/zero of=/tmp/1G.bin bs=1M count=1000
+dd if=/dev/urandom of=/tmp/1G.bin bs=10M count=1000
+</code></pre>
+<h2 id="usergroup"><a class="header" href="#usergroup">User/Group</a></h2>
+<pre><code class="language-sh"># add users (more complete, similar to interface operations)
+adduser alice
+# add user (recommended version)
+useradd -m alice
+# add user, specify user directory
+useradd -d /d/alice alice
+# add user, specify uid, gid
+useradd -u 1001 -g 1001 nodejs
+# add program account
+useradd -r -s /usr/sbin/nologin nodejs
+
+# MODIFY THE USER SHELL
+usermod -s /usr/bin/bash alice
+
+# user join group
+usermod -a -G docker alice
+
+# modify user password
+passwd alice
+
+# delete users
+userdel nodejs
+
+# add group
+groupadd -g 344 linuxde
+# delete group
+groupdel linuxde
+</code></pre>
+<h2 id="进程"><a class="header" href="#进程">进程</a></h2>
+<pre><code class="language-sh"># find process
+ps aux | grep nginx
+
+# kill process
+kill $pid
+# kill process forcelly
+kill -9 $pid
+# kill process by name
+pkill nginx
+pkill '^ssh$'
+pkill -9 nginx
+
+# find process by port
+lsof -i:3000
+netstat -utlpn | grep 3000
+# find port by process
+netstat -utlpn | grep nginx
+
+cat /proc/$pid/status | grep VmRSS
+cat /proc/$pid/cmdline 
+cat /proc/$pid/environ 
+
+ls -l /proc/$pid/cwd
+ls -l /proc/$pid/exe
+ls -l /proc/$pid/root
+
+# run in backgroud
+nohup server &amp;
+nohup server &gt; server.log 2&gt;&amp;1 &amp;
+nohup server &gt; server.log 2&gt; server.err &amp;
+</code></pre>
+<h2 id="text"><a class="header" href="#text">Text</a></h2>
+<pre><code class="language-sh"># count lines
+cat file | wc -l
+
+# first n lines
+cat file | head -3
+# last n lists
+cat file | tail -3
+
+cat file | more
+
+# hex
+cat file | xxd 
+cat file | xxd -p &gt; file.hex
+
+# split columns with `:`, only show first, third columns
+cat /etc/group | cut -d: -f1,3
+# only show 5-10 charactors of each row
+cat file | cut -c5-10
+# only show first 10 charactors of each row
+cat file | cut -c-10
+# only show 10th and subsequent of each line
+cat file | cut -c10-
+
+# replace charactor
+cat file | tr '\t' ' '
+# delete charactor
+cat file | tr -d '\r'
+
+# remove duplicates
+cat file | sort | uniq 
+# count duplicates
+cat file | sort | uniq -c
+# show duplicates
+cat file | sort | uniq -d
+</code></pre>
+<h3 id="sed"><a class="header" href="#sed">sed</a></h3>
+<pre><code class="language-sh"># delete first line
+cat file | sed '1d'
+# delete empty line
+cat file | sed '/^$/d'
+# insert at first line
+cat file | sed '1i#!/usr/bin/env node\n'
+# append on last line
+cat file | sed '$a\\n'
+# replace functions
+cat file | sed '/foo() {/,/}/c foo() { }'
+# replace path
+cat file| sed 's|/bin/sh|/bin/bash|g'
+# replace with matched parts
+cat file | sed 's|\(\w\+\) \(\w\+\) \(\w\+\)|\2 \3 \1|'
+# change file
+sed -i 's/\w\+.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list
+</code></pre>
+<h3 id="awk"><a class="header" href="#awk">awk</a></h3>
+<pre><code class="language-sh"># print specific column
+docker images | awk '{print $1}'
+# specific delimeter
+cat /etc/paswd | awk -F: '{print $1}'
+# combine columns
+cat file | awk '{print $1,$3}'
+</code></pre>
+<h2 id="regex"><a class="header" href="#regex">REGEX</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>^</code></td><td>start</td></tr>
+<tr><td><code>$</code></td><td>end</td></tr>
+<tr><td><code>*</code></td><td>zero or many</td></tr>
+<tr><td><code>\?</code></td><td>zero or one</td></tr>
+<tr><td><code>\+</code></td><td>at least one</td></tr>
+<tr><td><code>\{\}</code></td><td>match n times</td></tr>
+<tr><td><code>\|</code></td><td>choices</td></tr>
+<tr><td><code>\(\)</code></td><td>group</td></tr>
+<tr><td><code>[]</code></td><td>match options</td></tr>
+<tr><td><code>[^]</code></td><td>not match options</td></tr>
+<tr><td><code>[-]</code></td><td>options hyper</td></tr>
+<tr><td><code>.</code></td><td>any char</td></tr>
+<tr><td><code>\w</code></td><td>word char</td></tr>
+<tr><td><code>\s</code></td><td>empty char</td></tr>
+<tr><td><code>\S</code></td><td>none-empty char</td></tr>
+<tr><td><code>\b</code></td><td>boundary</td></tr>
+<tr><td><code>\&lt;\&gt;</code></td><td>boundary</td></tr>
+</tbody></table>
+</div>
+<h2 id="glob"><a class="header" href="#glob">GLOB</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>*</code></td><td>any</td></tr>
+<tr><td><code>[]</code></td><td>match options</td></tr>
+<tr><td><code>[^]</code></td><td>not match options</td></tr>
+<tr><td><code>{str1,str2}</code></td><td>choices</td></tr>
+</tbody></table>
+</div>
+<h2 id="terminal"><a class="header" href="#terminal">Terminal</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>hotkey</th><th>desc</th></tr></thead><tbody>
+<tr><td>ctrl+a</td><td>to head of line</td></tr>
+<tr><td>ctrl+e</td><td>to end of line</td></tr>
+<tr><td>alt+f</td><td>move forward a word</td></tr>
+<tr><td>alt+b</td><td>move backward a word</td></tr>
+<tr><td>ctrl+w</td><td>delete word backward</td></tr>
+<tr><td>alt+d</td><td>delete word forward</td></tr>
+<tr><td>ctrl+u</td><td>delete backward</td></tr>
+<tr><td>ctrl+k</td><td>delete forward</td></tr>
+<tr><td>ctrl+l</td><td>clear screen</td></tr>
+<tr><td>ctrl+r</td><td>search for history</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><code>!!</code> last command</li>
+<li><code>!$</code> last postional parameter of last command</li>
+</ul>
+<h2 id="set"><a class="header" href="#set">Set</a></h2>
+<pre><code>set -euxo pipefail
+</code></pre>
+<ul>
+<li><code>-e</code>: Exit on none-zero status</li>
+<li><code>-x</code>: Print a trace </li>
+<li><code>-u</code>: Treat unset variables as error</li>
+<li><code>-o pipefail</code>: Return none-zero if last pipeline return none-zero</li>
+</ul>
+<h2 id="xargs"><a class="header" href="#xargs">Xargs</a></h2>
+<p>Capture the output of one command and pass it to another command</p>
+<pre><code class="language-sh"># Batch renames
+ls -1 . | sed 's/\.mdx$//' | xargs -I{} mv {}.mdx {}.md
+</code></pre>
+<h2 id="cron-syntax"><a class="header" href="#cron-syntax">Cron Syntax</a></h2>
+<pre><code>Min  Hour Day  Mon  Weekday
+*    *    *    *    *  command to be executed
+┬    ┬    ┬    ┬    ┬
+│    │    │    │    └─  Weekday  (0=Sun .. 6=Sat)
+│    │    │    └──────  Month    (1..12)
+│    │    └───────────  Day      (1..31)
+│    └────────────────  Hour     (0..23)
+└─────────────────────  Minute   (0..59)
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>expr</th><th>description</th></tr></thead><tbody>
+<tr><td><code>0 * * * *</code></td><td>every hour</td></tr>
+<tr><td><code>*/15 * * * *</code></td><td>every 15 mins</td></tr>
+<tr><td><code>0 */2 * * *</code></td><td>every 2 hours</td></tr>
+<tr><td><code>0 18 * * 0-6</code></td><td>every week Mon-Sat at 6pm</td></tr>
+<tr><td><code>10 2 * * 6,7</code></td><td>every Sat and Sun on 2:10am</td></tr>
+<tr><td><code>0 0 * * 0</code></td><td>every Sunday midnight</td></tr>
+<tr><td><code>@reboot</code></td><td>every reboot</td></tr>
+</tbody></table>
+</div>
+<h2 id="common-snippets"><a class="header" href="#common-snippets">Common Snippets</a></h2>
+<h3 id="script-directory"><a class="header" href="#script-directory">Script Directory</a></h3>
+<pre><code class="language-sh">SCRIPT_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )&quot;
+</code></pre>
+<h3 id="sudo-without-pass"><a class="header" href="#sudo-without-pass">Sudo Without Pass</a></h3>
+<pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER
+$USER ALL=(ALL) NOPASSWD:ALL
+EOF 
+</code></pre>
+<h3 id="load-environment-variables-from-env"><a class="header" href="#load-environment-variables-from-env">Load environment variables from .env</a></h3>
+<pre><code class="language-sh">eval $(cat .env | sed 's/^/export /')
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../tools/github-ci.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../tools/redis.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../tools/github-ci.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../tools/redis.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>

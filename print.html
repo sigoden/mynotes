@@ -1,0 +1,1378 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Sigoden&#x27;s Notebook</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="collections/index.html"><strong aria-hidden="true">1.</strong> Collections</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="collections/cli.html"><strong aria-hidden="true">1.1.</strong> Cli Tools</a></li><li class="chapter-item expanded "><a href="collections/sass.html"><strong aria-hidden="true">1.2.</strong> SASS Tools</a></li><li class="chapter-item expanded "><a href="collections/websites.html"><strong aria-hidden="true">1.3.</strong> Utility Websites</a></li></ol></li><li class="chapter-item expanded "><a href="languages/index.html"><strong aria-hidden="true">2.</strong> Languages</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="languages/shell.html"><strong aria-hidden="true">2.1.</strong> Shell</a></li><li class="chapter-item expanded "><a href="languages/rust.html"><strong aria-hidden="true">2.2.</strong> Rust</a></li><li class="chapter-item expanded "><a href="languages/markdown.html"><strong aria-hidden="true">2.3.</strong> Markdown</a></li><li class="chapter-item expanded "><a href="languages/nodejs.html"><strong aria-hidden="true">2.4.</strong> Nodejs</a></li></ol></li><li class="chapter-item expanded "><a href="tools/index.html"><strong aria-hidden="true">3.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tools/docker.html"><strong aria-hidden="true">3.1.</strong> Docker</a></li><li class="chapter-item expanded "><a href="tools/git.html"><strong aria-hidden="true">3.2.</strong> Git</a></li><li class="chapter-item expanded "><a href="tools/github-ci.html"><strong aria-hidden="true">3.3.</strong> Github CI</a></li><li class="chapter-item expanded "><a href="tools/linux.html"><strong aria-hidden="true">3.4.</strong> Linux</a></li><li class="chapter-item expanded "><a href="tools/redis.html"><strong aria-hidden="true">3.5.</strong> Redis</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Sigoden&#x27;s Notebook</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
+<p>A collections of tools, services, websites.</p>
+<ul>
+<li><a href="collections/cli.html">Cli Tools</a></li>
+<li><a href="collections/sass.html">SASS Tools</a></li>
+<li><a href="collections/websites.html">Utility Websites</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cli-tools"><a class="header" href="#cli-tools">Cli Tools</a></h1>
+<h2 id="dufs"><a class="header" href="#dufs"><a href="https://github.com/sigoden/dufs">dufs</a></a></h2>
+<p>A file server that supports static serving, uploading, searching, accessing control, webdav...</p>
+<h2 id="croc"><a class="header" href="#croc"><a href="https://github.com/schollz/croc">croc</a></a></h2>
+<p>Easily and securely send things from one computer to another with cli</p>
+<h2 id="frp"><a class="header" href="#frp"><a href="https://github.com/fatedier/frp">frp</a></a></h2>
+<p>A proxy tools supports intranet penetration, port forwarding.</p>
+<h2 id="rg"><a class="header" href="#rg"><a href="https://github.com/BurntSushi/ripgrep">rg</a></a></h2>
+<p>A better grep</p>
+<h2 id="webhookd"><a class="header" href="#webhookd"><a href="https://github.com/ncarlier/webhookd">webhookd</a></a></h2>
+<p>Use shell scripts to handle webhook request.</p>
+<h2 id="proxychains-ng"><a class="header" href="#proxychains-ng"><a href="https://github.com/rofl0r/proxychains-ng">proxychains-ng</a></a></h2>
+<p>Run command with proxy network</p>
+<h2 id="proxychains-windows"><a class="header" href="#proxychains-windows"><a href="https://github.com/shunf4/proxychains-windows">proxychains-windows</a></a></h2>
+<p>Run command with proxy network in windows pc.</p>
+<h2 id="mdbook"><a class="header" href="#mdbook"><a href="https://github.com/rust-lang/mdBook">mdbook</a></a></h2>
+<p>Create book from markdown files.</p>
+<h2 id="tomato-timer"><a class="header" href="#tomato-timer"><a href="https://github.com/sigoden/tomato-timer">tomato-timer</a></a></h2>
+<p>A terminal tomato timer with notification</p>
+<h2 id="argc"><a class="header" href="#argc"><a href="https://github.com/sigoden/argc">argc</a></a></h2>
+<p>Describe cli with comments to make cli with bash.</p>
+<h2 id="projclean"><a class="header" href="#projclean"><a href="https://github.com/sigoden/projclean">projclean</a></a></h2>
+<p>Find and clean dependencies &amp; builds from software projects to saving space.</p>
+<h2 id="rclone"><a class="header" href="#rclone"><a href="https://github.com/rclone/rclone">rclone</a></a></h2>
+<p>Rsync for cloud storage</p>
+<h2 id="bat"><a class="header" href="#bat"><a href="https://github.com/sharkdp/bat">bat</a></a></h2>
+<p>Cat with syntax highlight</p>
+<h2 id="git-cliff"><a class="header" href="#git-cliff"><a href="https://github.com/orhun/git-cliff">git-cliff</a></a></h2>
+<p>Create changelog from git commit.</p>
+<h2 id="plantuml"><a class="header" href="#plantuml"><a href="https://github.com/plantuml/plantuml">plantuml</a></a></h2>
+<p>Code as diagrams</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sass-tool"><a class="header" href="#sass-tool">Sass Tool</a></h1>
+<h2 id="gogs"><a class="header" href="#gogs"><a href="https://github.com/gogs/gogs">gogs</a></a></h2>
+<p>A painless self-hosted Git service</p>
+<h2 id="minio"><a class="header" href="#minio"><a href="https://github.com/minio/minio">minio</a></a></h2>
+<p>A self-hosted cloud storage compatible with aws s3</p>
+<h2 id="meilisearch"><a class="header" href="#meilisearch"><a href="https://github.com/meilisearch/MeiliSearch">meilisearch</a></a></h2>
+<p>A self-hosted search engine.</p>
+<h2 id="gorse"><a class="header" href="#gorse"><a href="https://github.com/zhenghaoz/gorse">gorse</a></a></h2>
+<p>A self-hosted recommand system.</p>
+<h2 id="dtm"><a class="header" href="#dtm"><a href="https://github.com/yedf/dtm">dtm</a></a></h2>
+<p>A self-hosted distributed transaction service supports saga, tcc, xa, 2-phase message, outbox patterns.</p>
+<h2 id="centrifugo"><a class="header" href="#centrifugo"><a href="https://github.com/centrifugal/centrifugo">centrifugo</a></a></h2>
+<p>A self-hosted scalable real-time messaging server.</p>
+<h2 id="dynimgen"><a class="header" href="#dynimgen"><a href="https://github.com/sigoden/dynimgen">dynimgen</a></a></h2>
+<p>A self-hosted dynamic image generator.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="utility-websites"><a class="header" href="#utility-websites">Utility Websites</a></h1>
+<h2 id="amp-what"><a class="header" href="#amp-what"><a href="https://www.amp-what.com/">amp-what</a></a></h2>
+<p>Discover Unicode Character Entities &amp; Symbols.</p>
+<h2 id="webhooksite"><a class="header" href="#webhooksite"><a href="https://webhook.site/">webhook.site</a></a></h2>
+<p>Test, process and transform HTTP requests.</p>
+<h2 id="zztalk"><a class="header" href="#zztalk"><a href="https://zztalk.herokuapp.com/">zztalk</a></a></h2>
+<p>Anonymous ad hoc chat.</p>
+<h2 id="drawio"><a class="header" href="#drawio"><a href="https://app.diagrams.net/">draw.io</a></a></h2>
+<p>Draw wireframes, support local storage, cloud storage.</p>
+<h2 id="asciiflow"><a class="header" href="#asciiflow"><a href="https://asciiflow.com/">asciiflow</a></a></h2>
+<p>Draw ascii diagrams.</p>
+<h2 id="iconfontcn"><a class="header" href="#iconfontcn"><a href="https://www.iconfont.cn/">iconfont.cn</a></a></h2>
+<p>Pick icons to create your own icon fonts.</p>
+<h2 id="getimg"><a class="header" href="#getimg"><a href="https://getimg.co/">getimg</a></a></h2>
+<p>Fast and Free Online Image Processing Tool.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="languages"><a class="header" href="#languages">Languages</a></h1>
+<p>Some notes on programing languages.</p>
+<ul>
+<li><a href="languages/shell.html">Shell</a></li>
+<li><a href="languages/rust.html">Rust</a></li>
+<li><a href="languages/markdown.html">Markdown</a></li>
+<li><a href="languages/nodejs.html">Nodejs</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="shell"><a class="header" href="#shell">Shell</a></h1>
+<h2 id="variables"><a class="header" href="#variables">Variables</a></h2>
+<pre><code class="language-sh"># Default value
+echo ${value:-xa} # xa
+value=xyz/ijk/abc
+# Head
+echo ${value%/*} # xyz/ijk
+echo ${value%%/*} # xyz
+# Tail
+echo ${value#*/} # ijk/abc
+echo ${value##*/} # abc
+# Truncate
+echo ${value:7} # /abc
+echo ${value:7:4} # /abc
+echo ${value:(-4):4} # /abc
+# Replace
+echo ${value/abc/cba} # xyz/cba
+</code></pre>
+<h2 id="shell-variables"><a class="header" href="#shell-variables">Shell Variables</a></h2>
+<ul>
+<li><code>$#</code>: count args</li>
+<li><code>$n</code>: nth arg</li>
+<li><code>$?</code>: last exit code</li>
+<li><code>$!</code>: last pid</li>
+</ul>
+<h2 id="array"><a class="header" href="#array">Array</a></h2>
+<pre><code class="language-sh">Fruits=('Apple' 'Banana' 'Orange' 'Pear')
+
+echo ${Fruits[0]}           # Element #0
+echo ${Fruits[-1]}          # Last element
+echo ${Fruits[@]}           # All elements, space-separated
+echo ${#Fruits[@]}          # Number of elements
+echo ${#Fruits}             # String length of the 1st element
+echo ${#Fruits[3]}          # String length of the Nth element
+echo ${Fruits[@]:3:2}       # Range (from position 3, length 2)
+echo ${!Fruits[@]}          # Keys of all elements, space-separated
+
+
+
+Fruits=(&quot;${Fruits[@]}&quot; &quot;Grape&quot;)         # Push
+Fruits+=('Watermelon')                  # Also Push
+Fruits=( ${Fruits[@]/Ap*/} )            # Remove by regex match
+unset Fruits[2]                         # Remove one item
+Fruits=(&quot;${Fruits[@]}&quot;)                 # Duplicate
+Fruits=(&quot;${Fruits[@]}&quot; &quot;${Veggies[@]}&quot;) # Concatenate
+
+TempFiles=($(ls /tmp))
+
+for i in &quot;${Fruits[@]}&quot;; do
+  echo $i
+done
+
+if [[ &quot; ${Fruits[*]} &quot; =~ &quot; Banana &quot; ]]; then
+  echo &quot;Apple in Fruits&quot;
+fi
+</code></pre>
+<h2 id="dictionary"><a class="header" href="#dictionary">Dictionary</a></h2>
+<pre><code class="language-sh">declare -A sounds
+
+sounds[dog]=&quot;bark&quot;
+sounds[cow]=&quot;moo&quot;
+sounds[bird]=&quot;tweet&quot;
+sounds[wolf]=&quot;howl&quot;
+
+echo ${sounds[dog]} # Dog's sound
+echo ${sounds[@]}   # All values
+echo ${!sounds[@]}  # All keys
+echo ${#sounds[@]}  # Number of elements
+unset sounds[dog]   # Delete dog
+
+# Value loop
+for val in &quot;${sounds[@]}&quot;; do
+  echo $val
+done
+
+# Key loop
+for key in &quot;${!sounds[@]}&quot;; do
+  echo $key
+done
+</code></pre>
+<h2 id="condition"><a class="header" href="#condition">Condition</a></h2>
+<h3 id="test"><a class="header" href="#test">test</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>[[ -z STRING ]]</code></td><td>Empty string</td></tr>
+<tr><td><code>[[ -n STRING ]]</code></td><td>Not empty string</td></tr>
+<tr><td><code>[[ STRING == STRING ]]</code></td><td>Equal</td></tr>
+<tr><td><code>[[ STRING != STRING ]]</code></td><td>Not equal</td></tr>
+<tr><td><code>[[ STRING =~ STRING ]]</code></td><td>Regexp</td></tr>
+<tr><td>-</td><td>-</td></tr>
+<tr><td><code>[[ -e FILE ]]</code></td><td>Exists</td></tr>
+<tr><td><code>[[ -d FILE ]]</code></td><td>Directory</td></tr>
+<tr><td><code>[[ -f FILE ]]</code></td><td>File</td></tr>
+<tr><td><code>[[ -x FILE ]]</code></td><td>Executable</td></tr>
+<tr><td><code>[[ FILE1 -ef FILE2 ]]</code></td><td>Same files</td></tr>
+<tr><td>-</td><td>-</td></tr>
+<tr><td><code>[[ ! EXPR ]]</code></td><td>Not</td></tr>
+<tr><td><code>[[ X &amp;&amp; Y ]]</code></td><td>And</td></tr>
+<tr><td><code>[[ X \|\| Y ]]</code></td><td>Or</td></tr>
+</tbody></table>
+</div>
+<h3 id="case"><a class="header" href="#case">case</a></h3>
+<pre><code class="language-sh">case &quot;$1&quot; in
+  start | up)
+    vagrant up
+    ;;
+  stop | down)
+    vagrant up
+    ;;
+
+  *)
+    echo &quot;Usage: $0 {start|stop}&quot;
+    ;;
+esac
+</code></pre>
+<h3 id="exitcode"><a class="header" href="#exitcode">exitcode</a></h3>
+<pre><code class="language-sh">if grep -q 'alice' /etc/passwd; then
+  echo &quot;User alice exists&quot;
+fi
+</code></pre>
+<h2 id="loop"><a class="header" href="#loop">Loop</a></h2>
+<pre><code class="language-sh">
+# index
+for i in `seq 1 10`; do
+  echo $i 
+done
+
+for i in `seq 1 2 10`; do
+  echo $i
+done
+
+# fs
+for f in ./*; do
+  echo $f
+done
+
+# array
+arr=( a b c )
+for v in ${arr[@]}; do
+  echo $v
+done
+
+# lines
+cat file.txt | while read l; do
+  echo $l
+done
+
+# forever
+while true; do
+  sleep 1
+done
+</code></pre>
+<pre><code class="language-sh">while [[ &quot;$1&quot; =~ ^- &amp;&amp; ! &quot;$1&quot; == &quot;--&quot; ]]; do case $1 in
+  -V | --version )
+    echo $version
+    exit
+    ;;
+  -s | --string )
+    shift; string=$1
+    ;;
+  -f | --flag )
+    flag=1
+    ;;
+esac; shift; done
+if [[ &quot;$1&quot; == '--' ]]; then shift; fi
+</code></pre>
+<h2 id="function"><a class="header" href="#function">Function</a></h2>
+<pre><code class="language-sh">foo() {
+    local msg='world'
+    echo &quot;$1 $msg&quot;
+}
+result=&quot;$(foo hello)&quot;
+echo $result
+</code></pre>
+<h2 id="value"><a class="header" href="#value">Value</a></h2>
+<h3 id="condition-1"><a class="header" href="#condition-1">Condition</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>[[ NUM -eq NUM ]]</code></td><td>Equal</td></tr>
+<tr><td><code>[[ NUM -ne NUM ]]</code></td><td>Not equal</td></tr>
+<tr><td><code>[[ NUM -lt NUM ]]</code></td><td>Less than</td></tr>
+<tr><td><code>[[ NUM -le NUM ]]</code></td><td>Less than or equal</td></tr>
+<tr><td><code>[[ NUM -gt NUM ]]</code></td><td>Greater than</td></tr>
+<tr><td><code>[[ NUM -ge NUM ]]</code></td><td>Greater than or equal</td></tr>
+<tr><td><code>(( NUM &lt; NUM ))</code></td><td>Numeric conditions</td></tr>
+</tbody></table>
+</div>
+<h3 id="math"><a class="header" href="#math">Math</a></h3>
+<pre><code class="language-sh">a=$(($RANDOM%200))  # Random number 0..199
+$((a + 200))        # Add 200 to $a
+</code></pre>
+<h2 id="redirect"><a class="header" href="#redirect">Redirect</a></h2>
+<ul>
+<li><code>&gt;</code>: equal to  <code>1&gt;</code></li>
+<li><code>1&gt;&amp;2</code>： redirect stdout to stderr</li>
+<li><code>2&gt;&amp;1</code>： redirect stderr to stdout</li>
+<li><code>&gt;&amp; file</code>: redirect stdout/stderr to file</li>
+</ul>
+<h2 id="heredoc"><a class="header" href="#heredoc">Heredoc</a></h2>
+<pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER
+$USER ALL=(ALL) NOPASSWD:ALL
+EOF 
+</code></pre>
+<ul>
+<li><code>&lt;&lt;EOF</code>: will replace variable</li>
+<li><code>&lt;&lt;'EOF'</code>: not replace variable</li>
+<li><code>&lt;&lt;-EOF</code>: will replace variable trim <code>\t</code></li>
+<li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<pre><code class="language-sh">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+<h2 id="rustup"><a class="header" href="#rustup">Rustup</a></h2>
+<h3 id="concepts"><a class="header" href="#concepts">Concepts</a></h3>
+<ul>
+<li>target: <code>x86_64-pc-windows-msvc</code>, <code>x86_64-unknown-linux-gnu</code>, <code>wasm32-unknown-unknown</code></li>
+<li>toolchain: <code>stable-x86_64-pc-windows-msvc</code>, <code>nightly-2021-05-11-x86_64-unknown-linux-gnu</code></li>
+<li>component: <code>rustc</code>,<code>rustsrc</code>,<code>rustfmt</code>, <code>rust-analyzer</code></li>
+</ul>
+<h3 id="snippets"><a class="header" href="#snippets">Snippets</a></h3>
+<pre><code class="language-sh">rustup update 
+
+rustup toolchain install nightly
+
+rustup target add wasm32-unknown-unknown --toolchain nightly
+
+rustup default nightly
+
+rustup override set nightly
+</code></pre>
+<h2 id="crates"><a class="header" href="#crates">Crates</a></h2>
+<ul>
+<li><a href="https://docs.rs/tokio">tokio</a>: Async </li>
+<li><a href="https://docs.rs/crossbeam">crossbeam</a>: Concurrency</li>
+<li><a href="https://docs.rs/rayon">rayon</a>: Concurrency computation</li>
+<li><a href="https://docs.rs/axum">axum</a>: web framework</li>
+<li><a href="https://docs.rs/poem">poem</a>: web framework，supports openapi</li>
+<li><a href="https://docs.rs/sqlx">sqlx</a>: sql</li>
+<li><a href="https://docs.rs/sea-orm">sea-orm</a>: orm</li>
+<li><a href="https://docs.rs/reqwest">reqwest</a>: http client</li>
+<li><a href="https://docs.rs/anyhow">anyhow</a>: generic error framework</li>
+<li><a href="https://docs.rs/thiserror">thiserror</a>: library error framework</li>
+<li><a href="https://docs.rs/clap">clap</a>: cli framework</li>
+<li><a href="https://docs.rs/nom">nom</a>: bytes/charactor parser</li>
+<li><a href="https://docs.rs/assert_cmd">assert_cmd</a>: cli test framework</li>
+<li><a href="https://docs.rs/insta">insta</a>: snapshot test framework</li>
+</ul>
+<h2 id="cargo"><a class="header" href="#cargo">Cargo</a></h2>
+<h3 id="plugins"><a class="header" href="#plugins">Plugins</a></h3>
+<pre><code class="language-sh">cargo install cargo-outdated
+</code></pre>
+<h3 id="snippets-1"><a class="header" href="#snippets-1">Snippets</a></h3>
+<pre><code class="language-sh">cargo add serde
+cargo add serde -F derive
+cargo add -D serde
+cargo add -B serde
+
+cargo tree
+cargo tree -p libc
+cargo tree -p libc -i
+</code></pre>
+<h3 id="cargotoml"><a class="header" href="#cargotoml">Cargo.toml</a></h3>
+<pre><code class="language-sh">[profile.release]
+lto = true
+strip = true
+opt-level = &quot;z&quot;
+</code></pre>
+<h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
+<ul>
+<li><a href="https://cheats.rs/">Rust Language Cheat Sheet</a></li>
+<li><a href="https://doc.rust-lang.org/rust-by-example">Rust by Example</a></li>
+<li><a href="https://rust-unofficial.github.io/patterns/intro.html">Rust Design Patterns</a></li>
+<li><a href="https://github.com/erikgrinaker/toydb">learn project: toydb</a></li>
+<li><a href="https://github.com/tokio-rs/mini-redis">learn project: mini-redis</a></li>
+<li><a href="https://rust-lang.github.io/api-guidelines/about.html">Rust API Guidelines</a></li>
+<li><a href="https://github.com/pretzelhammer/rust-blog">pretzelhammer Blog</a></li>
+<li><a href="https://www.youtube.com/channel/UC_iD0xppBwwsrM9DegC5cQQ">Jon Gjengset Youtube</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="markdown"><a class="header" href="#markdown">Markdown</a></h1>
+<h2 id="heading"><a class="header" href="#heading">Heading</a></h2>
+<h3 id="heading3"><a class="header" href="#heading3">Heading3</a></h3>
+<h4 id="heading4"><a class="header" href="#heading4">Heading4</a></h4>
+<h5 id="heading5"><a class="header" href="#heading5">Heading5</a></h5>
+<h2 id="text-style"><a class="header" href="#text-style">Text Style</a></h2>
+<p><strong>bold text</strong></p>
+<p><em>italicized text</em></p>
+<blockquote>
+<p>blockquote</p>
+</blockquote>
+<h2 id="ordered-list"><a class="header" href="#ordered-list">Ordered List</a></h2>
+<ol>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ol>
+<h2 id="unordered-list"><a class="header" href="#unordered-list">Unordered List</a></h2>
+<ul>
+<li>First item</li>
+<li>Second item</li>
+<li>Third item</li>
+</ul>
+<h2 id="code"><a class="header" href="#code">Code</a></h2>
+<p><code>Inline code</code> with backticks</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[derive(Debug)]
+pub enum State {
+    Start,
+    Transient,
+    Closed,
+}
+
+impl From&lt;&amp;'a str&gt; for State {
+    fn from(s: &amp;'a str) -&gt; Self {
+        match s {
+            &quot;start&quot; =&gt; State::Start,
+            &quot;closed&quot; =&gt; State::Closed,
+            _ =&gt; unreachable!(),
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="link"><a class="header" href="#link">Link</a></h2>
+<p><a href="http://a.com">Link</a></p>
+<h2 id="image"><a class="header" href="#image">Image</a></h2>
+<p><img src="https://dummyimage.com/200x100/e0e0e0" alt="Image" /></p>
+<h2 id="horizontal-rule"><a class="header" href="#horizontal-rule">Horizontal Rule</a></h2>
+<hr />
+<h2 id="autolink-literals"><a class="header" href="#autolink-literals">Autolink literals</a></h2>
+<p>www.example.com, https://example.com, and contact@example.com.</p>
+<h2 id="footnote"><a class="header" href="#footnote">Footnote</a></h2>
+<p>A note<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Big note.</p>
+</div>
+<h2 id="strikethrough"><a class="header" href="#strikethrough">Strikethrough</a></h2>
+<p>~one~ or <del>two</del> tildes.</p>
+<h2 id="table"><a class="header" href="#table">Table</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>a</th><th style="text-align: left">b</th><th style="text-align: right">c</th><th style="text-align: center">d</th></tr></thead><tbody>
+<tr><td>1</td><td style="text-align: left">2</td><td style="text-align: right">3</td><td style="text-align: center">4</td></tr>
+</tbody></table>
+</div>
+<h2 id="tasklist"><a class="header" href="#tasklist">Tasklist</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"/>
+to do</li>
+<li><input disabled="" type="checkbox" checked=""/>
+done</li>
+</ul>
+<h2 id="math-1"><a class="header" href="#math-1">Math</a></h2>
+<p>$E = mc^2 + 2$</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nodejs"><a class="header" href="#nodejs">Nodejs</a></h1>
+<h2 id="installation-1"><a class="header" href="#installation-1">Installation</a></h2>
+<pre><code class="language-sh">curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+nvm i --lts
+
+nvm i --lts --reinstall-packages-from=node
+</code></pre>
+<h2 id=""><a class="header" href="#"></a></h2>
+<div class="table-wrapper"><table><thead><tr><th>name</th><th>explain</th></tr></thead><tbody>
+<tr><td>npm-check-updates</td><td>check updates</td></tr>
+<tr><td>pkg</td><td>pack as single executable</td></tr>
+<tr><td>pm2</td><td>process managment</td></tr>
+<tr><td>zx</td><td>js like bash</td></tr>
+<tr><td>prettier</td><td>code style</td></tr>
+<tr><td>yargs</td><td>cli framework</td></tr>
+<tr><td>leran</td><td>monorepo</td></tr>
+</tbody></table>
+</div>
+<h2 id="npm"><a class="header" href="#npm">NPM</a></h2>
+<pre><code class="language-sh"># list all packages
+npm ls -g --depth=0
+# init projects
+npm i -y
+</code></pre>
+<h2 id="run-node-service"><a class="header" href="#run-node-service">Run node service</a></h2>
+<ol>
+<li>Use pm2</li>
+</ol>
+<pre><code class="language-sh">pm2 start --name app npm start
+</code></pre>
+<ol start="2">
+<li>Use systemd</li>
+</ol>
+<pre><code>[Unit]
+After=network.target
+
+[Service]
+Environment=NODE_PORT=3000
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/node /home/ubuntu/app.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<pre><code>sudo cp app.service /etc/systemd/system/
+sudo systemd daemon-reload
+sudo systemd start app
+</code></pre>
+<ol start="3">
+<li>Use docker</li>
+</ol>
+<pre><code class="language-Dockerfile">FROM sigoden/node:native as builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --prod
+
+FROM sigoden/node:slim
+WORKDIR /app
+COPY --from=builder /app .
+COPY . .
+EXPOSE 3000
+CMD [&quot;node&quot;, &quot;index.js&quot;]
+</code></pre>
+<h2 id="native-addon"><a class="header" href="#native-addon">Native addon</a></h2>
+<ol>
+<li>INstall deps like gcc, make, python</li>
+</ol>
+<pre><code class="language-sh"># ubuntu
+apt install build-essential
+
+# alpine
+apk add make gcc g++ python3 git
+</code></pre>
+<ol start="2">
+<li>Test native addon</li>
+</ol>
+<pre><code>npm i --build-from-source bcrypt
+</code></pre>
+<h2 id="es-features"><a class="header" href="#es-features">ES features</a></h2>
+<p><a href="https://node.green">https://node.green</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
+<p>Some notes on tools.</p>
+<ul>
+<li><a href="tools/docker.html">Docker</a></li>
+<li><a href="tools/git.html">Git</a></li>
+<li><a href="tools/github-ci.html">Github CI</a></li>
+<li><a href="tools/linux.html">Linux</a></li>
+<li><a href="tools/redis.html">Redis</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="docker"><a class="header" href="#docker">Docker</a></h1>
+<h2 id="installation-2"><a class="header" href="#installation-2">Installation</a></h2>
+<pre><code class="language-sh">curl -fsSL get.docker.com | sudo bash
+</code></pre>
+<h2 id="none-root"><a class="header" href="#none-root">None-Root</a></h2>
+<pre><code class="language-sh">sudo usermod -aG docker $USER
+</code></pre>
+<h2 id="snippets-2"><a class="header" href="#snippets-2">Snippets</a></h2>
+<pre><code class="language-sh"># Run container then enter shell
+docker run -it --rm -v `pwd`/data:/data -p 3000:3000 node:16 bash
+
+# Run container as service
+docker run -d --name redis -p 6379:6379 redis:5
+
+# Exec in container
+docker exec -it redis bash
+docker exec redis bash -c 'redis-cli set k1 a &amp;&amp; redis-cli get k1'
+
+# View log
+docker logs --tail 50 -f redis
+
+# Clean
+docker system prune -f
+
+# Clean dead images
+docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
+</code></pre>
+<h2 id="use-mirror"><a class="header" href="#use-mirror">Use Mirror</a></h2>
+<ul>
+<li>WIN: Docker Destop -&gt; Preferences -&gt; Docker Engine</li>
+<li>LINUX: /etc/docker/daemon.json</li>
+</ul>
+<pre><code class="language-json">{
+    &quot;registry-mirrors&quot;: [&quot;https://docker.mirrors.ustc.edu.cn&quot;]
+}
+</code></pre>
+<h2 id="dockerfile"><a class="header" href="#dockerfile">Dockerfile</a></h2>
+<h3 id="copy-vs-add"><a class="header" href="#copy-vs-add">COPY vs ADD</a></h3>
+<ul>
+<li><code>ADD</code> copy files, download remote resources, handle zip/tar.gz</li>
+<li><code>COPY</code> only copy local files</li>
+</ul>
+<p>Do not use <code>ADD</code> unless <code>COPY</code> not works.</p>
+<pre><code class="language-DOckerfile">ADD /source/file/path  /destination/path
+ADD http://source.file/url  /destination/path
+ADD source.file.tar.gz /destination
+
+COPY /source/file/path  /destination/path
+</code></pre>
+<h3 id="entrypoint-vs-cmd"><a class="header" href="#entrypoint-vs-cmd">ENTRYPOINT vs CMD</a></h3>
+<ul>
+<li>No ENTRYPOINT</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
+<tr><td style="text-align: left"></td><td style="text-align: left">error, not allowed</td></tr>
+<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">c1</td></tr>
+<tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c c1</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>ENTRYPOINT e1 </li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
+<tr><td style="text-align: left"></td><td style="text-align: left">/bin/sh -c e1</td></tr>
+<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">/bin/sh -c e1</td></tr>
+<tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c e1</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li>ENTRYPOINT [&quot;e1&quot;]</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
+<tr><td style="text-align: left"></td><td style="text-align: left">e1</td></tr>
+<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">e1 c1</td></tr>
+<tr><td style="text-align: left">CMD c1</td><td style="text-align: left">e1 /bin/sh -c e1</td></tr>
+</tbody></table>
+</div>
+<h3 id="conconcate-commands"><a class="header" href="#conconcate-commands">Conconcate commands</a></h3>
+<pre><code class="language-Dockerfile">RUN set -ex \
+    # comment
+    &amp;&amp; apt-get update &amp;&amp; apt-get install -y curl --no-install-recommends \
+    &amp;&amp; rm -rf /var/lib/apt/lists/* 
+</code></pre>
+<h3 id="layers"><a class="header" href="#layers">Layers</a></h3>
+<pre><code class="language-Dockerfile">FROM sigoden/node:native as builder
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --prod
+
+FROM sigoden/node:slim
+WORKDIR /app
+COPY --from=builder /app .
+COPY . .
+EXPOSE 3000
+CMD [&quot;node&quot;, &quot;index.js&quot;]
+</code></pre>
+<h3 id="heredoc-1"><a class="header" href="#heredoc-1">Heredoc</a></h3>
+<pre><code class="language-Dockerfile">RUN printf '#!/bin/bash\n\
+echo 1\n\
+echo 2'\
+&gt;&gt; /tmp/hello
+</code></pre>
+<h3 id="enrypoint-file"><a class="header" href="#enrypoint-file">Enrypoint file</a></h3>
+<pre><code class="language-sh">#!/bin/sh
+set -e
+
+if [ &quot;${1#-}&quot; != &quot;${1}&quot; ] || [ -z &quot;$(command -v &quot;${1}&quot;)&quot; ]; then
+  set -- app &quot;$@&quot; # change app to your binary
+fi
+
+exec &quot;$@&quot;
+</code></pre>
+<h3 id="normal-user"><a class="header" href="#normal-user">Normal User</a></h3>
+<pre><code class="language-Dockerfile">RUN groupadd --gid 1000 user \
+  &amp;&amp; useradd --uid 1000 --gid user --shell /bin/bash --create-home user
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
+<h2 id="stages"><a class="header" href="#stages">Stages</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">CMD</th><th style="text-align: left">NOTE</th><th style="text-align: center">UNCHANGED</th><th style="text-align: center">CHANGED</th><th style="text-align: center">STAGED</th><th style="text-align: center">COMMITTED</th></tr></thead><tbody>
+<tr><td style="text-align: left">git commit</td><td style="text-align: left">commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">--------&gt;</td></tr>
+<tr><td style="text-align: left">git reset --soft HEAD^</td><td style="text-align: left">undo commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-------|</td></tr>
+<tr><td style="text-align: left">git add file</td><td style="text-align: left">add file to stage</td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">------&gt;</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git add .</td><td style="text-align: left">add all files to stage</td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">------&gt;</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git reset -- file</td><td style="text-align: left">unstaged file</td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git reset</td><td style="text-align: left">unsatged all files</td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git checkout -- file</td><td style="text-align: left">unchanged file</td><td style="text-align: center">&lt;--------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git checkout -f</td><td style="text-align: left">unchanged all files</td><td style="text-align: center">&lt;--------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
+</tbody></table>
+</div>
+<h2 id="clone"><a class="header" href="#clone">Clone</a></h2>
+<pre><code class="language-sh"># branch
+git clone -b dev https://github.com/org/repo.git
+# target folder
+git clone https://github.com/org/repo.git myrepo 
+# contains submodule
+git clone --recurse-submodules https://github.com/org/repo.git
+# abordon history
+git clone --depth=1 https://github.com/org/repo.git
+</code></pre>
+<h2 id="branch"><a class="header" href="#branch">Branch</a></h2>
+<pre><code class="language-sh"># list branchs
+git branch
+# list remote branchs
+git branch -r
+# list all branches
+git branch -a
+# create branch
+git checkout -b feat1
+# checkout branch
+git checkout feat1
+# checkout remote branch
+git checkout -t origin/dev
+# delete branch
+git branch -d feat1
+# delete branch forcely
+git branch -D feat1
+# delete branch of remote repo
+git push origin :feat1
+</code></pre>
+<h2 id="tag"><a class="header" href="#tag">Tag</a></h2>
+<pre><code class="language-sh"># list tags
+git tag
+# create tag
+git tag v1.0.0
+# delete tag
+git tag -d v1.0.0
+# delete tag forcely
+git tag -D v1.0.0
+# delete tag of remote repo
+git push origin :v1.0.0
+</code></pre>
+<h2 id="fetch"><a class="header" href="#fetch">Fetch</a></h2>
+<pre><code class="language-sh"># pull changes
+git fetch
+# pull github pr
+git fetch origin pull/ID/head:BRANCHNAME
+# pull changes and prune none-exist remote branches
+git fetch --purge
+</code></pre>
+<h2 id="snippets-3"><a class="header" href="#snippets-3">Snippets</a></h2>
+<pre><code class="language-sh"># merge last commit
+git commit --amend
+# sync submodule
+git submodule update --init --recursive
+# inspect remote url
+git remote -v
+# change remote url
+git remote set-url origin $new_repo
+</code></pre>
+<h2 id="config"><a class="header" href="#config">Config</a></h2>
+<h3 id="user"><a class="header" href="#user">User</a></h3>
+<pre><code class="language-sh">git config --global user.name $user
+git config --global user.email $email
+</code></pre>
+<h3 id="ignore"><a class="header" href="#ignore">Ignore</a></h3>
+<pre><code># linux/macos
+git config --global core.excludesFile '~/.gitignore'
+# windows
+git config --global core.excludesFile &quot;$env:USERPROFILE\.gitignore&quot;
+</code></pre>
+<h3 id="cjk-path"><a class="header" href="#cjk-path">Cjk path</a></h3>
+<pre><code>git config --global core.quotepath false
+</code></pre>
+<h3 id="crlf"><a class="header" href="#crlf">CRLF</a></h3>
+<pre><code class="language-sh">git config --global core.eol lf
+git config --global core.autocrlf input
+</code></pre>
+<h2 id="credentials"><a class="header" href="#credentials">Credentials</a></h2>
+<h3 id="wsl2"><a class="header" href="#wsl2">WSL2</a></h3>
+<pre><code class="language-sh">git config --global credential.helper \
+  &quot;/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe&quot;
+</code></pre>
+<h3 id="ubuntu"><a class="header" href="#ubuntu">Ubuntu</a></h3>
+<ol>
+<li>Make</li>
+</ol>
+<pre><code class="language-sh">sudo apt-get install libsecret-1-0 libsecret-1-dev
+cd /usr/share/doc/git/contrib/credential/git-credential-gnome-keyring
+sudo make
+</code></pre>
+<ol start="2">
+<li>Config</li>
+</ol>
+<pre><code class="language-sh">git config --global credential.helper \
+  /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+</code></pre>
+<h2 id="ssh-repo"><a class="header" href="#ssh-repo">SSH Repo</a></h2>
+<pre><code class="language-sh">sudo useradd -m -r -U -d /home/git-repos git
+sudo su - git
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+touch ~/.ssh/authorized_keys
+
+git init --bare ~/repo.git
+</code></pre>
+<pre><code class="language-sh">git remote add origin git@&lt;your-server-ip&gt;:repo.git
+</code></pre>
+<h2 id="commit-specefication"><a class="header" href="#commit-specefication">Commit Specefication</a></h2>
+<pre><code>type(category): description [flag]
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Commit Type</th><th>Title</th><th>Description</th><th style="text-align: center">Emoji</th><th>Release</th><th style="text-align: center">Include in changelog</th></tr></thead><tbody>
+<tr><td style="text-align: center"><code>feat</code></td><td>Features</td><td>A new feature</td><td style="text-align: center">✨</td><td><code>minor</code></td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>fix</code></td><td>Bug Fixes</td><td>A bug Fix</td><td style="text-align: center">🐛</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>docs</code></td><td>Documentation</td><td>Documentation only changes</td><td style="text-align: center">📚</td><td><code>patch</code> if <code>scope</code> is <code>readme</code></td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>style</code></td><td>Styles</td><td>Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)</td><td style="text-align: center">💎</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>refactor</code></td><td>Code Refactoring</td><td>A code change that neither fixes a bug nor adds a feature</td><td style="text-align: center">📦</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>perf</code></td><td>Performance Improvements</td><td>A code change that improves performance</td><td style="text-align: center">🚀</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>test</code></td><td>Tests</td><td>Adding missing tests or correcting existing tests</td><td style="text-align: center">🚨</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>build</code></td><td>Builds</td><td>Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)</td><td style="text-align: center">🛠</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>ci</code></td><td>Continuous Integrations</td><td>Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)</td><td style="text-align: center">⚙️</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>chore</code></td><td>Chores</td><td>Other changes that don't modify src or test files</td><td style="text-align: center">♻️</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+<tr><td style="text-align: center"><code>revert</code></td><td>Reverts</td><td>Reverts a previous commit</td><td style="text-align: center">🗑</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
+</tbody></table>
+</div>
+<p>If type is omitted, the default type other is used</p>
+<p>Category (cataegory) optional, the value is arbitrary</p>
+<p>The flag bit (flag) must be wrapped in <code>[]</code>, the value can be <code>ignore</code></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="github-ci"><a class="header" href="#github-ci">Github Ci</a></h1>
+<h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
+<pre><code class="language-yaml">on: 
+  push:
+    tags: 
+      - v[0-9]+.[0-9]+.[0-9]+*
+
+on
+  push:
+    branches:
+    - main
+  pull_request:
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 2 * * *'
+</code></pre>
+<h2 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>CI</code></td><td><code>true</code>，detect CI environment</td></tr>
+<tr><td><code>GITHUB_REPOSITORY</code></td><td>owner/name，e.g. <code>nodejs/node</code></td></tr>
+<tr><td><code>GITHUB_REF</code></td><td>tag or branch, <code>refs/tags/v1.0.0</code></td></tr>
+<tr><td><code>RUNNER_OS</code></td><td>os info, e.g. <code>Linux</code>, <code>Windows</code>, <code>macOS</code>.</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-yaml">jobs:
+  job1:
+    runs-on: ubuntu-latest
+    env:
+      FOO: foo
+    steps:
+      - if: ${{ env.FOO == 'foo' }}
+        run: echo &quot;$BAR&quot;
+        env:
+          BAR: bar
+</code></pre>
+<h2 id="debug-tips"><a class="header" href="#debug-tips">Debug Tips</a></h2>
+<h3 id="print-all-environment-variables"><a class="header" href="#print-all-environment-variables">Print all environment variables</a></h3>
+<pre><code class="language-yaml">    steps:
+      - run: env
+</code></pre>
+<h3 id="print-github-variables"><a class="header" href="#print-github-variables">Print github variables</a></h3>
+<pre><code class="language-yaml">    steps:
+      - run: echo &quot;$GITHUB_CONTEXT&quot;
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+</code></pre>
+<h3 id="print-shell-evalutaion"><a class="header" href="#print-shell-evalutaion">Print shell evalutaion</a></h3>
+<pre><code class="language-yaml">    steps:
+      - run: |
+          set -x 
+
+          src=`pwd`
+          dist=$src/dist
+        shell: bash
+</code></pre>
+<h3 id="ssh-into-runner"><a class="header" href="#ssh-into-runner">ssh into runner</a></h3>
+<pre><code class="language-yaml">    steps:
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
+</code></pre>
+<p>RUNNER will log:</p>
+<pre><code>=== S1WV8GFLUQTD7SN7TAKM                                                                 
+Command:                tmux new -s upterm -x 132 -y 43                                 
+Force Command:          tmux attach -t upterm                                           
+Host:                   ssh://uptermd.upterm.dev:22                                     
+SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.upterm.dev
+</code></pre>
+<h2 id="get-tag-info"><a class="header" href="#get-tag-info">Get Tag info</a></h2>
+<pre><code class="language-yaml">jobs:
+  job1:
+    steps:
+      - name: Get Tag
+        id: get_tag
+        shell: bash
+        run: |
+          tag=${GITHUB_REF##*/}
+          if [[ &quot;$tag&quot; =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo &quot;::set-output name=tag::$tag&quot;
+          else
+            echo &quot;::set-output name=tag::null&quot;
+          fi
+</code></pre>
+<h2 id="add-environment-variable"><a class="header" href="#add-environment-variable">Add environment variable</a></h2>
+<pre><code class="language-yaml">jobs:
+  job1:
+    steps:
+      - name: Set env var
+        run: |
+          echo &quot;foo=bar&quot; &gt;&gt; $GITHUB_ENV
+
+</code></pre>
+<h2 id="pass-variables-between-jobs"><a class="header" href="#pass-variables-between-jobs">Pass variables between jobs</a></h2>
+<pre><code class="language-yaml">jobs:
+  job1:
+    runs-on: ubuntu-20.04
+    outputs:
+      tag: ${{ steps.get_tag.outputs.tag }}
+
+  job2:
+    needs: [&quot;job1&quot;]
+    if: needs.job1.outputs.tag != 'null'
+</code></pre>
+<h2 id="pass-artificats-between-jobs"><a class="header" href="#pass-artificats-between-jobs">Pass artificats between jobs</a></h2>
+<pre><code class="language-yaml">jobs:
+  job1:
+    steps:
+      - uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: target/release/app
+
+  job2:
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: app
+          path: ${{ github.workspace }}/target/release/app 
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
+<h2 id="inspect"><a class="header" href="#inspect">Inspect</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Aspect</th><th>Command</th></tr></thead><tbody>
+<tr><td>distro</td><td><code>lsb_release -a</code></td></tr>
+<tr><td>kernel</td><td><code>uname -a</code></td></tr>
+<tr><td>mem</td><td><code>free -m</code></td></tr>
+<tr><td>fs</td><td><code>df -h</code></td></tr>
+<tr><td>net</td><td><code>ip -4 a</code></td></tr>
+<tr><td>disk</td><td><code>lsblk</code></td></tr>
+<tr><td>CPU</td><td><code>lscpu</code></td></tr>
+<tr><td>port</td><td><code>netstat -tulpn \| grep LISTEN</code></td></tr>
+<tr><td>process</td><td><code>top</code></td></tr>
+<tr><td>trafic</td><td><code>vnstat -i eth0 -l</code></td></tr>
+<tr><td>ip</td><td><code>curl ipinfo.io</code></td></tr>
+<tr><td>timezone</td><td><code>cat /etc/timezone</code></td></tr>
+<tr><td>login user</td><td><code>whoami</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="文件"><a class="header" href="#文件">文件</a></h2>
+<pre><code class="language-sh"># List files
+ls -alh file
+
+# Modify user group
+chown -R alice file
+chown -R alice:www-data file
+
+# Modify perms
+chmod 600 file
+chmod -w file
+chmod +x file
+chmod o-x file
+chmod u+w file
+
+# Open with default app
+xdg-open file
+
+# link file
+ln -s /user/bin/vim /usr/bin/vi
+# Link file relative
+ln -sr node_modules/eslint/bin/eslint.js node_modules/.bin/eslint
+
+# Zip
+zip -r data.zip data
+# Inspect zip files
+unzip -t data.zip
+# Unzip file
+unzip data.zip
+# Unzip to specific folder
+unzip -d output-dir data.zip
+# Unzip with pass
+zip -er data.zip data
+
+# Tar
+tar -cf data.tar.gz data
+# Inspect tar files
+tar -tf data.tar.gz
+# Untar
+tar -xf data.tar.gz
+# Untar to specific folders
+tar -xf data.tar.gz -C output-dir
+
+# bz format compression (slower but smaller)
+tar -cjf data.tar.bz2 data
+
+# Download
+wget $url
+wget -O /tmp/file $curl
+curl -o /tmp/file $curl
+
+# Find
+find -name README.md
+find / -name sfz
+find -type -f -name '*.log' -exec rm -rf {} \;
+
+# split by number of copies
+split -d -n 5 data.zip data.zip.part
+# split by size
+split -d -b 256M data.zip data.zip.part
+# Combine split files
+cat data.zip.part* &gt; data.zip
+
+# generate file
+dd if=/dev/zero of=/tmp/1G.bin bs=1M count=1000
+dd if=/dev/urandom of=/tmp/1G.bin bs=10M count=1000
+</code></pre>
+<h2 id="usergroup"><a class="header" href="#usergroup">User/Group</a></h2>
+<pre><code class="language-sh"># add users (more complete, similar to interface operations)
+adduser alice
+# add user (recommended version)
+useradd -m alice
+# add user, specify user directory
+useradd -d /d/alice alice
+# add user, specify uid, gid
+useradd -u 1001 -g 1001 nodejs
+# add program account
+useradd -r -s /usr/sbin/nologin nodejs
+
+# MODIFY THE USER SHELL
+usermod -s /usr/bin/bash alice
+
+# user join group
+usermod -a -G docker alice
+
+# modify user password
+passwd alice
+
+# delete users
+userdel nodejs
+
+# add group
+groupadd -g 344 linuxde
+# delete group
+groupdel linuxde
+</code></pre>
+<h2 id="进程"><a class="header" href="#进程">进程</a></h2>
+<pre><code class="language-sh"># find process
+ps aux | grep nginx
+
+# kill process
+kill $pid
+# kill process forcelly
+kill -9 $pid
+# kill process by name
+pkill nginx
+pkill '^ssh$'
+pkill -9 nginx
+
+# find process by port
+lsof -i:3000
+netstat -utlpn | grep 3000
+# find port by process
+netstat -utlpn | grep nginx
+
+cat /proc/$pid/status | grep VmRSS
+cat /proc/$pid/cmdline 
+cat /proc/$pid/environ 
+
+ls -l /proc/$pid/cwd
+ls -l /proc/$pid/exe
+ls -l /proc/$pid/root
+
+# run in backgroud
+nohup server &amp;
+nohup server &gt; server.log 2&gt;&amp;1 &amp;
+nohup server &gt; server.log 2&gt; server.err &amp;
+</code></pre>
+<h2 id="text"><a class="header" href="#text">Text</a></h2>
+<pre><code class="language-sh"># count lines
+cat file | wc -l
+
+# first n lines
+cat file | head -3
+# last n lists
+cat file | tail -3
+
+cat file | more
+
+# hex
+cat file | xxd 
+cat file | xxd -p &gt; file.hex
+
+# split columns with `:`, only show first, third columns
+cat /etc/group | cut -d: -f1,3
+# only show 5-10 charactors of each row
+cat file | cut -c5-10
+# only show first 10 charactors of each row
+cat file | cut -c-10
+# only show 10th and subsequent of each line
+cat file | cut -c10-
+
+# replace charactor
+cat file | tr '\t' ' '
+# delete charactor
+cat file | tr -d '\r'
+
+# remove duplicates
+cat file | sort | uniq 
+# count duplicates
+cat file | sort | uniq -c
+# show duplicates
+cat file | sort | uniq -d
+</code></pre>
+<h3 id="sed"><a class="header" href="#sed">sed</a></h3>
+<pre><code class="language-sh"># delete first line
+cat file | sed '1d'
+# delete empty line
+cat file | sed '/^$/d'
+# insert at first line
+cat file | sed '1i#!/usr/bin/env node\n'
+# append on last line
+cat file | sed '$a\\n'
+# replace functions
+cat file | sed '/foo() {/,/}/c foo() { }'
+# replace path
+cat file| sed 's|/bin/sh|/bin/bash|g'
+# replace with matched parts
+cat file | sed 's|\(\w\+\) \(\w\+\) \(\w\+\)|\2 \3 \1|'
+# change file
+sed -i 's/\w\+.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/' /etc/apt/sources.list
+</code></pre>
+<h3 id="awk"><a class="header" href="#awk">awk</a></h3>
+<pre><code class="language-sh"># print specific column
+docker images | awk '{print $1}'
+# specific delimeter
+cat /etc/paswd | awk -F: '{print $1}'
+# combine columns
+cat file | awk '{print $1,$3}'
+</code></pre>
+<h2 id="regex"><a class="header" href="#regex">REGEX</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>^</code></td><td>start</td></tr>
+<tr><td><code>$</code></td><td>end</td></tr>
+<tr><td><code>*</code></td><td>zero or many</td></tr>
+<tr><td><code>\?</code></td><td>zero or one</td></tr>
+<tr><td><code>\+</code></td><td>at least one</td></tr>
+<tr><td><code>\{\}</code></td><td>match n times</td></tr>
+<tr><td><code>\|</code></td><td>choices</td></tr>
+<tr><td><code>\(\)</code></td><td>group</td></tr>
+<tr><td><code>[]</code></td><td>match options</td></tr>
+<tr><td><code>[^]</code></td><td>not match options</td></tr>
+<tr><td><code>[-]</code></td><td>options hyper</td></tr>
+<tr><td><code>.</code></td><td>any char</td></tr>
+<tr><td><code>\w</code></td><td>word char</td></tr>
+<tr><td><code>\s</code></td><td>empty char</td></tr>
+<tr><td><code>\S</code></td><td>none-empty char</td></tr>
+<tr><td><code>\b</code></td><td>boundary</td></tr>
+<tr><td><code>\&lt;\&gt;</code></td><td>boundary</td></tr>
+</tbody></table>
+</div>
+<h2 id="glob"><a class="header" href="#glob">GLOB</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Code</th><th>Explain</th></tr></thead><tbody>
+<tr><td><code>*</code></td><td>any</td></tr>
+<tr><td><code>[]</code></td><td>match options</td></tr>
+<tr><td><code>[^]</code></td><td>not match options</td></tr>
+<tr><td><code>{str1,str2}</code></td><td>choices</td></tr>
+</tbody></table>
+</div>
+<h2 id="terminal"><a class="header" href="#terminal">Terminal</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>hotkey</th><th>desc</th></tr></thead><tbody>
+<tr><td>ctrl+a</td><td>to head of line</td></tr>
+<tr><td>ctrl+e</td><td>to end of line</td></tr>
+<tr><td>alt+f</td><td>move forward a word</td></tr>
+<tr><td>alt+b</td><td>move backward a word</td></tr>
+<tr><td>ctrl+w</td><td>delete word backward</td></tr>
+<tr><td>alt+d</td><td>delete word forward</td></tr>
+<tr><td>ctrl+u</td><td>delete backward</td></tr>
+<tr><td>ctrl+k</td><td>delete forward</td></tr>
+<tr><td>ctrl+l</td><td>clear screen</td></tr>
+<tr><td>ctrl+r</td><td>search for history</td></tr>
+</tbody></table>
+</div>
+<ul>
+<li><code>!!</code> last command</li>
+<li><code>!$</code> last postional parameter of last command</li>
+</ul>
+<h2 id="set"><a class="header" href="#set">Set</a></h2>
+<pre><code>set -euxo pipefail
+</code></pre>
+<ul>
+<li><code>-e</code>: Exit on none-zero status</li>
+<li><code>-x</code>: Print a trace </li>
+<li><code>-u</code>: Treat unset variables as error</li>
+<li><code>-o pipefail</code>: Return none-zero if last pipeline return none-zero</li>
+</ul>
+<h2 id="xargs"><a class="header" href="#xargs">Xargs</a></h2>
+<p>Capture the output of one command and pass it to another command</p>
+<pre><code class="language-sh"># Batch renames
+ls -1 . | sed 's/\.mdx$//' | xargs -I{} mv {}.mdx {}.md
+</code></pre>
+<h2 id="cron-syntax"><a class="header" href="#cron-syntax">Cron Syntax</a></h2>
+<pre><code>Min  Hour Day  Mon  Weekday
+*    *    *    *    *  command to be executed
+┬    ┬    ┬    ┬    ┬
+│    │    │    │    └─  Weekday  (0=Sun .. 6=Sat)
+│    │    │    └──────  Month    (1..12)
+│    │    └───────────  Day      (1..31)
+│    └────────────────  Hour     (0..23)
+└─────────────────────  Minute   (0..59)
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>expr</th><th>description</th></tr></thead><tbody>
+<tr><td><code>0 * * * *</code></td><td>every hour</td></tr>
+<tr><td><code>*/15 * * * *</code></td><td>every 15 mins</td></tr>
+<tr><td><code>0 */2 * * *</code></td><td>every 2 hours</td></tr>
+<tr><td><code>0 18 * * 0-6</code></td><td>every week Mon-Sat at 6pm</td></tr>
+<tr><td><code>10 2 * * 6,7</code></td><td>every Sat and Sun on 2:10am</td></tr>
+<tr><td><code>0 0 * * 0</code></td><td>every Sunday midnight</td></tr>
+<tr><td><code>@reboot</code></td><td>every reboot</td></tr>
+</tbody></table>
+</div>
+<h2 id="common-snippets"><a class="header" href="#common-snippets">Common Snippets</a></h2>
+<h3 id="script-directory"><a class="header" href="#script-directory">Script Directory</a></h3>
+<pre><code class="language-sh">SCRIPT_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )&quot;
+</code></pre>
+<h3 id="sudo-without-pass"><a class="header" href="#sudo-without-pass">Sudo Without Pass</a></h3>
+<pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER
+$USER ALL=(ALL) NOPASSWD:ALL
+EOF 
+</code></pre>
+<h3 id="load-environment-variables-from-env"><a class="header" href="#load-environment-variables-from-env">Load environment variables from .env</a></h3>
+<pre><code class="language-sh">eval $(cat .env | sed 's/^/export /')
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="redis"><a class="header" href="#redis">Redis</a></h1>
+<h2 id="clear-all"><a class="header" href="#clear-all">Clear all</a></h2>
+<pre><code class="language-sh">EVAL &quot;return redis.call('del', unpack(redis.call('keys', ARGV[1])))&quot; 0 prefix:*
+</code></pre>
+<h2 id="enter-redis-container"><a class="header" href="#enter-redis-container">Enter redis container</a></h2>
+<pre><code class="language-sh">#!/bin/bash -e
+server=$(docker ps | grep redis | awk  '{print $1}')
+docker exec -it $server redis-cli -a ${1:-pass}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
