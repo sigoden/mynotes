@@ -22,16 +22,16 @@ git clone -b dev https://github.com/org/repo.git
 git clone https://github.com/org/repo.git myrepo 
 # contains submodule
 git clone --recurse-submodules https://github.com/org/repo.git
-# abordon history
+# abaddon history
 git clone --depth=1 https://github.com/org/repo.git
 ```
 
 ## Branch
 
 ```sh
-# list branchs
+# list branches
 git branch
-# list remote branchs
+# list remote branches
 git branch -r
 # list all branches
 git branch -a
@@ -43,7 +43,7 @@ git checkout feat1
 git checkout -t origin/dev
 # delete branch
 git branch -d feat1
-# delete branch forcely
+# delete branch forcedly
 git branch -D feat1
 # delete branch of remote repo
 git push origin :feat1
@@ -58,7 +58,7 @@ git tag
 git tag v1.0.0
 # delete tag
 git tag -d v1.0.0
-# delete tag forcely
+# delete tag forcedly
 git tag -D v1.0.0
 # delete tag of remote repo
 git push origin :v1.0.0
@@ -70,7 +70,7 @@ git push origin :v1.0.0
 # pull changes
 git fetch
 # pull github pr
-git fetch origin pull/ID/head:BRANCHNAME
+git fetch origin pull/ID/head:BRANCH_NAME
 # pull changes and prune none-exist remote branches
 git fetch --purge
 ```
@@ -185,6 +185,6 @@ type(category): description [flag]
 
 If type is omitted, the default type other is used
 
-Category (cataegory) optional, the value is arbitrary
+Category (category) optional, the value is arbitrary
 
 The flag bit (flag) must be wrapped in `[]`, the value can be `ignore`

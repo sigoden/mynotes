@@ -36,7 +36,7 @@ docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 
 ## Use Mirror
 
-- WIN: Docker Destop -> Preferences -> Docker Engine
+- WIN: Docker Desktop -> Preferences -> Docker Engine
 - LINUX: /etc/docker/daemon.json
 
 ```json

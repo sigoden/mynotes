@@ -38,7 +38,11 @@ A terminal tomato timer with notification
 
 ## [argc](https://github.com/sigoden/argc)
 
-Describe cli with comments to make cli with bash.
+A handy way to handle sh/bash cli parameters.
+
+## [runme](https://github.com/sigoden/runme)
+
+A task runner using bash.
 
 ## [projclean](https://github.com/sigoden/projclean)
 
@@ -52,6 +56,10 @@ Rsync for cloud storage
 
 Cat with syntax highlight
 
+## [jless](https://github.com/PaulJuliusMartinez/jless)
+
+A command-line JSON viewer
+
 ## [git-cliff](https://github.com/orhun/git-cliff)
 
 Create changelog from git commit.
@@ -59,3 +67,7 @@ Create changelog from git commit.
 ## [plantuml](https://github.com/plantuml/plantuml)
 
 Code as diagrams
+
+## [zellij](https://github.com/zellij-org/zellij)
+
+A terminal multiplexer.

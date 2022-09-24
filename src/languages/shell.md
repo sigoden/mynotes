@@ -112,6 +112,19 @@ done
 | `[[ X \|\| Y ]]`         | Or               |
 
 
+### if
+
+```sh
+if [[ "foo" == $1 ]]; then
+  echo foo
+elif [[ "bar" == $1 ]]; then
+  echo bar
+else
+  echo "not found"
+  exit 1
+fi
+```
+
 ### case
 ```sh
 case "$1" in
