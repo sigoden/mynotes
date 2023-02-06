@@ -133,14 +133,14 @@ git config --global credential.helper \
 1. Make
 ```sh
 sudo apt-get install libsecret-1-0 libsecret-1-dev
-cd /usr/share/doc/git/contrib/credential/git-credential-gnome-keyring
+cd /usr/share/doc/git/contrib/credential/libsecret
 sudo make
 ```
 
 2. Config
 ```sh
 git config --global credential.helper \
-  /usr/share/doc/git/contrib/credential/gnome-keyring/git-credential-gnome-keyring
+  /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 ```
 
 ## SSH Repo

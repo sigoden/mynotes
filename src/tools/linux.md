@@ -334,6 +334,17 @@ $USER ALL=(ALL) NOPASSWD:ALL
 EOF 
 ```
 
+### Ulimit
+
+```sh
+cat <<EOF | sudo tee -a /etc/security/limits.d/$USER.conf
+$USER soft nproc 100000
+$USER hard nproc 100000
+$USER soft nofile 100000
+$USER hard nofile 100000
+EOF
+```
+
 ### Load environment variables from .env
 
 ```sh

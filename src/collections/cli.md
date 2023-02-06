@@ -71,3 +71,7 @@ Code as diagrams
 ## [zellij](https://github.com/zellij-org/zellij)
 
 A terminal multiplexer.
+
+## [helix](https://github.com/helix-editor/helix)
+
+A post-modern modal text editor.

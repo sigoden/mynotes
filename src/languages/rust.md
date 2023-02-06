@@ -51,6 +51,7 @@ rustup override set nightly
 
 ```sh
 cargo install cargo-outdated
+cargo install cargo-insta
 ```
 ### Snippets
 
@@ -80,6 +81,7 @@ opt-level = "z"
 - [Rust Language Cheat Sheet](https://cheats.rs/)
 - [Rust by Example](https://doc.rust-lang.org/rust-by-example)
 - [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
+- [Rust Atomics and Locks](https://marabos.nl/atomics/)
 - [learn project: toydb](https://github.com/erikgrinaker/toydb)
 - [learn project: mini-redis](https://github.com/tokio-rs/mini-redis)
 - [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
