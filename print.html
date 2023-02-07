@@ -803,6 +803,15 @@ exec &quot;$@&quot;
 <pre><code class="language-Dockerfile">RUN groupadd --gid 1000 user \
   &amp;&amp; useradd --uid 1000 --gid user --shell /bin/bash --create-home user
 </code></pre>
+<h3 id="multi-arch-build"><a class="header" href="#multi-arch-build">Multi-Arch Build</a></h3>
+<pre><code>docker buildx create --name mybuilder --driver docker-container
+docker buildx use mybuilder
+</code></pre>
+<pre><code>docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7,linux/386 \
+  --push \
+  -t demo . 
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
 <h2 id="stages"><a class="header" href="#stages">Stages</a></h2>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">CMD</th><th style="text-align: left">NOTE</th><th style="text-align: center">UNCHANGED</th><th style="text-align: center">CHANGED</th><th style="text-align: center">STAGED</th><th style="text-align: center">COMMITTED</th></tr></thead><tbody>
@@ -1371,6 +1380,10 @@ $USER hard nproc 100000
 $USER soft nofile 100000
 $USER hard nofile 100000
 EOF
+</code></pre>
+<h2 id="change-repo-source"><a class="header" href="#change-repo-source">Change repo source</a></h2>
+<pre><code class="language-sh">sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+sed -i 's/https:\/\/mirrors.aliyun.com/http:\/\/mirrors.cloud.aliyuncs.com/g' /etc/apt/sources.list
 </code></pre>
 <h3 id="load-environment-variables-from-env"><a class="header" href="#load-environment-variables-from-env">Load environment variables from .env</a></h3>
 <pre><code class="language-sh">eval $(cat .env | sed 's/^/export /')

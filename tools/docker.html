@@ -257,6 +257,15 @@ exec &quot;$@&quot;
 <pre><code class="language-Dockerfile">RUN groupadd --gid 1000 user \
   &amp;&amp; useradd --uid 1000 --gid user --shell /bin/bash --create-home user
 </code></pre>
+<h3 id="multi-arch-build"><a class="header" href="#multi-arch-build">Multi-Arch Build</a></h3>
+<pre><code>docker buildx create --name mybuilder --driver docker-container
+docker buildx use mybuilder
+</code></pre>
+<pre><code>docker buildx build \
+  --platform linux/amd64,linux/arm64,linux/arm/v7,linux/386 \
+  --push \
+  -t demo . 
+</code></pre>
 
                     </main>
 
