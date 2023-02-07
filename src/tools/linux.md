@@ -345,6 +345,13 @@ $USER hard nofile 100000
 EOF
 ```
 
+## Change repo source
+
+```sh
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+sed -i 's/https:\/\/mirrors.aliyun.com/http:\/\/mirrors.cloud.aliyuncs.com/g' /etc/apt/sources.list
+```
+
 ### Load environment variables from .env
 
 ```sh
