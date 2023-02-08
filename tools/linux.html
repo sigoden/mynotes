@@ -115,6 +115,9 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
 
                     </div>
                 </div>
@@ -448,8 +451,11 @@ $USER hard nofile 100000
 EOF
 </code></pre>
 <h2 id="change-repo-source"><a class="header" href="#change-repo-source">Change repo source</a></h2>
-<pre><code class="language-sh">sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-sed -i 's/https:\/\/mirrors.aliyun.com/http:\/\/mirrors.cloud.aliyuncs.com/g' /etc/apt/sources.list
+<h3 id="ubuntu"><a class="header" href="#ubuntu">ubuntu</a></h3>
+<pre><code class="language-sh">sed -i -E 's/\w+.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+</code></pre>
+<h3 id="alpine"><a class="header" href="#alpine">Alpine</a></h3>
+<pre><code class="language-sh">sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 </code></pre>
 <h3 id="load-environment-variables-from-env"><a class="header" href="#load-environment-variables-from-env">Load environment variables from .env</a></h3>
 <pre><code class="language-sh">eval $(cat .env | sed 's/^/export /')
