@@ -70,8 +70,12 @@ Code as diagrams
 
 ## [zellij](https://github.com/zellij-org/zellij)
 
-A terminal multiplexer.
+A terminal multiplexer similar to tmux.
 
-## [helix](https://github.com/helix-editor/helix)
+## [mcfly](https://github.com/cantino/mcfly)
 
-A post-modern modal text editor.
+Search shell history
+
+## [opscan](https://github.com/sigoden/opscan)
+
+Port scanner
