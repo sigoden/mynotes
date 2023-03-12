@@ -33,6 +33,7 @@
 
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
@@ -70,10 +71,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -200,6 +203,8 @@
 <p>Search shell history</p>
 <h2 id="opscan"><a class="header" href="#opscan"><a href="https://github.com/sigoden/opscan">opscan</a></a></h2>
 <p>Port scanner</p>
+<h2 id="zellij-1"><a class="header" href="#zellij-1"><a href="https://github.com/zellij-org/zellij">zellij</a></a></h2>
+<p>Terminal multiplexer</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sass-tool"><a class="header" href="#sass-tool">Sass Tool</a></h1>
 <h2 id="gogs"><a class="header" href="#gogs"><a href="https://github.com/gogs/gogs">gogs</a></a></h2>
 <p>A painless self-hosted Git service</p>
@@ -455,6 +460,12 @@ EOF
 <li><code>&lt;&lt;-EOF</code>: will replace variable trim <code>\t</code></li>
 <li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code></li>
 </ul>
+<h2 id="yesno"><a class="header" href="#yesno">Yes/No</a></h2>
+<pre><code class="language-sh">read -p &quot;Are you sure (y/n)? &quot; choice
+if [ &quot;$choice&quot; = &quot;y&quot; ]; then
+  echo choice yes
+fi
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
 <h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <pre><code class="language-sh">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -820,14 +831,14 @@ docker buildx use mybuilder
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
 <h2 id="stages"><a class="header" href="#stages">Stages</a></h2>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">CMD</th><th style="text-align: left">NOTE</th><th style="text-align: center">UNCHANGED</th><th style="text-align: center">CHANGED</th><th style="text-align: center">STAGED</th><th style="text-align: center">COMMITTED</th></tr></thead><tbody>
-<tr><td style="text-align: left">git commit</td><td style="text-align: left">commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">--------&gt;</td></tr>
-<tr><td style="text-align: left">git reset --soft HEAD^</td><td style="text-align: left">undo commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-------|</td></tr>
-<tr><td style="text-align: left">git add file</td><td style="text-align: left">add file to stage</td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">------&gt;</td><td style="text-align: center"></td></tr>
-<tr><td style="text-align: left">git add .</td><td style="text-align: left">add all files to stage</td><td style="text-align: center"></td><td style="text-align: center">|-----</td><td style="text-align: center">------&gt;</td><td style="text-align: center"></td></tr>
-<tr><td style="text-align: left">git reset -- file</td><td style="text-align: left">unstaged file</td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td></tr>
-<tr><td style="text-align: left">git reset</td><td style="text-align: left">unsatged all files</td><td style="text-align: center"></td><td style="text-align: center">&lt;------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td></tr>
-<tr><td style="text-align: left">git checkout -- file</td><td style="text-align: left">unchanged file</td><td style="text-align: center">&lt;--------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
-<tr><td style="text-align: left">git checkout -f</td><td style="text-align: left">unchanged all files</td><td style="text-align: center">&lt;--------</td><td style="text-align: center">-----|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git commit</td><td style="text-align: left">commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">|---</td><td style="text-align: center">-------&gt;</td></tr>
+<tr><td style="text-align: left">git reset --soft HEAD^</td><td style="text-align: left">undo commit files</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">&lt;----</td><td style="text-align: center">------|</td></tr>
+<tr><td style="text-align: left">git add file</td><td style="text-align: left">add file to stage</td><td style="text-align: center"></td><td style="text-align: center">|---</td><td style="text-align: center">----&gt;</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git add .</td><td style="text-align: left">add all files to stage</td><td style="text-align: center"></td><td style="text-align: center">|---</td><td style="text-align: center">----&gt;</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git reset -- file</td><td style="text-align: left">unstaged file</td><td style="text-align: center"></td><td style="text-align: center">&lt;----</td><td style="text-align: center">---|</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git reset</td><td style="text-align: left">unsatged all files</td><td style="text-align: center"></td><td style="text-align: center">&lt;----</td><td style="text-align: center">---|</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git checkout -- file</td><td style="text-align: left">unchanged file</td><td style="text-align: center">&lt;-----</td><td style="text-align: center">---|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">git checkout -f</td><td style="text-align: left">unchanged all files</td><td style="text-align: center">&lt;-----</td><td style="text-align: center">---|</td><td style="text-align: center"></td><td style="text-align: center"></td></tr>
 </tbody></table>
 </div>
 <h2 id="clone"><a class="header" href="#clone">Clone</a></h2>
@@ -911,21 +922,7 @@ git config --global core.autocrlf input
 <h2 id="credentials"><a class="header" href="#credentials">Credentials</a></h2>
 <h3 id="wsl2"><a class="header" href="#wsl2">WSL2</a></h3>
 <pre><code class="language-sh">git config --global credential.helper \
-  &quot;/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe&quot;
-</code></pre>
-<h3 id="ubuntu"><a class="header" href="#ubuntu">Ubuntu</a></h3>
-<ol>
-<li>Make</li>
-</ol>
-<pre><code class="language-sh">sudo apt-get install libsecret-1-0 libsecret-1-dev
-cd /usr/share/doc/git/contrib/credential/libsecret
-sudo make
-</code></pre>
-<ol start="2">
-<li>Config</li>
-</ol>
-<pre><code class="language-sh">git config --global credential.helper \
-  /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  &quot;/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe&quot;
 </code></pre>
 <h2 id="ssh-repo"><a class="header" href="#ssh-repo">SSH Repo</a></h2>
 <pre><code class="language-sh">sudo useradd -m -r -U -d /home/git-repos git
@@ -940,26 +937,6 @@ git init --bare ~/repo.git
 </code></pre>
 <pre><code class="language-sh">git remote add origin git@&lt;your-server-ip&gt;:repo.git
 </code></pre>
-<h2 id="commit-specefication"><a class="header" href="#commit-specefication">Commit Specefication</a></h2>
-<pre><code>type(category): description [flag]
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Commit Type</th><th>Title</th><th>Description</th><th style="text-align: center">Emoji</th><th>Release</th><th style="text-align: center">Include in changelog</th></tr></thead><tbody>
-<tr><td style="text-align: center"><code>feat</code></td><td>Features</td><td>A new feature</td><td style="text-align: center">✨</td><td><code>minor</code></td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>fix</code></td><td>Bug Fixes</td><td>A bug Fix</td><td style="text-align: center">🐛</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>docs</code></td><td>Documentation</td><td>Documentation only changes</td><td style="text-align: center">📚</td><td><code>patch</code> if <code>scope</code> is <code>readme</code></td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>style</code></td><td>Styles</td><td>Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)</td><td style="text-align: center">💎</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>refactor</code></td><td>Code Refactoring</td><td>A code change that neither fixes a bug nor adds a feature</td><td style="text-align: center">📦</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>perf</code></td><td>Performance Improvements</td><td>A code change that improves performance</td><td style="text-align: center">🚀</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>test</code></td><td>Tests</td><td>Adding missing tests or correcting existing tests</td><td style="text-align: center">🚨</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>build</code></td><td>Builds</td><td>Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)</td><td style="text-align: center">🛠</td><td><code>patch</code></td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>ci</code></td><td>Continuous Integrations</td><td>Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)</td><td style="text-align: center">⚙️</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>chore</code></td><td>Chores</td><td>Other changes that don't modify src or test files</td><td style="text-align: center">♻️</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-<tr><td style="text-align: center"><code>revert</code></td><td>Reverts</td><td>Reverts a previous commit</td><td style="text-align: center">🗑</td><td>-</td><td style="text-align: center"><code>true</code></td></tr>
-</tbody></table>
-</div>
-<p>If type is omitted, the default type other is used</p>
-<p>Category (category) optional, the value is arbitrary</p>
-<p>The flag bit (flag) must be wrapped in <code>[]</code>, the value can be <code>ignore</code></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="github-ci"><a class="header" href="#github-ci">Github Ci</a></h1>
 <h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
 <pre><code class="language-yaml">on: 
@@ -1387,7 +1364,7 @@ $USER hard nofile 100000
 EOF
 </code></pre>
 <h2 id="change-repo-source"><a class="header" href="#change-repo-source">Change repo source</a></h2>
-<h3 id="ubuntu-1"><a class="header" href="#ubuntu-1">ubuntu</a></h3>
+<h3 id="ubuntu"><a class="header" href="#ubuntu">ubuntu</a></h3>
 <pre><code class="language-sh">sed -i -E 's/\w+.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
 </code></pre>
 <h3 id="alpine"><a class="header" href="#alpine">Alpine</a></h3>
@@ -1447,5 +1424,6 @@ docker exec -it $server redis-cli -a ${1:-pass}
         });
         </script>
 
+    </div>
     </body>
 </html>
