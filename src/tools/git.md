@@ -2,16 +2,16 @@
 
 ## Stages
 
-| CMD                    | NOTE                   | UNCHANGED | CHANGED | STAGED  | COMMITTED |
-| :--------------------- | :--------------------- | :-------: | :-----: | :-----: | :-------: |
-| git commit             | commit files           |           |         | \|----- | --------> |
-| git reset --soft HEAD^ | undo commit files      |           |         | <------ | -------\| |
-| git add file           | add file to stage      |           | \|----- | ------> |           |
-| git add .              | add all files to stage |           | \|----- | ------> |           |
-| git reset -- file      | unstaged file          |           | <------ | -----\| |           |
-| git reset              | unsatged all files     |           | <------ | -----\| |           |
-| git checkout -- file   | unchanged file         | <-------- | -----\| |         |           |
-| git checkout -f        | unchanged all files    | <-------- | -----\| |         |           |
+| CMD                    | NOTE                   | UNCHANGED | CHANGED | STAGED | COMMITTED |
+| :--------------------- | :--------------------- | :-------: | :-----: | :----: | :-------: |
+| git commit             | commit files           |           |         | \|---  | ------->  |
+| git reset --soft HEAD^ | undo commit files      |           |         | <----  | ------\|  |
+| git add file           | add file to stage      |           |  \|---  | ---->  |           |
+| git add .              | add all files to stage |           |  \|---  | ---->  |           |
+| git reset -- file      | unstaged file          |           |  <----  | ---\|  |           |
+| git reset              | unsatged all files     |           |  <----  | ---\|  |           |
+| git checkout -- file   | unchanged file         |  <-----   |  ---\|  |        |           |
+| git checkout -f        | unchanged all files    |  <-----   |  ---\|  |        |           |
 
 ## Clone
 
@@ -125,22 +125,7 @@ git config --global core.autocrlf input
 
 ```sh
 git config --global credential.helper \
-  "/mnt/c/Program\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe"
-```
-
-### Ubuntu
-
-1. Make
-```sh
-sudo apt-get install libsecret-1-0 libsecret-1-dev
-cd /usr/share/doc/git/contrib/credential/libsecret
-sudo make
-```
-
-2. Config
-```sh
-git config --global credential.helper \
-  /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
+  "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
 ```
 
 ## SSH Repo
@@ -160,31 +145,3 @@ git init --bare ~/repo.git
 ```sh
 git remote add origin git@<your-server-ip>:repo.git
 ```
-
-## Commit Specefication
-
-```
-type(category): description [flag]
-```
-
-
-| Commit Type | Title                    | Description                                                                                                 | Emoji | Release                        | Include in changelog |
-| :---------: | ------------------------ | ----------------------------------------------------------------------------------------------------------- | :---: | ------------------------------ | :------------------: |
-|   `feat`    | Features                 | A new feature                                                                                               |   ✨   | `minor`                        |        `true`        |
-|    `fix`    | Bug Fixes                | A bug Fix                                                                                                   |   🐛   | `patch`                        |        `true`        |
-|   `docs`    | Documentation            | Documentation only changes                                                                                  |   📚   | `patch` if `scope` is `readme` |        `true`        |
-|   `style`   | Styles                   | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)      |   💎   | -                              |        `true`        |
-| `refactor`  | Code Refactoring         | A code change that neither fixes a bug nor adds a feature                                                   |   📦   | -                              |        `true`        |
-|   `perf`    | Performance Improvements | A code change that improves performance                                                                     |   🚀   | `patch`                        |        `true`        |
-|   `test`    | Tests                    | Adding missing tests or correcting existing tests                                                           |   🚨   | -                              |        `true`        |
-|   `build`   | Builds                   | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)         |   🛠   | `patch`                        |        `true`        |
-|    `ci`     | Continuous Integrations  | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs) |   ⚙️   | -                              |        `true`        |
-|   `chore`   | Chores                   | Other changes that don't modify src or test files                                                           |   ♻️   | -                              |        `true`        |
-|  `revert`   | Reverts                  | Reverts a previous commit                                                                                   |   🗑   | -                              |        `true`        |
-
-
-If type is omitted, the default type other is used
-
-Category (category) optional, the value is arbitrary
-
-The flag bit (flag) must be wrapped in `[]`, the value can be `ignore`

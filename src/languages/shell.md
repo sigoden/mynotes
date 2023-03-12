@@ -250,3 +250,12 @@ EOF
 - `<<'EOF'`: not replace variable
 - `<<-EOF`: will replace variable trim `\t`
 - `<<-'EOF'`: not replace variable，trim `\t`
+
+## Yes/No
+
+```sh
+read -p "Are you sure (y/n)? " choice
+if [ "$choice" = "y" ]; then
+  echo choice yes
+fi
+```

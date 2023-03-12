@@ -79,3 +79,7 @@ Search shell history
 ## [opscan](https://github.com/sigoden/opscan)
 
 Port scanner
+
+## [zellij](https://github.com/zellij-org/zellij)
+
+Terminal multiplexer
