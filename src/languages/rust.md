@@ -49,10 +49,14 @@ rustup override set nightly
 
 ### Plugins
 
-```sh
-cargo install cargo-outdated
-cargo install cargo-insta
-```
+- [cargo-outdated](https://github.com/kbknapp/cargo-outdated): Displaying when dependencies have newer versions available.
+- [cargo-audit](https://github.com/RustSec/rustsec/tree/main/cargo-audit): Audit your dependencies for crates with security vulnerabilities.
+- [cargo-udeps](https://github.com/est31/cargo-udeps): Find unused dependencies in Cargo.toml
+- [cargo-bloat](https://github.com/RazrFalcon/cargo-bloat): Find out what takes most of the space in your executable.
+- [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz): Fuzzing with libFuzzer
+- [cargo-insta](https://github.com/mitsuhiko/insta): Snapshot testing
+- [cargo-binstall](https://github.com/cargo-bins/cargo-binstall): Binary installation for rust projects
+- [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger): Detects usage of unsafe Rust in a Rust crate and its dependencies.
 ### Snippets
 
 ```sh
