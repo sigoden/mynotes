@@ -89,11 +89,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -507,9 +529,16 @@ rustup override set nightly
 </ul>
 <h2 id="cargo"><a class="header" href="#cargo">Cargo</a></h2>
 <h3 id="plugins"><a class="header" href="#plugins">Plugins</a></h3>
-<pre><code class="language-sh">cargo install cargo-outdated
-cargo install cargo-insta
-</code></pre>
+<ul>
+<li><a href="https://github.com/kbknapp/cargo-outdated">cargo-outdated</a>: Displaying when dependencies have newer versions available.</li>
+<li><a href="https://github.com/RustSec/rustsec/tree/main/cargo-audit">cargo-audit</a>: Audit your dependencies for crates with security vulnerabilities.</li>
+<li><a href="https://github.com/est31/cargo-udeps">cargo-udeps</a>: Find unused dependencies in Cargo.toml</li>
+<li><a href="https://github.com/RazrFalcon/cargo-bloat">cargo-bloat</a>: Find out what takes most of the space in your executable.</li>
+<li><a href="https://github.com/rust-fuzz/cargo-fuzz">cargo-fuzz</a>: Fuzzing with libFuzzer</li>
+<li><a href="https://github.com/mitsuhiko/insta">cargo-insta</a>: Snapshot testing</li>
+<li><a href="https://github.com/cargo-bins/cargo-binstall">cargo-binstall</a>: Binary installation for rust projects</li>
+<li><a href="https://github.com/rust-secure-code/cargo-geiger">cargo-geiger</a>: Detects usage of unsafe Rust in a Rust crate and its dependencies.</li>
+</ul>
 <h3 id="snippets-1"><a class="header" href="#snippets-1">Snippets</a></h3>
 <pre><code class="language-sh">cargo add serde
 cargo add serde -F derive
@@ -596,7 +625,7 @@ impl From&lt;&amp;'a str&gt; for State {
 <p>Big note.</p>
 </div>
 <h2 id="strikethrough"><a class="header" href="#strikethrough">Strikethrough</a></h2>
-<p>~one~ or <del>two</del> tildes.</p>
+<p><del>one</del> or <del>two</del> tildes.</p>
 <h2 id="table"><a class="header" href="#table">Table</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>a</th><th style="text-align: left">b</th><th style="text-align: right">c</th><th style="text-align: center">d</th></tr></thead><tbody>
 <tr><td>1</td><td style="text-align: left">2</td><td style="text-align: right">3</td><td style="text-align: center">4</td></tr>
