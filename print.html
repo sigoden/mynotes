@@ -904,6 +904,8 @@ git branch -r
 git branch -a
 # create branch
 git checkout -b feat1
+# rename a branch
+git branch -m newname
 # checkout branch
 git checkout feat1
 # checkout remote branch
@@ -1060,9 +1062,9 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
         run: |
           tag=${GITHUB_REF##*/}
           if [[ &quot;$tag&quot; =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
-            echo &quot;::set-output name=tag::$tag&quot;
+            echo &quot;rc=false&quot; &gt;&gt; $GITHUB_OUTPUT
           else
-            echo &quot;::set-output name=tag::null&quot;
+            echo &quot;rc=true&quot; &gt;&gt; $GITHUB_OUTPUT
           fi
 </code></pre>
 <h2 id="add-environment-variable"><a class="header" href="#add-environment-variable">Add environment variable</a></h2>
