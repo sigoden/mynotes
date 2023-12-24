@@ -100,9 +100,9 @@ jobs:
         run: |
           tag=${GITHUB_REF##*/}
           if [[ "$tag" =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
-            echo "::set-output name=tag::$tag"
+            echo "rc=false" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=tag::null"
+            echo "rc=true" >> $GITHUB_OUTPUT
           fi
 ```
 
