@@ -32,17 +32,9 @@ Run command with proxy network in windows pc.
 
 Create book from markdown files.
 
-## [tomato-timer](https://github.com/sigoden/tomato-timer)
-
-A terminal tomato timer with notification
-
 ## [argc](https://github.com/sigoden/argc)
 
-A handy way to handle sh/bash cli parameters.
-
-## [runme](https://github.com/sigoden/runme)
-
-A task runner using bash.
+Easily create and use cli that based on bashscript.
 
 ## [projclean](https://github.com/sigoden/projclean)
 
@@ -76,10 +68,10 @@ A terminal multiplexer similar to tmux.
 
 Search shell history
 
-## [opscan](https://github.com/sigoden/opscan)
-
-Port scanner
-
 ## [zellij](https://github.com/zellij-org/zellij)
 
 Terminal multiplexer
+
+## [yq](https://github.com/mikefarah/yq)
+
+Process YAML, JSON, XML, CSV and properties documents from the CLI

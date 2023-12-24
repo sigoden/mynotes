@@ -2,6 +2,6 @@
 
 A collections of tools, services, websites.
 
-- [Cli Tools](cli.md)
+- [CLI Tools](cli.md)
 - [SASS Tools](sass.md)
 - [Utility Websites](websites.md)

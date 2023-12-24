@@ -57,6 +57,7 @@ rustup override set nightly
 - [cargo-insta](https://github.com/mitsuhiko/insta): Snapshot testing
 - [cargo-binstall](https://github.com/cargo-bins/cargo-binstall): Binary installation for rust projects
 - [cargo-geiger](https://github.com/rust-secure-code/cargo-geiger): Detects usage of unsafe Rust in a Rust crate and its dependencies.
+
 ### Snippets
 
 ```sh

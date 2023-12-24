@@ -115,9 +115,9 @@ done
 ### if
 
 ```sh
-if [[ "foo" == $1 ]]; then
+if [[ "foo" == "$1" ]]; then
   echo foo
-elif [[ "bar" == $1 ]]; then
+elif [[ "bar" == "$1" ]]; then
   echo bar
 else
   echo "not found"
@@ -201,6 +201,7 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 ## Function
 
+Returns value
 ```sh
 foo() {
     local msg='world'
@@ -208,6 +209,21 @@ foo() {
 }
 result="$(foo hello)"
 echo $result
+```
+
+Returns boolean
+```sh
+_is_win() {
+    if [[ "$(uname)" =~ "_NT" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+if _is_win; then
+  echo 'windows'
+fi
 ```
 
 ## Value

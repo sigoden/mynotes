@@ -8,10 +8,6 @@ Discover Unicode Character Entities & Symbols.
 
 Test, process and transform HTTP requests.
 
-## [zztalk](https://zztalk.herokuapp.com/)
-
-Anonymous ad hoc chat.
-
 ## [draw.io](https://app.diagrams.net/)
 
 Draw wireframes, support local storage, cloud storage.
