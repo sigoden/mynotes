@@ -183,22 +183,6 @@ while true; do
 done
 ```
 
-```sh
-while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-  -V | --version )
-    echo $version
-    exit
-    ;;
-  -s | --string )
-    shift; string=$1
-    ;;
-  -f | --flag )
-    flag=1
-    ;;
-esac; shift; done
-if [[ "$1" == '--' ]]; then shift; fi
-```
-
 ## Function
 
 Returns value
@@ -275,3 +259,11 @@ if [ "$choice" = "y" ]; then
   echo choice yes
 fi
 ```
+
+## Common Tools
+
+- Character related: find/sed/awk
+- Network related: curl/wget
+- Argument parser related: getopt/[argc](https://github.com/sigoden/argc)
+- JSON/YAML/TOML related: [jq](https://github.com/jqlang/jq)/[yq](https://github.com/mikefarah/yq)
+- Interative related: [gum](https://github.com/charmbracelet/gum)

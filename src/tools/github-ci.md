@@ -1,4 +1,4 @@
-# Github Ci
+# Github CI
 
 ## Triggers
 
@@ -92,7 +92,9 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
 
 ```yaml
 jobs:
-  job1:
+  release:
+    outputs:
+      rc: ${{ steps.check-tag.outputs.rc }}
     steps:
       - name: Get Tag
         id: get_tag
@@ -138,15 +140,49 @@ jobs:
 jobs:
   job1:
     steps:
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: app
           path: target/release/app
 
   job2:
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: app
           path: ${{ github.workspace }}/target/release/app 
+```
+
+## Build and push docker image
+
+```yaml
+jobs:
+  docker:
+    name: Publish to Docker Hub
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          build-args: |
+            REPO=${{ github.repository }}
+            VER=${{ github.ref_name }}
+          platforms: |
+            linux/amd64
+            linux/arm64
+            linux/386
+            linux/arm/v7
+          push: ${{ needs.release.outputs.rc == 'false' }}
+          tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{ github.ref_name }}
 ```
