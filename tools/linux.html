@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -186,7 +186,7 @@
 <tr><td>net</td><td><code>ip -4 a</code></td></tr>
 <tr><td>disk</td><td><code>lsblk</code></td></tr>
 <tr><td>CPU</td><td><code>lscpu</code></td></tr>
-<tr><td>port</td><td><code>netstat -tulpn \| grep LISTEN</code></td></tr>
+<tr><td>port</td><td><code>netstat -tulpn | grep LISTEN</code></td></tr>
 <tr><td>process</td><td><code>top</code></td></tr>
 <tr><td>trafic</td><td><code>vnstat -i eth0 -l</code></td></tr>
 <tr><td>ip</td><td><code>curl ipinfo.io</code></td></tr>
@@ -392,7 +392,7 @@ cat file | awk '{print $1,$3}'
 <tr><td><code>\?</code></td><td>zero or one</td></tr>
 <tr><td><code>\+</code></td><td>at least one</td></tr>
 <tr><td><code>\{\}</code></td><td>match n times</td></tr>
-<tr><td><code>\|</code></td><td>choices</td></tr>
+<tr><td><code>|</code></td><td>choices</td></tr>
 <tr><td><code>\(\)</code></td><td>group</td></tr>
 <tr><td><code>[]</code></td><td>match options</td></tr>
 <tr><td><code>[^]</code></td><td>not match options</td></tr>
@@ -436,7 +436,7 @@ cat file | awk '{print $1,$3}'
 </code></pre>
 <ul>
 <li><code>-e</code>: Exit on none-zero status</li>
-<li><code>-x</code>: Print a trace </li>
+<li><code>-x</code>: Print a trace</li>
 <li><code>-u</code>: Treat unset variables as error</li>
 <li><code>-o pipefail</code>: Return none-zero if last pipeline return none-zero</li>
 </ul>
@@ -467,7 +467,7 @@ ls -1 . | sed 's/\.mdx$//' | xargs -I{} mv {}.mdx {}.md
 </div>
 <h2 id="common-snippets"><a class="header" href="#common-snippets">Common Snippets</a></h2>
 <h3 id="script-directory"><a class="header" href="#script-directory">Script Directory</a></h3>
-<pre><code class="language-sh">SCRIPT_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )&quot;
+<pre><code class="language-sh">SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&gt; /dev/null &amp;&amp; pwd )"
 </code></pre>
 <h3 id="sudo-without-pass"><a class="header" href="#sudo-without-pass">Sudo Without Pass</a></h3>
 <pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER

@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -260,7 +260,7 @@ git config --global user.email $email
 <pre><code># linux/macos
 git config --global core.excludesFile '~/.gitignore'
 # windows
-git config --global core.excludesFile &quot;$env:USERPROFILE\.gitignore&quot;
+git config --global core.excludesFile "$env:USERPROFILE\.gitignore"
 </code></pre>
 <h3 id="cjk-path"><a class="header" href="#cjk-path">Cjk path</a></h3>
 <pre><code>git config --global core.quotepath false
@@ -272,7 +272,7 @@ git config --global core.autocrlf input
 <h2 id="credentials"><a class="header" href="#credentials">Credentials</a></h2>
 <h3 id="wsl2"><a class="header" href="#wsl2">WSL2</a></h3>
 <pre><code class="language-sh">git config --global credential.helper \
-  &quot;/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe&quot;
+  "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
 </code></pre>
 <h2 id="ssh-repo"><a class="header" href="#ssh-repo">SSH Repo</a></h2>
 <pre><code class="language-sh">sudo useradd -m -r -U -d /home/git-repos git

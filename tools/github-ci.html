@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -176,7 +176,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="github-ci"><a class="header" href="#github-ci">Github Ci</a></h1>
+                        <h1 id="github-ci"><a class="header" href="#github-ci">Github CI</a></h1>
 <h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
 <pre><code class="language-yaml">on: 
   push:
@@ -209,7 +209,7 @@ on:
       FOO: foo
     steps:
       - if: ${{ env.FOO == 'foo' }}
-        run: echo &quot;$BAR&quot;
+        run: echo "$BAR"
         env:
           BAR: bar
 </code></pre>
@@ -220,7 +220,7 @@ on:
 </code></pre>
 <h3 id="print-github-variables"><a class="header" href="#print-github-variables">Print github variables</a></h3>
 <pre><code class="language-yaml">    steps:
-      - run: echo &quot;$GITHUB_CONTEXT&quot;
+      - run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
 </code></pre>
@@ -247,17 +247,19 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
 </code></pre>
 <h2 id="get-tag-info"><a class="header" href="#get-tag-info">Get Tag info</a></h2>
 <pre><code class="language-yaml">jobs:
-  job1:
+  release:
+    outputs:
+      rc: ${{ steps.check-tag.outputs.rc }}
     steps:
       - name: Get Tag
         id: get_tag
         shell: bash
         run: |
           tag=${GITHUB_REF##*/}
-          if [[ &quot;$tag&quot; =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
-            echo &quot;rc=false&quot; &gt;&gt; $GITHUB_OUTPUT
+          if [[ "$tag" =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "rc=false" &gt;&gt; $GITHUB_OUTPUT
           else
-            echo &quot;rc=true&quot; &gt;&gt; $GITHUB_OUTPUT
+            echo "rc=true" &gt;&gt; $GITHUB_OUTPUT
           fi
 </code></pre>
 <h2 id="add-environment-variable"><a class="header" href="#add-environment-variable">Add environment variable</a></h2>
@@ -266,7 +268,7 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
     steps:
       - name: Set env var
         run: |
-          echo &quot;foo=bar&quot; &gt;&gt; $GITHUB_ENV
+          echo "foo=bar" &gt;&gt; $GITHUB_ENV
 
 </code></pre>
 <h2 id="pass-variables-between-jobs"><a class="header" href="#pass-variables-between-jobs">Pass variables between jobs</a></h2>
@@ -277,24 +279,55 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
       tag: ${{ steps.get_tag.outputs.tag }}
 
   job2:
-    needs: [&quot;job1&quot;]
+    needs: ["job1"]
     if: needs.job1.outputs.tag != 'null'
 </code></pre>
 <h2 id="pass-artificats-between-jobs"><a class="header" href="#pass-artificats-between-jobs">Pass artificats between jobs</a></h2>
 <pre><code class="language-yaml">jobs:
   job1:
     steps:
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: app
           path: target/release/app
 
   job2:
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: app
           path: ${{ github.workspace }}/target/release/app 
+</code></pre>
+<h2 id="build-and-push-docker-image"><a class="header" href="#build-and-push-docker-image">Build and push docker image</a></h2>
+<pre><code class="language-yaml">jobs:
+  docker:
+    name: Publish to Docker Hub
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          build-args: |
+            REPO=${{ github.repository }}
+            VER=${{ github.ref_name }}
+          platforms: |
+            linux/amd64
+            linux/arm64
+            linux/386
+            linux/arm/v7
+          push: ${{ needs.release.outputs.rc == 'false' }}
+          tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{ github.ref_name }}
 </code></pre>
 
                     </main>

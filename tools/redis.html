@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -178,7 +178,7 @@
                     <main>
                         <h1 id="redis"><a class="header" href="#redis">Redis</a></h1>
 <h2 id="clear-all"><a class="header" href="#clear-all">Clear all</a></h2>
-<pre><code class="language-sh">EVAL &quot;return redis.call('del', unpack(redis.call('keys', ARGV[1])))&quot; 0 prefix:*
+<pre><code class="language-sh">EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 prefix:*
 </code></pre>
 <h2 id="enter-redis-container"><a class="header" href="#enter-redis-container">Enter redis container</a></h2>
 <pre><code class="language-sh">#!/bin/bash -e

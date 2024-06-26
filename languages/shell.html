@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -215,30 +215,30 @@ echo ${!Fruits[@]}          # Keys of all elements, space-separated
 
 
 
-Fruits=(&quot;${Fruits[@]}&quot; &quot;Grape&quot;)         # Push
+Fruits=("${Fruits[@]}" "Grape")         # Push
 Fruits+=('Watermelon')                  # Also Push
 Fruits=( ${Fruits[@]/Ap*/} )            # Remove by regex match
 unset Fruits[2]                         # Remove one item
-Fruits=(&quot;${Fruits[@]}&quot;)                 # Duplicate
-Fruits=(&quot;${Fruits[@]}&quot; &quot;${Veggies[@]}&quot;) # Concatenate
+Fruits=("${Fruits[@]}")                 # Duplicate
+Fruits=("${Fruits[@]}" "${Veggies[@]}") # Concatenate
 
 TempFiles=($(ls /tmp))
 
-for i in &quot;${Fruits[@]}&quot;; do
+for i in "${Fruits[@]}"; do
   echo $i
 done
 
-if [[ &quot; ${Fruits[*]} &quot; =~ &quot; Banana &quot; ]]; then
-  echo &quot;Apple in Fruits&quot;
+if [[ " ${Fruits[*]} " =~ " Banana " ]]; then
+  echo "Apple in Fruits"
 fi
 </code></pre>
 <h2 id="dictionary"><a class="header" href="#dictionary">Dictionary</a></h2>
 <pre><code class="language-sh">declare -A sounds
 
-sounds[dog]=&quot;bark&quot;
-sounds[cow]=&quot;moo&quot;
-sounds[bird]=&quot;tweet&quot;
-sounds[wolf]=&quot;howl&quot;
+sounds[dog]="bark"
+sounds[cow]="moo"
+sounds[bird]="tweet"
+sounds[wolf]="howl"
 
 echo ${sounds[dog]} # Dog's sound
 echo ${sounds[@]}   # All values
@@ -247,12 +247,12 @@ echo ${#sounds[@]}  # Number of elements
 unset sounds[dog]   # Delete dog
 
 # Value loop
-for val in &quot;${sounds[@]}&quot;; do
+for val in "${sounds[@]}"; do
   echo $val
 done
 
 # Key loop
-for key in &quot;${!sounds[@]}&quot;; do
+for key in "${!sounds[@]}"; do
   echo $key
 done
 </code></pre>
@@ -273,21 +273,21 @@ done
 <tr><td>-</td><td>-</td></tr>
 <tr><td><code>[[ ! EXPR ]]</code></td><td>Not</td></tr>
 <tr><td><code>[[ X &amp;&amp; Y ]]</code></td><td>And</td></tr>
-<tr><td><code>[[ X \|\| Y ]]</code></td><td>Or</td></tr>
+<tr><td><code>[[ X || Y ]]</code></td><td>Or</td></tr>
 </tbody></table>
 </div>
 <h3 id="if"><a class="header" href="#if">if</a></h3>
-<pre><code class="language-sh">if [[ &quot;foo&quot; == &quot;$1&quot; ]]; then
+<pre><code class="language-sh">if [[ "foo" == "$1" ]]; then
   echo foo
-elif [[ &quot;bar&quot; == &quot;$1&quot; ]]; then
+elif [[ "bar" == "$1" ]]; then
   echo bar
 else
-  echo &quot;not found&quot;
+  echo "not found"
   exit 1
 fi
 </code></pre>
 <h3 id="case"><a class="header" href="#case">case</a></h3>
-<pre><code class="language-sh">case &quot;$1&quot; in
+<pre><code class="language-sh">case "$1" in
   start | up)
     vagrant up
     ;;
@@ -296,13 +296,13 @@ fi
     ;;
 
   *)
-    echo &quot;Usage: $0 {start|stop}&quot;
+    echo "Usage: $0 {start|stop}"
     ;;
 esac
 </code></pre>
 <h3 id="exitcode"><a class="header" href="#exitcode">exitcode</a></h3>
 <pre><code class="language-sh">if grep -q 'alice' /etc/passwd; then
-  echo &quot;User alice exists&quot;
+  echo "User alice exists"
 fi
 </code></pre>
 <h2 id="loop"><a class="header" href="#loop">Loop</a></h2>
@@ -337,32 +337,18 @@ while true; do
   sleep 1
 done
 </code></pre>
-<pre><code class="language-sh">while [[ &quot;$1&quot; =~ ^- &amp;&amp; ! &quot;$1&quot; == &quot;--&quot; ]]; do case $1 in
-  -V | --version )
-    echo $version
-    exit
-    ;;
-  -s | --string )
-    shift; string=$1
-    ;;
-  -f | --flag )
-    flag=1
-    ;;
-esac; shift; done
-if [[ &quot;$1&quot; == '--' ]]; then shift; fi
-</code></pre>
 <h2 id="function"><a class="header" href="#function">Function</a></h2>
 <p>Returns value</p>
 <pre><code class="language-sh">foo() {
     local msg='world'
-    echo &quot;$1 $msg&quot;
+    echo "$1 $msg"
 }
-result=&quot;$(foo hello)&quot;
+result="$(foo hello)"
 echo $result
 </code></pre>
 <p>Returns boolean</p>
 <pre><code class="language-sh">_is_win() {
-    if [[ &quot;$(uname)&quot; =~ &quot;_NT&quot; ]]; then
+    if [[ "$(uname)" =~ "_NT" ]]; then
         return 0
     else
         return 1
@@ -408,11 +394,19 @@ EOF
 <li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code></li>
 </ul>
 <h2 id="yesno"><a class="header" href="#yesno">Yes/No</a></h2>
-<pre><code class="language-sh">read -p &quot;Are you sure (y/n)? &quot; choice
-if [ &quot;$choice&quot; = &quot;y&quot; ]; then
+<pre><code class="language-sh">read -p "Are you sure (y/n)? " choice
+if [ "$choice" = "y" ]; then
   echo choice yes
 fi
 </code></pre>
+<h2 id="common-tools"><a class="header" href="#common-tools">Common Tools</a></h2>
+<ul>
+<li>Character related: find/sed/awk</li>
+<li>Network related: curl/wget</li>
+<li>Argument parser related: getopt/<a href="https://github.com/sigoden/argc">argc</a></li>
+<li>JSON/YAML/TOML related: <a href="https://github.com/jqlang/jq">jq</a>/<a href="https://github.com/mikefarah/yq">yq</a></li>
+<li>Interative related: <a href="https://github.com/charmbracelet/gum">gum</a></li>
+</ul>
 
                     </main>
 

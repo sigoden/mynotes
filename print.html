@@ -148,7 +148,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -305,30 +305,30 @@ echo ${!Fruits[@]}          # Keys of all elements, space-separated
 
 
 
-Fruits=(&quot;${Fruits[@]}&quot; &quot;Grape&quot;)         # Push
+Fruits=("${Fruits[@]}" "Grape")         # Push
 Fruits+=('Watermelon')                  # Also Push
 Fruits=( ${Fruits[@]/Ap*/} )            # Remove by regex match
 unset Fruits[2]                         # Remove one item
-Fruits=(&quot;${Fruits[@]}&quot;)                 # Duplicate
-Fruits=(&quot;${Fruits[@]}&quot; &quot;${Veggies[@]}&quot;) # Concatenate
+Fruits=("${Fruits[@]}")                 # Duplicate
+Fruits=("${Fruits[@]}" "${Veggies[@]}") # Concatenate
 
 TempFiles=($(ls /tmp))
 
-for i in &quot;${Fruits[@]}&quot;; do
+for i in "${Fruits[@]}"; do
   echo $i
 done
 
-if [[ &quot; ${Fruits[*]} &quot; =~ &quot; Banana &quot; ]]; then
-  echo &quot;Apple in Fruits&quot;
+if [[ " ${Fruits[*]} " =~ " Banana " ]]; then
+  echo "Apple in Fruits"
 fi
 </code></pre>
 <h2 id="dictionary"><a class="header" href="#dictionary">Dictionary</a></h2>
 <pre><code class="language-sh">declare -A sounds
 
-sounds[dog]=&quot;bark&quot;
-sounds[cow]=&quot;moo&quot;
-sounds[bird]=&quot;tweet&quot;
-sounds[wolf]=&quot;howl&quot;
+sounds[dog]="bark"
+sounds[cow]="moo"
+sounds[bird]="tweet"
+sounds[wolf]="howl"
 
 echo ${sounds[dog]} # Dog's sound
 echo ${sounds[@]}   # All values
@@ -337,12 +337,12 @@ echo ${#sounds[@]}  # Number of elements
 unset sounds[dog]   # Delete dog
 
 # Value loop
-for val in &quot;${sounds[@]}&quot;; do
+for val in "${sounds[@]}"; do
   echo $val
 done
 
 # Key loop
-for key in &quot;${!sounds[@]}&quot;; do
+for key in "${!sounds[@]}"; do
   echo $key
 done
 </code></pre>
@@ -363,21 +363,21 @@ done
 <tr><td>-</td><td>-</td></tr>
 <tr><td><code>[[ ! EXPR ]]</code></td><td>Not</td></tr>
 <tr><td><code>[[ X &amp;&amp; Y ]]</code></td><td>And</td></tr>
-<tr><td><code>[[ X \|\| Y ]]</code></td><td>Or</td></tr>
+<tr><td><code>[[ X || Y ]]</code></td><td>Or</td></tr>
 </tbody></table>
 </div>
 <h3 id="if"><a class="header" href="#if">if</a></h3>
-<pre><code class="language-sh">if [[ &quot;foo&quot; == &quot;$1&quot; ]]; then
+<pre><code class="language-sh">if [[ "foo" == "$1" ]]; then
   echo foo
-elif [[ &quot;bar&quot; == &quot;$1&quot; ]]; then
+elif [[ "bar" == "$1" ]]; then
   echo bar
 else
-  echo &quot;not found&quot;
+  echo "not found"
   exit 1
 fi
 </code></pre>
 <h3 id="case"><a class="header" href="#case">case</a></h3>
-<pre><code class="language-sh">case &quot;$1&quot; in
+<pre><code class="language-sh">case "$1" in
   start | up)
     vagrant up
     ;;
@@ -386,13 +386,13 @@ fi
     ;;
 
   *)
-    echo &quot;Usage: $0 {start|stop}&quot;
+    echo "Usage: $0 {start|stop}"
     ;;
 esac
 </code></pre>
 <h3 id="exitcode"><a class="header" href="#exitcode">exitcode</a></h3>
 <pre><code class="language-sh">if grep -q 'alice' /etc/passwd; then
-  echo &quot;User alice exists&quot;
+  echo "User alice exists"
 fi
 </code></pre>
 <h2 id="loop"><a class="header" href="#loop">Loop</a></h2>
@@ -427,32 +427,18 @@ while true; do
   sleep 1
 done
 </code></pre>
-<pre><code class="language-sh">while [[ &quot;$1&quot; =~ ^- &amp;&amp; ! &quot;$1&quot; == &quot;--&quot; ]]; do case $1 in
-  -V | --version )
-    echo $version
-    exit
-    ;;
-  -s | --string )
-    shift; string=$1
-    ;;
-  -f | --flag )
-    flag=1
-    ;;
-esac; shift; done
-if [[ &quot;$1&quot; == '--' ]]; then shift; fi
-</code></pre>
 <h2 id="function"><a class="header" href="#function">Function</a></h2>
 <p>Returns value</p>
 <pre><code class="language-sh">foo() {
     local msg='world'
-    echo &quot;$1 $msg&quot;
+    echo "$1 $msg"
 }
-result=&quot;$(foo hello)&quot;
+result="$(foo hello)"
 echo $result
 </code></pre>
 <p>Returns boolean</p>
 <pre><code class="language-sh">_is_win() {
-    if [[ &quot;$(uname)&quot; =~ &quot;_NT&quot; ]]; then
+    if [[ "$(uname)" =~ "_NT" ]]; then
         return 0
     else
         return 1
@@ -498,11 +484,19 @@ EOF
 <li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code></li>
 </ul>
 <h2 id="yesno"><a class="header" href="#yesno">Yes/No</a></h2>
-<pre><code class="language-sh">read -p &quot;Are you sure (y/n)? &quot; choice
-if [ &quot;$choice&quot; = &quot;y&quot; ]; then
+<pre><code class="language-sh">read -p "Are you sure (y/n)? " choice
+if [ "$choice" = "y" ]; then
   echo choice yes
 fi
 </code></pre>
+<h2 id="common-tools"><a class="header" href="#common-tools">Common Tools</a></h2>
+<ul>
+<li>Character related: find/sed/awk</li>
+<li>Network related: curl/wget</li>
+<li>Argument parser related: getopt/<a href="https://github.com/sigoden/argc">argc</a></li>
+<li>JSON/YAML/TOML related: <a href="https://github.com/jqlang/jq">jq</a>/<a href="https://github.com/mikefarah/yq">yq</a></li>
+<li>Interative related: <a href="https://github.com/charmbracelet/gum">gum</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rust"><a class="header" href="#rust">Rust</a></h1>
 <h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <pre><code class="language-sh">curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -527,7 +521,7 @@ rustup override set nightly
 </code></pre>
 <h2 id="crates"><a class="header" href="#crates">Crates</a></h2>
 <ul>
-<li><a href="https://docs.rs/tokio">tokio</a>: Async </li>
+<li><a href="https://docs.rs/tokio">tokio</a>: Async</li>
 <li><a href="https://docs.rs/crossbeam">crossbeam</a>: Concurrency</li>
 <li><a href="https://docs.rs/rayon">rayon</a>: Concurrency computation</li>
 <li><a href="https://docs.rs/axum">axum</a>: web framework</li>
@@ -568,7 +562,7 @@ cargo tree -p libc -i
 <pre><code class="language-sh">[profile.release]
 lto = true
 strip = true
-opt-level = &quot;z&quot;
+opt-level = "z"
 </code></pre>
 <h2 id="resources"><a class="header" href="#resources">Resources</a></h2>
 <ul>
@@ -619,8 +613,8 @@ pub enum State {
 impl From&lt;&amp;'a str&gt; for State {
     fn from(s: &amp;'a str) -&gt; Self {
         match s {
-            &quot;start&quot; =&gt; State::Start,
-            &quot;closed&quot; =&gt; State::Closed,
+            "start" =&gt; State::Start,
+            "closed" =&gt; State::Closed,
             _ =&gt; unreachable!(),
         }
     }
@@ -719,7 +713,7 @@ WORKDIR /app
 COPY --from=builder /app .
 COPY . .
 EXPOSE 3000
-CMD [&quot;node&quot;, &quot;index.js&quot;]
+CMD ["node", "index.js"]
 </code></pre>
 <h2 id="native-addon"><a class="header" href="#native-addon">Native addon</a></h2>
 <ol>
@@ -772,7 +766,7 @@ docker logs --tail 50 -f redis
 docker system prune -f
 
 # Clean dead images
-docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 </code></pre>
 <h2 id="use-mirror"><a class="header" href="#use-mirror">Use Mirror</a></h2>
 <ul>
@@ -780,7 +774,7 @@ docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
 <li>LINUX: /etc/docker/daemon.json</li>
 </ul>
 <pre><code class="language-json">{
-    &quot;registry-mirrors&quot;: [&quot;https://docker.mirrors.ustc.edu.cn&quot;]
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
 }
 </code></pre>
 <h2 id="dockerfile"><a class="header" href="#dockerfile">Dockerfile</a></h2>
@@ -802,25 +796,25 @@ COPY /source/file/path  /destination/path
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">error, not allowed</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">c1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">c1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c c1</td></tr>
 </tbody></table>
 </div>
 <ul>
-<li>ENTRYPOINT e1 </li>
+<li>ENTRYPOINT e1</li>
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">/bin/sh -c e1</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">/bin/sh -c e1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">/bin/sh -c e1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c e1</td></tr>
 </tbody></table>
 </div>
 <ul>
-<li>ENTRYPOINT [&quot;e1&quot;]</li>
+<li>ENTRYPOINT ["e1"]</li>
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">e1</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">e1 c1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">e1 c1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">e1 /bin/sh -c e1</td></tr>
 </tbody></table>
 </div>
@@ -841,7 +835,7 @@ WORKDIR /app
 COPY --from=builder /app .
 COPY . .
 EXPOSE 3000
-CMD [&quot;node&quot;, &quot;index.js&quot;]
+CMD ["node", "index.js"]
 </code></pre>
 <h3 id="heredoc-1"><a class="header" href="#heredoc-1">Heredoc</a></h3>
 <pre><code class="language-Dockerfile">RUN printf '#!/bin/bash\n\
@@ -853,11 +847,11 @@ echo 2'\
 <pre><code class="language-sh">#!/bin/sh
 set -e
 
-if [ &quot;${1#-}&quot; != &quot;${1}&quot; ] || [ -z &quot;$(command -v &quot;${1}&quot;)&quot; ]; then
-  set -- app &quot;$@&quot; # change app to your binary
+if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then
+  set -- app "$@" # change app to your binary
 fi
 
-exec &quot;$@&quot;
+exec "$@"
 </code></pre>
 <h3 id="normal-user"><a class="header" href="#normal-user">Normal User</a></h3>
 <pre><code class="language-Dockerfile">RUN groupadd --gid 1000 user \
@@ -869,7 +863,6 @@ docker buildx use mybuilder
 </code></pre>
 <pre><code>docker buildx build \
   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/386 \
-  --push \
   -t demo . 
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="git"><a class="header" href="#git">Git</a></h1>
@@ -956,7 +949,7 @@ git config --global user.email $email
 <pre><code># linux/macos
 git config --global core.excludesFile '~/.gitignore'
 # windows
-git config --global core.excludesFile &quot;$env:USERPROFILE\.gitignore&quot;
+git config --global core.excludesFile "$env:USERPROFILE\.gitignore"
 </code></pre>
 <h3 id="cjk-path"><a class="header" href="#cjk-path">Cjk path</a></h3>
 <pre><code>git config --global core.quotepath false
@@ -968,7 +961,7 @@ git config --global core.autocrlf input
 <h2 id="credentials"><a class="header" href="#credentials">Credentials</a></h2>
 <h3 id="wsl2"><a class="header" href="#wsl2">WSL2</a></h3>
 <pre><code class="language-sh">git config --global credential.helper \
-  &quot;/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe&quot;
+  "/mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe"
 </code></pre>
 <h2 id="ssh-repo"><a class="header" href="#ssh-repo">SSH Repo</a></h2>
 <pre><code class="language-sh">sudo useradd -m -r -U -d /home/git-repos git
@@ -983,7 +976,7 @@ git init --bare ~/repo.git
 </code></pre>
 <pre><code class="language-sh">git remote add origin git@&lt;your-server-ip&gt;:repo.git
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="github-ci"><a class="header" href="#github-ci">Github Ci</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="github-ci"><a class="header" href="#github-ci">Github CI</a></h1>
 <h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
 <pre><code class="language-yaml">on: 
   push:
@@ -1016,7 +1009,7 @@ on:
       FOO: foo
     steps:
       - if: ${{ env.FOO == 'foo' }}
-        run: echo &quot;$BAR&quot;
+        run: echo "$BAR"
         env:
           BAR: bar
 </code></pre>
@@ -1027,7 +1020,7 @@ on:
 </code></pre>
 <h3 id="print-github-variables"><a class="header" href="#print-github-variables">Print github variables</a></h3>
 <pre><code class="language-yaml">    steps:
-      - run: echo &quot;$GITHUB_CONTEXT&quot;
+      - run: echo "$GITHUB_CONTEXT"
         env:
           GITHUB_CONTEXT: ${{ toJSON(github) }}
 </code></pre>
@@ -1054,17 +1047,19 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
 </code></pre>
 <h2 id="get-tag-info"><a class="header" href="#get-tag-info">Get Tag info</a></h2>
 <pre><code class="language-yaml">jobs:
-  job1:
+  release:
+    outputs:
+      rc: ${{ steps.check-tag.outputs.rc }}
     steps:
       - name: Get Tag
         id: get_tag
         shell: bash
         run: |
           tag=${GITHUB_REF##*/}
-          if [[ &quot;$tag&quot; =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
-            echo &quot;rc=false&quot; &gt;&gt; $GITHUB_OUTPUT
+          if [[ "$tag" =~ [0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "rc=false" &gt;&gt; $GITHUB_OUTPUT
           else
-            echo &quot;rc=true&quot; &gt;&gt; $GITHUB_OUTPUT
+            echo "rc=true" &gt;&gt; $GITHUB_OUTPUT
           fi
 </code></pre>
 <h2 id="add-environment-variable"><a class="header" href="#add-environment-variable">Add environment variable</a></h2>
@@ -1073,7 +1068,7 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
     steps:
       - name: Set env var
         run: |
-          echo &quot;foo=bar&quot; &gt;&gt; $GITHUB_ENV
+          echo "foo=bar" &gt;&gt; $GITHUB_ENV
 
 </code></pre>
 <h2 id="pass-variables-between-jobs"><a class="header" href="#pass-variables-between-jobs">Pass variables between jobs</a></h2>
@@ -1084,24 +1079,55 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
       tag: ${{ steps.get_tag.outputs.tag }}
 
   job2:
-    needs: [&quot;job1&quot;]
+    needs: ["job1"]
     if: needs.job1.outputs.tag != 'null'
 </code></pre>
 <h2 id="pass-artificats-between-jobs"><a class="header" href="#pass-artificats-between-jobs">Pass artificats between jobs</a></h2>
 <pre><code class="language-yaml">jobs:
   job1:
     steps:
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: app
           path: target/release/app
 
   job2:
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v4
         with:
           name: app
           path: ${{ github.workspace }}/target/release/app 
+</code></pre>
+<h2 id="build-and-push-docker-image"><a class="header" href="#build-and-push-docker-image">Build and push docker image</a></h2>
+<pre><code class="language-yaml">jobs:
+  docker:
+    name: Publish to Docker Hub
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          build-args: |
+            REPO=${{ github.repository }}
+            VER=${{ github.ref_name }}
+          platforms: |
+            linux/amd64
+            linux/arm64
+            linux/386
+            linux/arm/v7
+          push: ${{ needs.release.outputs.rc == 'false' }}
+          tags: ${{ github.repository }}:latest, ${{ github.repository }}:${{ github.ref_name }}
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linux"><a class="header" href="#linux">Linux</a></h1>
 <h2 id="inspect"><a class="header" href="#inspect">Inspect</a></h2>
@@ -1113,7 +1139,7 @@ SSH Session:            ssh s1wv8gfLuqTd7sn7taKm:MTAuMjQ0LjAuNzY6MjI=@uptermd.up
 <tr><td>net</td><td><code>ip -4 a</code></td></tr>
 <tr><td>disk</td><td><code>lsblk</code></td></tr>
 <tr><td>CPU</td><td><code>lscpu</code></td></tr>
-<tr><td>port</td><td><code>netstat -tulpn \| grep LISTEN</code></td></tr>
+<tr><td>port</td><td><code>netstat -tulpn | grep LISTEN</code></td></tr>
 <tr><td>process</td><td><code>top</code></td></tr>
 <tr><td>trafic</td><td><code>vnstat -i eth0 -l</code></td></tr>
 <tr><td>ip</td><td><code>curl ipinfo.io</code></td></tr>
@@ -1319,7 +1345,7 @@ cat file | awk '{print $1,$3}'
 <tr><td><code>\?</code></td><td>zero or one</td></tr>
 <tr><td><code>\+</code></td><td>at least one</td></tr>
 <tr><td><code>\{\}</code></td><td>match n times</td></tr>
-<tr><td><code>\|</code></td><td>choices</td></tr>
+<tr><td><code>|</code></td><td>choices</td></tr>
 <tr><td><code>\(\)</code></td><td>group</td></tr>
 <tr><td><code>[]</code></td><td>match options</td></tr>
 <tr><td><code>[^]</code></td><td>not match options</td></tr>
@@ -1363,7 +1389,7 @@ cat file | awk '{print $1,$3}'
 </code></pre>
 <ul>
 <li><code>-e</code>: Exit on none-zero status</li>
-<li><code>-x</code>: Print a trace </li>
+<li><code>-x</code>: Print a trace</li>
 <li><code>-u</code>: Treat unset variables as error</li>
 <li><code>-o pipefail</code>: Return none-zero if last pipeline return none-zero</li>
 </ul>
@@ -1394,7 +1420,7 @@ ls -1 . | sed 's/\.mdx$//' | xargs -I{} mv {}.mdx {}.md
 </div>
 <h2 id="common-snippets"><a class="header" href="#common-snippets">Common Snippets</a></h2>
 <h3 id="script-directory"><a class="header" href="#script-directory">Script Directory</a></h3>
-<pre><code class="language-sh">SCRIPT_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )&quot;
+<pre><code class="language-sh">SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&gt; /dev/null &amp;&amp; pwd )"
 </code></pre>
 <h3 id="sudo-without-pass"><a class="header" href="#sudo-without-pass">Sudo Without Pass</a></h3>
 <pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER
@@ -1421,7 +1447,7 @@ EOF
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="redis"><a class="header" href="#redis">Redis</a></h1>
 <h2 id="clear-all"><a class="header" href="#clear-all">Clear all</a></h2>
-<pre><code class="language-sh">EVAL &quot;return redis.call('del', unpack(redis.call('keys', ARGV[1])))&quot; 0 prefix:*
+<pre><code class="language-sh">EVAL "return redis.call('del', unpack(redis.call('keys', ARGV[1])))" 0 prefix:*
 </code></pre>
 <h2 id="enter-redis-container"><a class="header" href="#enter-redis-container">Enter redis container</a></h2>
 <pre><code class="language-sh">#!/bin/bash -e

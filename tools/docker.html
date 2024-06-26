@@ -147,7 +147,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/sigoden/mydocs" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -201,7 +201,7 @@ docker logs --tail 50 -f redis
 docker system prune -f
 
 # Clean dead images
-docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 </code></pre>
 <h2 id="use-mirror"><a class="header" href="#use-mirror">Use Mirror</a></h2>
 <ul>
@@ -209,7 +209,7 @@ docker rmi $(docker images --filter &quot;dangling=true&quot; -q --no-trunc)
 <li>LINUX: /etc/docker/daemon.json</li>
 </ul>
 <pre><code class="language-json">{
-    &quot;registry-mirrors&quot;: [&quot;https://docker.mirrors.ustc.edu.cn&quot;]
+    "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
 }
 </code></pre>
 <h2 id="dockerfile"><a class="header" href="#dockerfile">Dockerfile</a></h2>
@@ -231,25 +231,25 @@ COPY /source/file/path  /destination/path
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">error, not allowed</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">c1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">c1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c c1</td></tr>
 </tbody></table>
 </div>
 <ul>
-<li>ENTRYPOINT e1 </li>
+<li>ENTRYPOINT e1</li>
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">/bin/sh -c e1</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">/bin/sh -c e1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">/bin/sh -c e1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">/bin/sh -c e1</td></tr>
 </tbody></table>
 </div>
 <ul>
-<li>ENTRYPOINT [&quot;e1&quot;]</li>
+<li>ENTRYPOINT ["e1"]</li>
 </ul>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Cmd</th><th style="text-align: left">Effect</th></tr></thead><tbody>
 <tr><td style="text-align: left"></td><td style="text-align: left">e1</td></tr>
-<tr><td style="text-align: left">CMD [&quot;c1&quot;]</td><td style="text-align: left">e1 c1</td></tr>
+<tr><td style="text-align: left">CMD ["c1"]</td><td style="text-align: left">e1 c1</td></tr>
 <tr><td style="text-align: left">CMD c1</td><td style="text-align: left">e1 /bin/sh -c e1</td></tr>
 </tbody></table>
 </div>
@@ -270,7 +270,7 @@ WORKDIR /app
 COPY --from=builder /app .
 COPY . .
 EXPOSE 3000
-CMD [&quot;node&quot;, &quot;index.js&quot;]
+CMD ["node", "index.js"]
 </code></pre>
 <h3 id="heredoc"><a class="header" href="#heredoc">Heredoc</a></h3>
 <pre><code class="language-Dockerfile">RUN printf '#!/bin/bash\n\
@@ -282,11 +282,11 @@ echo 2'\
 <pre><code class="language-sh">#!/bin/sh
 set -e
 
-if [ &quot;${1#-}&quot; != &quot;${1}&quot; ] || [ -z &quot;$(command -v &quot;${1}&quot;)&quot; ]; then
-  set -- app &quot;$@&quot; # change app to your binary
+if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then
+  set -- app "$@" # change app to your binary
 fi
 
-exec &quot;$@&quot;
+exec "$@"
 </code></pre>
 <h3 id="normal-user"><a class="header" href="#normal-user">Normal User</a></h3>
 <pre><code class="language-Dockerfile">RUN groupadd --gid 1000 user \
@@ -298,7 +298,6 @@ docker buildx use mybuilder
 </code></pre>
 <pre><code>docker buildx build \
   --platform linux/amd64,linux/arm64,linux/arm/v7,linux/386 \
-  --push \
   -t demo . 
 </code></pre>
 
