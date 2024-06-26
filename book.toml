@@ -6,4 +6,4 @@ src = "src"
 title = "Sigoden's Notebook"
 
 [output.html]
-git-repository-url = "https://github.com/sigoden/mydocs"
+git-repository-url = "https://github.com/sigoden/mynotes"
