@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Utility Websites - Sigoden&#x27;s Notebook</title>
+        <title>Vim - Sigoden&#x27;s Notebook</title>
 
 
         <!-- Custom HTML head -->
@@ -177,31 +177,338 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="utility-websites"><a class="header" href="#utility-websites">Utility Websites</a></h1>
-<h3 id="amp-what"><a class="header" href="#amp-what"><a href="https://www.amp-what.com/">amp-what</a></a></h3>
-<p>Discover Unicode Character Entities &amp; Symbols.</p>
-<h3 id="webhooksite"><a class="header" href="#webhooksite"><a href="https://webhook.site/">webhook.site</a></a></h3>
-<p>Test, process and transform HTTP requests.</p>
-<h3 id="drawio"><a class="header" href="#drawio"><a href="https://app.diagrams.net/">draw.io</a></a></h3>
-<p>Draw wireframes, support local storage, cloud storage.</p>
-<h3 id="asciiflow"><a class="header" href="#asciiflow"><a href="https://asciiflow.com/">asciiflow</a></a></h3>
-<p>Draw ascii diagrams.</p>
-<h3 id="iconfontcn"><a class="header" href="#iconfontcn"><a href="https://www.iconfont.cn/">iconfont.cn</a></a></h3>
-<p>Pick icons to create your own icon fonts.</p>
-<h3 id="getimg"><a class="header" href="#getimg"><a href="https://getimg.co/">getimg</a></a></h3>
-<p>Fast and Free Online Image Processing Tool.</p>
+                        <h1 id="vim-hotkeys"><a class="header" href="#vim-hotkeys">vim hotkeys</a></h1>
+<h2 id="switch-mode"><a class="header" href="#switch-mode">switch mode</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>i</code></td><td>insert before cursor</td></tr>
+<tr><td><code>I</code></td><td>insert at line start</td></tr>
+<tr><td><code>a</code></td><td>append after cursor</td></tr>
+<tr><td><code>A</code></td><td>append at line end</td></tr>
+<tr><td><code>o</code></td><td>new line below</td></tr>
+<tr><td><code>O</code></td><td>new line above</td></tr>
+<tr><td><code>v</code></td><td>visual mode</td></tr>
+<tr><td><code>V</code></td><td>visual line</td></tr>
+<tr><td><code>Ctrl-v</code></td><td>visual block</td></tr>
+<tr><td><code>gv</code></td><td>reselect last visual</td></tr>
+<tr><td><code>R</code></td><td>replace mode</td></tr>
+<tr><td><code>Esc</code></td><td>normal mode</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="move"><a class="header" href="#move">move</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>h j k l</code></td><td>left down up right</td></tr>
+<tr><td><code>w</code> / <code>W</code></td><td>next word / WORD</td></tr>
+<tr><td><code>b</code> / <code>B</code></td><td>previous word / WORD</td></tr>
+<tr><td><code>e</code> / <code>E</code></td><td>next word / WORD end</td></tr>
+<tr><td><code>ge</code> / <code>gE</code></td><td>prev word / WORD end</td></tr>
+<tr><td><code>0</code></td><td>first column</td></tr>
+<tr><td><code>^</code></td><td>first non-blank</td></tr>
+<tr><td><code>$</code></td><td>end of line</td></tr>
+<tr><td><code>gg</code></td><td>top of file</td></tr>
+<tr><td><code>G</code></td><td>bottom of file</td></tr>
+<tr><td><code>%</code></td><td>matching pair</td></tr>
+<tr><td><code>{</code> / <code>}</code></td><td>previous / next paragraph</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="search--replace"><a class="header" href="#search--replace">search &amp; replace</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>/pat</code></td><td>forward search</td></tr>
+<tr><td><code>?pat</code></td><td>backward search</td></tr>
+<tr><td><code>n N</code></td><td>next/prev result</td></tr>
+<tr><td><code>* #</code></td><td>search word under cursor</td></tr>
+<tr><td><code>g* g#</code></td><td>partial word search</td></tr>
+<tr><td><code>f</code> / <code>F</code></td><td>find char forward/backward</td></tr>
+<tr><td><code>t</code> / <code>T</code></td><td>until char forward/backward</td></tr>
+<tr><td><code>;</code> / <code>,</code></td><td>f/t repeat / reverse</td></tr>
+<tr><td><code>:s/a/b/g</code></td><td>replace in current line</td></tr>
+<tr><td><code>:%s/a/b/gc</code></td><td>replace in whole file (confirm)</td></tr>
+<tr><td><code>:%s/\Ca/b/gc</code></td><td>case-sensitive match</td></tr>
+<tr><td><code>:%s/\ca/b/gc</code></td><td>case-insensitive match</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="operate"><a class="header" href="#operate">operate</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>d</code></td><td>delete</td></tr>
+<tr><td><code>c</code></td><td>change</td></tr>
+<tr><td><code>y</code></td><td>yank</td></tr>
+<tr><td><code>&gt;</code> / <code>&lt;</code></td><td>indent / outdent</td></tr>
+<tr><td><code>=</code></td><td>format</td></tr>
+<tr><td><code>gu</code> / <code>gU</code></td><td>lowercase /uppercase</td></tr>
+</tbody>
+</table>
+</div>
+<p>examples：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>dw</code></td><td>delete word</td></tr>
+<tr><td><code>ciw</code></td><td>change inner word</td></tr>
+<tr><td><code>yy</code></td><td>yank line</td></tr>
+<tr><td><code>dd</code></td><td>delete line</td></tr>
+<tr><td><code>cc</code></td><td>change line</td></tr>
+<tr><td><code>d$</code></td><td>delete to EOL</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="text-object"><a class="header" href="#text-object">text-object</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>iw</code> <code>aw</code></td><td>inner/a word</td></tr>
+<tr><td><code>i"</code> <code>a"</code></td><td>quote</td></tr>
+<tr><td><code>i'</code> <code>a'</code></td><td>single quote</td></tr>
+<tr><td><code>i(</code> <code>a(</code></td><td>paren</td></tr>
+<tr><td><code>i{</code> <code>a{</code></td><td>braces</td></tr>
+<tr><td><code>i[</code> <code>a[</code></td><td>bracket</td></tr>
+<tr><td><code>it</code> <code>at</code></td><td>tag</td></tr>
+<tr><td><code>ip</code> <code>ap</code></td><td>paragraph</td></tr>
+</tbody>
+</table>
+</div>
+<p>例如：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ciw</code></td><td>change word</td></tr>
+<tr><td><code>di(</code></td><td>delete inside ()</td></tr>
+<tr><td><code>ya"</code></td><td>yank around quotes</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="normal-mode"><a class="header" href="#normal-mode">normal mode</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>x</code> / <code>X</code></td><td>delete character (forward / backward)</td></tr>
+<tr><td><code>r</code></td><td>replace single char</td></tr>
+<tr><td><code>dd</code></td><td>delete line</td></tr>
+<tr><td><code>cc</code></td><td>change line</td></tr>
+<tr><td><code>C</code></td><td>change to end of line</td></tr>
+<tr><td><code>yy</code></td><td>yank line</td></tr>
+<tr><td><code>p</code> / <code>P</code></td><td>paste (after / before cursor)</td></tr>
+<tr><td><code>~</code></td><td>toggle case</td></tr>
+<tr><td><code>J</code></td><td>join lines</td></tr>
+<tr><td><code>.</code></td><td>repeat last change</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="insert-mode"><a class="header" href="#insert-mode">insert mode</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>&lt;C-w&gt;</code></td><td>delete previous word</td></tr>
+<tr><td><code>&lt;C-u&gt;</code></td><td>delete to line start</td></tr>
+<tr><td><code>&lt;C-r&gt;"</code></td><td>insert from register</td></tr>
+<tr><td><code>&lt;C-o&gt;</code></td><td>execute one normal command</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="visual-mode"><a class="header" href="#visual-mode">visual mode</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>d</code></td><td>delete</td></tr>
+<tr><td><code>c</code></td><td>change selection (insert mode on all)</td></tr>
+<tr><td><code>y</code></td><td>yank</td></tr>
+<tr><td><code>&gt;</code> / <code>&lt;</code></td><td>indent / outdent</td></tr>
+<tr><td><code>=</code></td><td>auto-indent</td></tr>
+<tr><td><code>r{char}</code></td><td>replace all selected with char</td></tr>
+<tr><td><code>I</code> / <code>A</code></td><td>block insert at start/end of lines</td></tr>
+<tr><td><code>:</code></td><td>auto <code>:'&lt;,'&gt;</code></td></tr>
+<tr><td><code>o</code></td><td>swap visual endpoint</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="jump-list--change-list"><a class="header" href="#jump-list--change-list">jump list / change list</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Ctrl-o</code></td><td>jump back</td></tr>
+<tr><td><code>Ctrl-i</code></td><td>jump forward</td></tr>
+<tr><td><code>gd</code></td><td>jump to definition</td></tr>
+<tr><td><code>gi</code></td><td>jump last insert</td></tr>
+<tr><td><code>g;</code></td><td>older change</td></tr>
+<tr><td><code>g,</code></td><td>newer change</td></tr>
+<tr><td><code>`.</code></td><td>jump last edit</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="mark"><a class="header" href="#mark">mark</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ma</code></td><td>set mark</td></tr>
+<tr><td><code>`a</code></td><td>jump exact</td></tr>
+<tr><td><code>'a</code></td><td>jump line</td></tr>
+<tr><td><code> </code> ``</td><td>previous jump exact</td></tr>
+<tr><td><code>''</code></td><td>previous jump line</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="register"><a class="header" href="#register">register</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>"ayy</code></td><td>yank to register</td></tr>
+<tr><td><code>"ap</code></td><td>paste register</td></tr>
+<tr><td><code>:reg</code></td><td>show registers</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="undo-redo"><a class="header" href="#undo-redo">undo redo</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>u</code></td><td>undo</td></tr>
+<tr><td><code>Ctrl-r</code></td><td>redo</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="macro"><a class="header" href="#macro">macro</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>qa</code></td><td>record macro</td></tr>
+<tr><td><code>q</code></td><td>stop</td></tr>
+<tr><td><code>@a</code></td><td>play macro</td></tr>
+<tr><td><code>@@</code></td><td>repeat</td></tr>
+<tr><td><code>10@a</code></td><td>play 10 times</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="folding--z"><a class="header" href="#folding--z">folding / z</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">key</th><th style="text-align: left">description</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left"><code>za</code></td><td style="text-align: left">toggle fold</td></tr>
+<tr><td style="text-align: left"><code>zo</code> / <code>zc</code></td><td style="text-align: left">open / close fold</td></tr>
+<tr><td style="text-align: left"><code>zO</code> / <code>zC</code></td><td style="text-align: left">recursive open / close all nested folds</td></tr>
+<tr><td style="text-align: left"><code>zR</code> / <code>zM</code></td><td style="text-align: left">open / close <strong>all</strong> folds</td></tr>
+<tr><td style="text-align: left"><code>zz</code></td><td style="text-align: left">scroll to center screen</td></tr>
+<tr><td style="text-align: left"><code>zt</code></td><td style="text-align: left">scroll to top (top)</td></tr>
+<tr><td style="text-align: left"><code>zb</code></td><td style="text-align: left">scroll to bottom (bottom)</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="window--tab"><a class="header" href="#window--tab">window / tab</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>&lt;C-w&gt;h/j/k/l</code></td><td>split nav</td></tr>
+<tr><td><code>&lt;C-w&gt;v</code></td><td>vsplit</td></tr>
+<tr><td><code>&lt;C-w&gt;s</code></td><td>split</td></tr>
+<tr><td><code>&lt;C-w&gt;c</code></td><td>close  windows</td></tr>
+<tr><td><code>&lt;C-w&gt;w</code></td><td>cycle to next window</td></tr>
+<tr><td><code>gt</code></td><td>next tab</td></tr>
+<tr><td><code>gT</code></td><td>prev tab</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="command-mode"><a class="header" href="#command-mode">command mode</a></h2>
+<h2 id="files"><a class="header" href="#files">files</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>command</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>:w</code></td><td>save</td></tr>
+<tr><td><code>:x</code></td><td>save and quit</td></tr>
+<tr><td><code>:q!</code></td><td>force quit</td></tr>
+<tr><td><code>:wa</code></td><td>save all</td></tr>
+<tr><td><code>:xa</code></td><td>save all and quit</td></tr>
+<tr><td><code>:e file</code></td><td>open file</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="global"><a class="header" href="#global">global</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>command</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>:g/pat/cmd</code></td><td>execute cmd on matching lines</td></tr>
+<tr><td><code>:v/pat/cmd</code></td><td>execute cmd on non-matching lines</td></tr>
+<tr><td><code>:%norm cmd</code></td><td>execute normal command on all lines</td></tr>
+<tr><td><code>:%!cmd</code></td><td>modify with shell command</td></tr>
+<tr><td><code>:!cmd</code></td><td>run shell command</td></tr>
+<tr><td><code>:r !cmd</code></td><td>insert shell output</td></tr>
+<tr><td><code>:w !sudo tee %</code></td><td>save current file as root (classic rescue)</td></tr>
+</tbody>
+</table>
+</div>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../collections/sass.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../tools/redis.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../languages/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -209,13 +516,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../collections/sass.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../tools/redis.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../languages/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
-                    </a>
             </nav>
 
         </div>
