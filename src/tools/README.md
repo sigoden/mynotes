@@ -7,3 +7,4 @@ Some notes on tools.
 - [Github CI](github-ci.md)
 - [Linux](linux.md)
 - [Redis](redis.md)
+- [Vim](vim.md)

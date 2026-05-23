@@ -1,7 +1,7 @@
 [Summary](./README.md)
 
 - [Collections](collections/README.md)
-  - [Cli Tools](collections/cli.md)
+  - [CLI Tools](collections/cli.md)
   - [SASS Tools](collections/sass.md)
   - [Utility Websites](collections/websites.md)
 
@@ -17,3 +17,4 @@
   - [Github CI](tools/github-ci.md)
   - [Linux](tools/linux.md)
   - [Redis](tools/redis.md)
+  - [Vim](tools/vim.md)
