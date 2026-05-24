@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06345611.js";
+            window.path_to_searchindex_js = "../searchindex-e726333d.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-5f671be1.js"></script>
+        <script src="../toc-a552f6ad.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -181,56 +181,59 @@
 <h2 id="variables"><a class="header" href="#variables">Variables</a></h2>
 <pre><code class="language-sh"># Default value
 echo ${value:-xa} # xa
-value=xyz/ijk/abc
+value=xyz/z-a/abc
 # Head
-echo ${value%/*} # xyz/ijk
+echo ${value%/*} # xyz/z-a
 echo ${value%%/*} # xyz
 # Tail
-echo ${value#*/} # ijk/abc
+echo ${value#*/} # z-a/abc
 echo ${value##*/} # abc
 # Truncate
 echo ${value:7} # /abc
 echo ${value:7:4} # /abc
 echo ${value:(-4):4} # /abc
 # Replace
-echo ${value/abc/cba} # xyz/cba
+echo ${value/a/A} # xyz/z-A/abc
+echo ${value//a/A} # xyz/z-A/Abc
+
+str="Hello World"
+echo ${str,,}   # hello world (Lowercase)
+echo ${str^^}   # HELLO WORLD (Uppercase)
+echo ${str^}    # Hello World (Only first char)
 </code></pre>
 <h2 id="shell-variables"><a class="header" href="#shell-variables">Shell Variables</a></h2>
 <ul>
+<li><code>$@</code>: args list (recommended)</li>
+<li><code>$*</code>: spconcatenate into a string (easy to mess up)</li>
 <li><code>$#</code>: count args</li>
 <li><code>$n</code>: nth arg</li>
 <li><code>$?</code>: last exit code</li>
 <li><code>$!</code>: last pid</li>
 </ul>
 <h2 id="array"><a class="header" href="#array">Array</a></h2>
-<pre><code class="language-sh">Fruits=('Apple' 'Banana' 'Orange' 'Pear')
+<pre><code class="language-sh">fruits=(Apple Banana Orange Pear)
 
-echo ${Fruits[0]}           # Element #0
-echo ${Fruits[-1]}          # Last element
-echo ${Fruits[@]}           # All elements, space-separated
-echo ${#Fruits[@]}          # Number of elements
-echo ${#Fruits}             # String length of the 1st element
-echo ${#Fruits[3]}          # String length of the Nth element
-echo ${Fruits[@]:3:2}       # Range (from position 3, length 2)
-echo ${!Fruits[@]}          # Keys of all elements, space-separated
+echo "${fruits[0]}"           # Element #0
+echo "${fruits[-1]}"          # Last element
+echo "${fruits[@]}"           # All elements, space-separated
+echo "${#fruits[@]}"          # Number of elements
+echo "${#fruits}"             # String length of the 1st element
+echo "${#fruits[3]}"          # String length of the Nth element
+echo "${fruits[@]:1:2}"       # Range (from index 1 (second element), length 2)
+echo "${!fruits[@]}"          # All keys: 0 1 ...
 
+fruits=("${fruits[@]}" Grape)          # Push
+fruits+=(Watermelon)                   # Also Push
+unset fruits[2]                         # Remove one item
+fruits=("${fruits[@]}")                 # Duplicate
+fruits=("${fruits[@]}" "${Veggies[@]}") # Concatenate
 
-
-Fruits=("${Fruits[@]}" "Grape")         # Push
-Fruits+=('Watermelon')                  # Also Push
-Fruits=( ${Fruits[@]/Ap*/} )            # Remove by regex match
-unset Fruits[2]                         # Remove one item
-Fruits=("${Fruits[@]}")                 # Duplicate
-Fruits=("${Fruits[@]}" "${Veggies[@]}") # Concatenate
-
-TempFiles=($(ls /tmp))
-
-for i in "${Fruits[@]}"; do
-  echo $i
+for i in "${fruits[@]}"; do
+  echo "$i"
 done
 
-if [[ " ${Fruits[*]} " =~ " Banana " ]]; then
-  echo "Apple in Fruits"
+if [[ " ${fruits[*]} " =~ " Banana " ]]; then
+  echo "Banana in fruits"
 fi
 </code></pre>
 <h2 id="dictionary"><a class="header" href="#dictionary">Dictionary</a></h2>
@@ -241,35 +244,35 @@ sounds[cow]="moo"
 sounds[bird]="tweet"
 sounds[wolf]="howl"
 
-echo ${sounds[dog]} # Dog's sound
-echo ${sounds[@]}   # All values
-echo ${!sounds[@]}  # All keys
-echo ${#sounds[@]}  # Number of elements
-unset sounds[dog]   # Delete dog
+echo "${sounds[dog]}" # Dog's sound
+echo "${sounds[@]}"   # All values
+echo "${!sounds[@]}"  # All keys
+echo "${#sounds[@]}"  # Number of elements
+unset sounds[dog]     # Delete dog
 
 # Value loop
 for val in "${sounds[@]}"; do
-  echo $val
+  echo "$val"
 done
 
 # Key loop
 for key in "${!sounds[@]}"; do
-  echo $key
+  echo "$key"
 done
 </code></pre>
 <h2 id="condition"><a class="header" href="#condition">Condition</a></h2>
-<h3 id="test"><a class="header" href="#test">test</a></h3>
+<h3 id="test"><a class="header" href="#test">Test</a></h3>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>Code</th><th>Explain</th></tr>
 </thead>
 <tbody>
-<tr><td><code>[[ -z STRING ]]</code></td><td>Empty string</td></tr>
-<tr><td><code>[[ -n STRING ]]</code></td><td>Not empty string</td></tr>
-<tr><td><code>[[ STRING == STRING ]]</code></td><td>Equal</td></tr>
-<tr><td><code>[[ STRING != STRING ]]</code></td><td>Not equal</td></tr>
-<tr><td><code>[[ STRING =~ STRING ]]</code></td><td>Regexp</td></tr>
+<tr><td><code>[[ -z $v ]]</code></td><td>Empty string</td></tr>
+<tr><td><code>[[ -n $v ]]</code></td><td>Not empty string</td></tr>
+<tr><td><code>[[ $v == abc ]]</code></td><td>Equal</td></tr>
+<tr><td><code>[[ $v != abc ]]</code></td><td>Not equal</td></tr>
+<tr><td><code>[[ $v =~ ^[0-9]+$ ]]</code></td><td>Regexp</td></tr>
 <tr><td>-</td><td>-</td></tr>
 <tr><td><code>[[ -e FILE ]]</code></td><td>Exists</td></tr>
 <tr><td><code>[[ -d FILE ]]</code></td><td>Directory</td></tr>
@@ -278,102 +281,9 @@ done
 <tr><td><code>[[ FILE1 -ef FILE2 ]]</code></td><td>Same files</td></tr>
 <tr><td>-</td><td>-</td></tr>
 <tr><td><code>[[ ! EXPR ]]</code></td><td>Not</td></tr>
-<tr><td><code>[[ X &amp;&amp; Y ]]</code></td><td>And</td></tr>
-<tr><td><code>[[ X || Y ]]</code></td><td>Or</td></tr>
-</tbody>
-</table>
-</div>
-<h3 id="if"><a class="header" href="#if">if</a></h3>
-<pre><code class="language-sh">if [[ "foo" == "$1" ]]; then
-  echo foo
-elif [[ "bar" == "$1" ]]; then
-  echo bar
-else
-  echo "not found"
-  exit 1
-fi
-</code></pre>
-<h3 id="case"><a class="header" href="#case">case</a></h3>
-<pre><code class="language-sh">case "$1" in
-  start | up)
-    vagrant up
-    ;;
-  stop | down)
-    vagrant up
-    ;;
-
-  *)
-    echo "Usage: $0 {start|stop}"
-    ;;
-esac
-</code></pre>
-<h3 id="exitcode"><a class="header" href="#exitcode">exitcode</a></h3>
-<pre><code class="language-sh">if grep -q 'alice' /etc/passwd; then
-  echo "User alice exists"
-fi
-</code></pre>
-<h2 id="loop"><a class="header" href="#loop">Loop</a></h2>
-<pre><code class="language-sh">
-# index
-for i in `seq 1 10`; do
-  echo $i 
-done
-
-for i in `seq 1 2 10`; do
-  echo $i
-done
-
-# fs
-for f in ./*; do
-  echo $f
-done
-
-# array
-arr=( a b c )
-for v in ${arr[@]}; do
-  echo $v
-done
-
-# lines
-cat file.txt | while read l; do
-  echo $l
-done
-
-# forever
-while true; do
-  sleep 1
-done
-</code></pre>
-<h2 id="function"><a class="header" href="#function">Function</a></h2>
-<p>Returns value</p>
-<pre><code class="language-sh">foo() {
-    local msg='world'
-    echo "$1 $msg"
-}
-result="$(foo hello)"
-echo $result
-</code></pre>
-<p>Returns boolean</p>
-<pre><code class="language-sh">_is_win() {
-    if [[ "$(uname)" =~ "_NT" ]]; then
-        return 0
-    else
-        return 1
-    fi
-}
-
-if _is_win; then
-  echo 'windows'
-fi
-</code></pre>
-<h2 id="value"><a class="header" href="#value">Value</a></h2>
-<h3 id="condition-1"><a class="header" href="#condition-1">Condition</a></h3>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Code</th><th>Explain</th></tr>
-</thead>
-<tbody>
+<tr><td><code>[[ X ]] &amp;&amp; [[ Y ]]</code></td><td>And</td></tr>
+<tr><td><code>[[ X ]] || [[ Y ]]</code></td><td>Or</td></tr>
+<tr><td>-</td><td>-</td></tr>
 <tr><td><code>[[ NUM -eq NUM ]]</code></td><td>Equal</td></tr>
 <tr><td><code>[[ NUM -ne NUM ]]</code></td><td>Not equal</td></tr>
 <tr><td><code>[[ NUM -lt NUM ]]</code></td><td>Less than</td></tr>
@@ -384,18 +294,143 @@ fi
 </tbody>
 </table>
 </div>
-<h3 id="math"><a class="header" href="#math">Math</a></h3>
-<pre><code class="language-sh">a=$(($RANDOM%200))  # Random number 0..199
-$((a + 200))        # Add 200 to $a
+<h4 id="test-equal-with-glob"><a class="header" href="#test-equal-with-glob">Test equal with glob</a></h4>
+<ul>
+<li><code>*</code>: Any length of any character, e.g. <code>[[ "$v" == *abc*  ]]</code></li>
+<li><code>?</code>: any single character, e.g. <code>[[ "$v" == rc? ]] </code></li>
+<li><code>[]</code> any character in set, e.g. <code>[[ "$v" == [a-z] ]]</code></li>
+<li><code>[!]</code>: any character not in set, e.g. <code>[[ "$v" == [!0-9] ]]</code></li>
+</ul>
+<h4 id="test-equal-with-extglob"><a class="header" href="#test-equal-with-extglob">Test equal with extglob</a></h4>
+<pre><code>shopt -s extglob
+</code></pre>
+<ul>
+<li><code>?(pattern)</code>：0 or 1</li>
+<li><code>*(pattern)</code>：0 or many</li>
+<li><code>+(pattern)</code>：1 or many, e.g. <code>[[ "$v" == +([0-9]) ]]</code></li>
+<li><code>@(pattern)</code>：exact, e.g. <code>[[ "$v" == @(apple|banana|orange) ]]</code></li>
+<li><code>!(pattern)</code>: exclude, e.g. <code>[[ "$v" == !(tmp|cache) ]]</code></li>
+</ul>
+<h3 id="use-if-expr"><a class="header" href="#use-if-expr">Use if expr</a></h3>
+<pre><code class="language-sh">if [[ "foo" == "$1" ]]; then
+  echo foo
+elif [[ "bar" == "$1" ]]; then
+  echo bar
+else
+  echo "not found"
+  exit 1
+fi
+
+if grep -q 'alice' /etc/passwd; then
+  echo "User alice exists"
+fi
+
+read -r -p "Are you sure (y/n)? " choice
+if [ "$choice" = "y" ]; then
+  echo choice yes
+fi
+</code></pre>
+<h3 id="use-case-expr"><a class="header" href="#use-case-expr">Use case expr</a></h3>
+<pre><code class="language-sh">case "$1" in
+  start | up)
+    echo start
+    ;;
+  stop | down)
+    echo stop
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    ;;
+esac
+</code></pre>
+<h2 id="loop"><a class="header" href="#loop">Loop</a></h2>
+<pre><code class="language-sh">
+# index
+for i in {1..10}; do
+  echo "$i"
+done
+
+for ((i=1; i&lt;=10; i+=2)); do
+  echo "$i"
+done
+
+# fs
+for f in ./*; do
+  echo "$f"
+done
+
+# array
+IFS=, read -r -a arr &lt;&lt;&lt; "a,b,c"
+for v in "${arr[@]}"; do
+  echo "$v"
+done
+
+# lines
+while IFS= read -r l; do
+  echo "$l"
+done &lt; file.txt
+
+# forever
+while true; do
+  sleep 1
+done
+</code></pre>
+<h2 id="function"><a class="header" href="#function">Function</a></h2>
+<p>Shell function has no real return value</p>
+<ul>
+<li><code>return</code> can only return an exit code (0-255)</li>
+<li><code>echo</code> is the actual way to return data</li>
+</ul>
+<pre><code class="language-sh">foo() {
+    local msg='world'
+    echo "$1 $msg"
+}
+result="$(foo hello)"
+echo "$result"
+</code></pre>
+<pre><code class="language-sh">_is_win() {
+    [[ "$(uname)" =~ "_NT" ]]
+}
+
+if _is_win; then
+    echo 'windows'
+fi
+</code></pre>
+<h2 id="math"><a class="header" href="#math">Math</a></h2>
+<pre><code class="language-sh">$((1 + 2))
+$((10 - 3))
+$((4 * 5))
+$((20 / 3))   # Integer division =&gt; 6
+$((RANDOM % 100))  # Random number 0..99
+
+$((a = 5 + 3))
+$((a++))
+$((a--))
+$((a += 10))
+$((a *= 2))
+
+((a == b))
+((a != b))
+((a &lt; b))
+((a &lt;= b))
+((a &gt; b))
+((a &gt;= b))
 </code></pre>
 <h2 id="redirect"><a class="header" href="#redirect">Redirect</a></h2>
 <ul>
-<li><code>&gt;</code>: equal to  <code>1&gt;</code></li>
+<li><code>&lt;</code>: stdin</li>
+<li><code>&gt;</code>: stdout</li>
+<li><code>&gt;&gt;</code>: stdout in append mode</li>
+<li><code>2&gt;</code>: stderr</li>
 <li><code>1&gt;&amp;2</code>： redirect stdout to stderr</li>
 <li><code>2&gt;&amp;1</code>： redirect stderr to stdout</li>
-<li><code>&gt;&amp; file</code>: redirect stdout/stderr to file</li>
+<li><code>&gt;file 2&gt;&amp;1</code>: redirect stdout/stderr to file</li>
 </ul>
-<h2 id="heredoc"><a class="header" href="#heredoc">Heredoc</a></h2>
+<h2 id="here-string"><a class="header" href="#here-string">Here String</a></h2>
+<pre><code class="language-sh">grep foo &lt;&lt;&lt;"$HOME"
+</code></pre>
+<h2 id="here-document"><a class="header" href="#here-document">Here Document</a></h2>
 <pre><code class="language-sh">cat &lt;&lt; EOF | sudo tee -a /etc/sudoers.d/$USER
 $USER ALL=(ALL) NOPASSWD:ALL
 EOF 
@@ -403,14 +438,67 @@ EOF
 <ul>
 <li><code>&lt;&lt;EOF</code>: will replace variable</li>
 <li><code>&lt;&lt;'EOF'</code>: not replace variable</li>
-<li><code>&lt;&lt;-EOF</code>: will replace variable trim <code>\t</code></li>
-<li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code></li>
+<li><code>&lt;&lt;-EOF</code>: will replace variable trim <code>\t</code> only</li>
+<li><code>&lt;&lt;-'EOF'</code>: not replace variable，trim <code>\t</code> only</li>
 </ul>
-<h2 id="yesno"><a class="header" href="#yesno">Yes/No</a></h2>
-<pre><code class="language-sh">read -p "Are you sure (y/n)? " choice
-if [ "$choice" = "y" ]; then
-  echo choice yes
-fi
+<h2 id="process-substitution"><a class="header" href="#process-substitution">Process Substitution</a></h2>
+<ul>
+<li><code>&lt;(cmd)</code>：Use command stdout as a file, e.g. <code>diff &lt;(sort a.txt) &lt;(sort b.txt)</code></li>
+<li><code>&gt;(cmd)</code>: Write to the command stdin, e.g. <code>tar cf &gt;(gzip &gt; out.tar.gz) dir/</code></li>
+</ul>
+<h2 id="subshell"><a class="header" href="#subshell">Subshell</a></h2>
+<p>Modification of internal variables does not affect external ones</p>
+<pre><code class="language-sh">(cd /tmp &amp;&amp; touch test.txt)
+</code></pre>
+<h2 id="command-group"><a class="header" href="#command-group">Command group</a></h2>
+<p>Executes in the current shell, used only for logical grouping</p>
+<pre><code class="language-sh">{ echo "header"; cat data.txt; echo "footer"; } &gt; output.txt
+</code></pre>
+<blockquote>
+<p>There must be a space after <code>{</code>, and a semicolon or newline before <code>}</code></p>
+</blockquote>
+<h2 id="set-options"><a class="header" href="#set-options">Set Options</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Option / Syntax</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>set -e</code></td><td>Exit immediately if any command returns a non-zero status</td></tr>
+<tr><td><code>set -u</code></td><td>Treat unset variables as an error and exit</td></tr>
+<tr><td><code>set -x</code></td><td>Print each command before executing it (debug mode)</td></tr>
+<tr><td><code>set -o noclobber</code></td><td>Prevent <code>&gt;</code> from overwriting existing files</td></tr>
+<tr><td><code>set -o pipefail</code></td><td>Pipeline fails if any command in the pipeline fails</td></tr>
+<tr><td><code>set -euo pipefail</code></td><td>Common “strict mode” for safer scripts</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
+<ul>
+<li><code>source</code>: Used for <strong>Running script files in the current Shell environment</strong></li>
+</ul>
+<pre><code class="language-sh">source file.sh
+. file.sh
+</code></pre>
+<ul>
+<li><code>trap</code>: Used to capture signals (such as EXIT, INT, TERM) and automatically execute specified cleanup commands when the script exits or is interrupted.</li>
+</ul>
+<pre><code class="language-sh">cleanup() {
+    rm -f "$tmpfile"
+    echo "Cleaned up on exit"
+}
+trap cleanup EXIT       # Execute when the script exits (including normal and error exits)
+trap 'echo Ctrl+C' INT  # Capture SIGINT
+</code></pre>
+<ul>
+<li>Export all environments/variables/functions/options of the current shell</li>
+</ul>
+<pre><code class="language-sh">( set -o posix; set )
+</code></pre>
+<ul>
+<li>Load dotenv file</li>
+</ul>
+<pre><code class="language-sh">[ -f .env ] &amp;&amp; { set -a; source .env; set +a; }
 </code></pre>
 <h2 id="common-tools"><a class="header" href="#common-tools">Common Tools</a></h2>
 <ul>

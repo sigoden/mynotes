@@ -35,10 +35,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-06345611.js";
+            window.path_to_searchindex_js = "../searchindex-e726333d.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-5f671be1.js"></script>
+        <script src="../toc-a552f6ad.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -193,7 +193,7 @@
 <tr><td>disk</td><td><code>lsblk</code></td></tr>
 <tr><td>CPU</td><td><code>lscpu</code></td></tr>
 <tr><td>port</td><td><code>netstat -tulpn | grep LISTEN</code></td></tr>
-<tr><td>process</td><td><code>top</code></td></tr>
+<tr><td>process</td><td><code>ps aux</code></td></tr>
 <tr><td>trafic</td><td><code>vnstat -i eth0 -l</code></td></tr>
 <tr><td>ip</td><td><code>curl ipinfo.io</code></td></tr>
 <tr><td>timezone</td><td><code>cat /etc/timezone</code></td></tr>
@@ -520,9 +520,27 @@ EOF
 <h3 id="alpine"><a class="header" href="#alpine">Alpine</a></h3>
 <pre><code class="language-sh">sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 </code></pre>
-<h3 id="load-environment-variables-from-env"><a class="header" href="#load-environment-variables-from-env">Load environment variables from .env</a></h3>
-<pre><code class="language-sh">eval $(cat .env | sed 's/^/export /')
-</code></pre>
+<h2 id="editing-shortcuts"><a class="header" href="#editing-shortcuts">Editing Shortcuts</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Shortcut</th><th>Action</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ctrl+a</code></td><td>Move to start of current line</td></tr>
+<tr><td><code>ctrl+e</code></td><td>Move to end of current line</td></tr>
+<tr><td><code>ctrl+b</code></td><td>Move cursor back one character</td></tr>
+<tr><td><code>ctrl+f</code></td><td>Move cursor forward one character</td></tr>
+<tr><td><code>alt+b</code></td><td>Move cursor back one word</td></tr>
+<tr><td><code>alt+f</code></td><td>Move cursor forward one word</td></tr>
+<tr><td><code>ctrl+d</code></td><td>Delete character under cursor</td></tr>
+<tr><td><code>alt+d</code></td><td>Kill next word</td></tr>
+<tr><td><code>ctrl+k</code></td><td>Kill to end of line</td></tr>
+<tr><td><code>ctrl+u</code></td><td>Kill to start of line</td></tr>
+<tr><td><code>ctrl+w</code></td><td>Kill previous word</td></tr>
+</tbody>
+</table>
+</div>
 
                     </main>
 

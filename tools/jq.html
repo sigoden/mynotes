@@ -1,0 +1,698 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Jq - Sigoden&#x27;s Notebook</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-0392ca55.css">
+        <link rel="stylesheet" href="../css/chrome-fc474251.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-e726333d.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-a552f6ad.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Sigoden&#x27;s Notebook</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/sigoden/mynotes" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="jq"><a class="header" href="#jq">JQ</a></h1>
+<h2 id="basic-filters"><a class="header" href="#basic-filters">Basic Filters</a></h2>
+<pre><code>.              Identity (root)
+.foo           Object field access
+.foo.bar       Nested object field access
+."wired-key"   Key with special chars (quoted)
+.foo?          Safe access (null if missing)
+.[]            Iterate array elements
+.[]?           Safe iterate
+.[0]           Index by number (also .[0] = .[0] |= ...)
+.[-1]          Last element (negative index)
+.[1:5]         Array slice from index 1 (inclusive) to index 5 (exclusive)
+.[1:]
+.[:5]
+</code></pre>
+<h2 id="array--object-construction"><a class="header" href="#array--object-construction">Array &amp; Object Construction</a></h2>
+<pre><code>[1, 2, .a]       Build array
+{key: .name}     Build object
+{($k): .v}         Computed key
+{name}           Shorthand for {name: .name}
+</code></pre>
+<h2 id="operators"><a class="header" href="#operators">Operators</a></h2>
+<h3 id=""><a class="header" href="#"><code>|</code></a></h3>
+<p>Pipe the output of a filter as input to the next filter.</p>
+<pre><code>. | .name           Feed current value into field access
+. | map(. + 1)      Feed array into map
+keys | .[]          Chain filters — keys then iterate
+</code></pre>
+<p>The fundamental composition primitive: everything left of <code>|</code> is evaluated, and its output becomes <code>.</code> on the right.</p>
+<pre><code>jq -n '1 | . + 2'                   # 3
+jq -n '[1,2,3] | length'            # 3
+jq -n '{a:1,b:2} | keys | .[]'      # "a" "b"
+</code></pre>
+<h3 id="-1"><a class="header" href="#-1"><code>//</code></a></h3>
+<p>Alternative operator — returns left operand if it is truthy (not <code>null</code> or <code>false</code>), otherwise returns right operand. Useful for defaults.</p>
+<pre><code>.a // "default"      Use .a if present, else "default"
+null // 42           → 42
+false // 42          → 42 (false is falsy too)
+"" // "fallback"     → "" (empty string is truthy)
+</code></pre>
+<h3 id="-2"><a class="header" href="#-2"><code>?</code></a></h3>
+<p><code>?</code> suppresses errors from a filter (returns nothing on error).  Commonly paired with <code>//</code> for fallback defaults.</p>
+<pre><code>.foo?                 null instead of error if key missing
+.[]?                  skip if not an array
+.foo?.bar? // "n/a"   chain safe accesses with default
+</code></pre>
+<pre><code>jq -n '{} | .foo? // "no"'       # "no"
+jq -n '5 | .[]? // "empty"'      # "empty"
+jq -n 'null | .a?.b? // 0'       # 0
+</code></pre>
+<h3 id="as"><a class="header" href="#as">as</a></h3>
+<p>Bind the current value (or destructured parts) to a variable for later use.</p>
+<pre><code>. as $x | $x + 1
+.a as $val | {$val}
+{a, b} as {$x, $y} | $x + $y
+.[] as $item | {item: $item}
+</code></pre>
+<p>Variables are prefixed with <code>$</code> and stay in scope for the rest of the pipeline.</p>
+<pre><code>jq -n '1 as $x | $x + 2'            # 3
+jq -n '[1,2,3] | . as $a | $a | add' # 6
+jq -n '{a:1,b:2} | {a} as {$a} | $a' # 1
+</code></pre>
+<h3 id="-3"><a class="header" href="#-3"><code>,</code></a></h3>
+<p>Produce multiple values from a single input as a stream.
+Each expression after <code>,</code> generates a separate output.</p>
+<pre><code>.name, .age        Output name and age as separate values
+1, 2, 3            Stream of three numbers
+[.x, .x * 2]       Build array from multiple expressions
+</code></pre>
+<pre><code>jq -n '1, 2, 3'                 # 1 2 3 (three lines)
+jq -n '{a:1,b:2} | .a, .b'      # 1 2
+jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
+</code></pre>
+<h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
+<pre><code>.a + .b     Add (numbers) or concat (strings/arrays)
+.a - .b     Subtract (or set diff: [1,2] - [2,3] → [1])
+.a * .b     Multiply (or repeat string: "a" * 3 → "aaa")
+.a / .b     Divide (or split string: "a,b" / "," → ["a","b"])
+.a % .b     Modulo
+</code></pre>
+<pre><code>jq -n '3 + 4 * 2'                 # 11  (* before +)
+jq -n '[1,2] + [3,4]'             # [1,2,3,4]
+jq -n '{"a":1} + {"b":2}'         # {"a":1,"b":2}
+jq -n '{"a":1} * {"a":2,"b":3}'   # {"a":2,"b":3}  (merge, rhs wins)
+jq -n '"a" * 3'                   # "aaa"
+jq -n '"a,b" / ","'               # ["a","b"]
+</code></pre>
+<h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
+<pre><code>.a == .b     Equal (type-sensitive, no coercion)
+.a != .b     Not equal
+.a &gt; .b      Greater than
+.a &gt;= .b     Greater or equal
+.a &lt; .b      Less than
+.a &lt;= .b     Less or equal
+</code></pre>
+<h2 id="assignment"><a class="header" href="#assignment">Assignment</a></h2>
+<pre><code>=        Assign
+|=       Update value (e.g. .arr |= sort)
++= -= *= /= %=    Arithmetic update-assignment
+</code></pre>
+<pre><code>jq -n '[1,2,3] | .[0] = 99'       # [99,2,3]
+jq -n '{a:1} | .a |= . + 1'       # {"a":2}
+jq -n '{a:1} | .a = (.a | . + 1)' # {"a":2}
+jq -n '{a:1} | .a += 1'           # {"a":2}
+jq -n '{a:10} | .a /= 2'          # {"a":5}
+</code></pre>
+<h2 id="condition"><a class="header" href="#condition">Condition</a></h2>
+<pre><code>.x &gt; 1                  Keep item if condition true (filters out falsy)
+.name == "foo"          String equality
+has("foo")              Object has key "foo"
+has(0)                  Array has element
+.foo != null            Exists check (works for arrays too)
+isempty(.[])            Empty array
+
+.a &gt; 1 and .b &lt; 5       Both true
+.a &gt; 1 or  .b &lt; 5       Either true
+.flag | not             Negate via pipe (preferred idiom)
+.a &gt; 1 and (.b | not)   Group with parens
+</code></pre>
+<pre><code>select(has("foo"))
+if .x &gt; 1 then "big" else "small" end
+if .x &gt; 1 then "big" elif .x &gt; 0 then "mid" else "small" end
+</code></pre>
+<h2 id="built-in-functions"><a class="header" href="#built-in-functions">Built-in Functions</a></h2>
+<h3 id="length"><a class="header" href="#length">length</a></h3>
+<p>Length of string, array, or object.</p>
+<pre><code>jq -n '"abc" | length'
+</code></pre>
+<h3 id="empty"><a class="header" href="#empty">empty</a></h3>
+<p>Return nothing (zero outputs). Useful as a no-op or to suppress output in conditional branches.</p>
+<pre><code>jq -n 'empty'                           # (no output)
+jq -n '[1, empty, 2]'                   # [1, 2]
+jq -n 'if true then 42 else empty end'  # 42
+</code></pre>
+<h3 id="type"><a class="header" href="#type">type</a></h3>
+<p>Return the type of a value as a string.</p>
+<pre><code>$ jq -nc '[0, false, [], {}, null, "hello"] | map(type)'
+["number","boolean","array","object","null","string"]
+</code></pre>
+<h3 id="numbers--strings--booleans--arrays--objects--nulls"><a class="header" href="#numbers--strings--booleans--arrays--objects--nulls">numbers / strings / booleans / arrays / objects / nulls</a></h3>
+<p>Type filter functions — return only values of matching type.</p>
+<pre><code>jq -n '[1, "a", true, null] | map(numbers)'
+jq -n '[1, "a", true, null] | map(strings)'    # [1], ["a"]
+</code></pre>
+<h3 id="tonumber--toboolean--tostring"><a class="header" href="#tonumber--toboolean--tostring">tonumber / toboolean / tostring</a></h3>
+<p>Convert between string and number.</p>
+<pre><code>jq -n '"42" | tonumber'
+jq -n '"true" | toboolean'
+jq -n '42 | tostring'
+</code></pre>
+<h3 id="fromjson--tojson"><a class="header" href="#fromjson--tojson">fromjson / tojson</a></h3>
+<p>Parse a JSON string or serialize to JSON string.</p>
+<pre><code>jq -n '"{\"a\":1}" | fromjson'      # {"a":1}
+jq -n '{a:1} | tojson'              # "{\"a\":1}"
+</code></pre>
+<h3 id="pick"><a class="header" href="#pick">pick</a></h3>
+<p>Select only specified keys from an object.</p>
+<pre><code>jq -n '{a:1,b:2,c:3} | pick(.a, .c)'    # {"a":1,"c":3}
+</code></pre>
+<h3 id="del"><a class="header" href="#del">del</a></h3>
+<p>Delete a key from an object.</p>
+<pre><code>jq -n '{a:1,b:2} | del(.b)'
+</code></pre>
+<h3 id="paths--setpath--getpath--delpaths"><a class="header" href="#paths--setpath--getpath--delpaths">paths / setpath / getpath / delpaths</a></h3>
+<p>Inspect and manipulate nested paths.</p>
+<pre><code>jq -n '{a:{b:1},c:2} | paths'
+jq -n '{} | setpath(["a","b"]; 1)'                  # {"a":{"b":1}}
+jq -n '{"a":{"b":1}} | getpath(["a","b"])'          # 1
+jq -n '{"a":{"b":1,"c":2}} | delpaths([["a","b"]])' # {"a":{"c":2}}
+</code></pre>
+<h3 id="add"><a class="header" href="#add">add</a></h3>
+<p>Sum array elements.</p>
+<pre><code>jq -n '[1,2,3] | add'                # 6
+jq -n '[] | add'                     # null
+</code></pre>
+<h3 id="keys--keys_unsorted"><a class="header" href="#keys--keys_unsorted">keys / keys_unsorted</a></h3>
+<p>Return the keys of an object (sorted/insertion-order).</p>
+<pre><code>jq -n '{b:1,a:2} | keys'           # ["a","b"]
+jq -n '{b:1,a:2} | keys_unsorted'  # ["b","a"]
+</code></pre>
+<h3 id="to_entries--from_entries--with_entries"><a class="header" href="#to_entries--from_entries--with_entries">to_entries / from_entries / with_entries</a></h3>
+<p>Convert between objects and arrays of key-value entries.</p>
+<pre><code>jq -n '{a:1} | to_entries'
+jq -n '[{"key":"a","value":1}] | from_entries'
+jq -n '{a:1,b:2} | with_entries(.value *= 2)' 
+</code></pre>
+<h3 id="map--map_values"><a class="header" href="#map--map_values">map / map_values</a></h3>
+<p>Apply a filter to each array element / object value.</p>
+<pre><code>jq -n '[1,2,3] | map(. * 2)'
+jq -n '{a:1,b:2} | map_values(. + 1)'
+</code></pre>
+<h3 id="select"><a class="header" href="#select">select</a></h3>
+<p>Filter items by condition.</p>
+<pre><code>jq -n '[1,2,3] | map(select(. &gt; 1))'
+</code></pre>
+<h3 id="first--last"><a class="header" href="#first--last">first / last</a></h3>
+<p>Return first or last element of an array.</p>
+<pre><code>jq -n '[1,2,3] | first'             # 1
+jq -n '[1,2,3] | last'              # 3
+</code></pre>
+<h3 id="reverse"><a class="header" href="#reverse">reverse</a></h3>
+<p>Reverse an array.</p>
+<pre><code>jq -n '[1,2,3] | reverse'           # [3,2,1]
+</code></pre>
+<h3 id="sort--sort_by"><a class="header" href="#sort--sort_by">sort / sort_by</a></h3>
+<p>Sort array; <code>sort_by(f)</code> sorts by the result of applying <code>f</code> to each element.</p>
+<pre><code>jq -n '[3,1,2] | sort'
+jq -n '[{"age":2},{"age":1}] | sort_by(.age)'
+</code></pre>
+<h3 id="group_by"><a class="header" href="#group_by">group_by</a></h3>
+<p>Group elements into array of arrays based on a key expression.</p>
+<pre><code>$ jq -nc '[{"name":"a","type":"x"},{"name":"b","type":"y"},{"name":"c","type":"x"}] | group_by(.type)'
+[[{"name":"a","type":"x"},{"name":"c","type":"x"}],[{"name":"b","type":"y"}]]
+</code></pre>
+<h3 id="unique--unique_by"><a class="header" href="#unique--unique_by">unique / unique_by</a></h3>
+<p>Remove duplicate elements. <code>unique</code> uses value equality; <code>unique_by(f)</code> uses the result of <code>f</code> as the key.</p>
+<pre><code>jq -n '[1,2,1,3] | unique'                          # [1,2,3]
+jq -n '[{"x":1},{"x":2},{"x":1}] | unique_by(.x)'   # [{"x":1},{"x":2}]
+</code></pre>
+<h3 id="min--max--min_by--max_by"><a class="header" href="#min--max--min_by--max_by">min / max / min_by / max_by</a></h3>
+<p>Find minimum or maximum values.</p>
+<pre><code>jq -n '[3,1,2] | min'              # 1
+jq -n '[3,1,2] | max'              # 3
+jq -n '[{"x":2},{"x":1}] | min_by(.x)'  # {"x":1}
+</code></pre>
+<h3 id="flatten"><a class="header" href="#flatten">flatten</a></h3>
+<p>Flatten nested arrays to a specified depth (default: infinite).</p>
+<pre><code>jq -n '[[1,[2]],[3]] | flatten'    # [1,2,3]
+jq -n '[[1,[2]],[3]] | flatten(1)' # [1,[2],3]
+</code></pre>
+<h3 id="indices"><a class="header" href="#indices">indices</a></h3>
+<p>Find all indices where a value/pattern occurs.</p>
+<pre><code>jq -n '"abcabc" | indices("b")'     # [1,4]
+jq -n '[1,2,1,2] | indices(1)'      # [0,2]
+</code></pre>
+<h3 id="inputs"><a class="header" href="#inputs">inputs</a></h3>
+<p>Read remaining input values (useful with <code>-n</code> for streaming).</p>
+<pre><code>printf '1\n2\n3\n' | jq -n '[inputs] | add'    # 6
+</code></pre>
+<h3 id="range"><a class="header" href="#range">range</a></h3>
+<p>Generate a sequence of numbers.</p>
+<pre><code>jq -n 'range(3)'                    # 0 1 2
+jq -n 'range(1; 5)'                 # 1 2 3 4
+jq -n 'range(0; 10; 3)'             # 0 3 6 9
+</code></pre>
+<h3 id="repeat"><a class="header" href="#repeat">repeat</a></h3>
+<p>Repeatedly apply a filter, emitting each result.</p>
+<pre><code>jq -n '0 | repeat(.+1) | limit(3; .)'  # 1 2 3
+</code></pre>
+<h3 id="limit"><a class="header" href="#limit">limit</a></h3>
+<p>Limit the number of outputs from a stream.</p>
+<pre><code>jq -n '[1,2,3,4,5] | limit(3; .[])'    # 1, 2, 3
+</code></pre>
+<h3 id="reduce"><a class="header" href="#reduce">reduce</a></h3>
+<p>Accumulate array elements into a single value. Takes <code>(init; update)</code> where
+<code>.</code> is the accumulator and <code>$item</code> is each element.</p>
+<pre><code>jq -n '[1,2,3] | reduce .[] as $item (0; . + $item)'      # 6
+</code></pre>
+<h3 id="foreach"><a class="header" href="#foreach">foreach</a></h3>
+<p>Iterate with state and emit a value per element. Takes <code>(init; update; extract)</code>.</p>
+<pre><code>$ jq -nc '[1,2,3] | foreach .[] as $item (0; . + $item; {idx: ., sum: .})'     
+{"idx":1,"sum":1}
+{"idx":3,"sum":3}
+{"idx":6,"sum":6}
+</code></pre>
+<h3 id="while--until"><a class="header" href="#while--until">while / until</a></h3>
+<p>Loop constructs. <code>while(cond; update)</code> emits values while cond is true; <code>until(cond; update)</code> loops until cond is true then outputs result.</p>
+<pre><code>jq -n '[0, while(.&lt;10; .+1)]'       # [0,1,2,3,4,5,6,7,8,9,10]
+jq -n '0 | until(.&gt;10; .+1)'        # 11
+</code></pre>
+<h3 id="any--all"><a class="header" href="#any--all">any / all</a></h3>
+<p>Check if any/all elements satisfy a condition.</p>
+<pre><code>jq -n '[1,2,3] | any(. &gt; 2)'       # true
+jq -n '[1,2,3] | all(. &gt; 0)'       # true
+jq -n '[1,2,3] | any'              # true (any truthy)
+jq -n '[] | any'                   # false
+</code></pre>
+<h3 id="contains--inside"><a class="header" href="#contains--inside">contains / inside</a></h3>
+<p>Check if a value contains another (strings, arrays, objects).</p>
+<pre><code>jq -n '"foobar" | contains("foo")'  # true
+jq -n '[1,2,3] | contains([1,2])'   # true
+jq -n '{"a":1,"b":2} | contains({a:1})'  # true
+</code></pre>
+<p><code>inside</code> is the inverse — checks if input is inside argument.</p>
+<pre><code>jq -n '"foo" | inside("foobar")'    # true
+</code></pre>
+<h3 id="walk"><a class="header" href="#walk">walk</a></h3>
+<p>Walk the entire tree and apply a filter <code>f</code> to every node (bottom-up).</p>
+<pre><code>$ jq -nc '{"a":{"b":1},"c":[2,3]} | walk(if type == "number" then . * 2 else . end)'
+{"a":{"b":2},"c":[4,6]}
+</code></pre>
+<h3 id="debug"><a class="header" href="#debug">debug</a></h3>
+<p>Print value to stderr, pass through unchanged. Useful for tracing in pipelines.</p>
+<pre><code>jq -n '1, 2 | debug'
+</code></pre>
+<p>stderr output: <code>["DEBUG:",1]</code> <code>["DEBUG:",2]</code></p>
+<h3 id="try--catch--error"><a class="header" href="#try--catch--error">try / catch / error</a></h3>
+<p>Handle errors without halting the pipeline. <code>try expr</code> silently suppresses
+errors; <code>try expr catch handler</code> runs <code>handler</code> with the error message as <code>.</code>.</p>
+<pre><code>try .a.b                               # null if path missing (silent)
+try .a.b catch "n/a"                   # null if path missing (explicit)
+try error("fail") catch "caught: \(.)" # "caught: fail"
+</code></pre>
+<h2 id="format-strings"><a class="header" href="#format-strings">Format Strings</a></h2>
+<ul>
+<li><code>@json</code>: Format value as JSON string, e.g. <code>jq -nc '42 | @json'</code> → <code>"42"</code></li>
+<li><code>@csv</code>: Convert array to CSV line, e.g. <code>jq -nr '["a","b"] | @csv'</code> → <code>"a","b"</code></li>
+<li><code>@tsv</code>: Convert array to TSV line, e.g. <code>jq -nr '["a","b"] | @tsv'</code> → <code>a\tb</code></li>
+<li><code>@html</code>: Escape HTML special chars, e.g. <code>jq -nr '"&lt;script&gt;" | @html'</code> → <code>&amp;lt;script&amp;gt;</code></li>
+<li><code>@uri</code>: Percent-encode URI component, e.g. <code>jq -nr '"hello world" | @uri'</code> → <code>hello%20world</code></li>
+<li><code>@base64</code>: Base64 encode string, e.g. <code>jq -nr '"hello" | @base64'</code> → <code>aGVsbG8=</code></li>
+<li><code>@base64d</code>: Base64 decode string, e.g. <code>jq -nr '"aGVsbG8=" | @base64d'</code> → <code>hello</code></li>
+<li><code>@sh</code>: Escape for shell use (single-quote wrap), e.g. <code>jq -nr '"it'\''s" | @sh'</code> → <code>'it'\''s'</code></li>
+<li><code>@text</code>: Output as plain text, e.g. <code>jq -nc '42 | @text'</code> → <code>"42"</code></li>
+</ul>
+<h2 id="regex"><a class="header" href="#regex">Regex</a></h2>
+<h3 id="test"><a class="header" href="#test">test</a></h3>
+<p>Check if string matches regex — returns <code>true</code>/<code>false</code>.</p>
+<pre><code>jq -n '"hello 42" | test("\\d+")'
+jq -n '"Hello" | test("^[a-z]+$"; "i")'
+</code></pre>
+<h3 id="match"><a class="header" href="#match">match</a></h3>
+<p>Return match objects with details (offset, length, captures).</p>
+<pre><code>$ jq -nc '"abc123" | match("[a-z]+|\\d+"; "g")'
+{"offset":0,"length":3,"string":"abc","captures":[]}
+{"offset":3,"length":3,"string":"123","captures":[]}
+</code></pre>
+<h3 id="capture"><a class="header" href="#capture">capture</a></h3>
+<p>Extract named groups into an object.</p>
+<pre><code>$ jq -nc '"2024-01-15" | capture("(?&lt;y&gt;\\d+)-(?&lt;m&gt;\\d+)-(?&lt;d&gt;\\d+)")'
+{"y":"2024","m":"01","d":"15"}
+</code></pre>
+<h3 id="split--splits"><a class="header" href="#split--splits">split / splits</a></h3>
+<p>Split string by regex. <code>split</code> returns array; <code>splits</code> streams results.</p>
+<pre><code>$ jq -rn '"a,b" | split(",")'
+[
+  "a",
+  "b"
+]
+
+$ jq -rn '"a,b" | splits(",")'
+a
+b
+</code></pre>
+<h3 id="sub--gsub"><a class="header" href="#sub--gsub">sub / gsub</a></h3>
+<p>Replace matched substrings. <code>sub</code> replaces first match, <code>gsub</code> replaces all.</p>
+<pre><code>jq -rn '"hello world" | sub("\\w+"; "***")'     # *** world 
+jq -rn '"hello world" | gsub("\\w+"; "***")'    # *** ***
+</code></pre>
+<p>Capture groups in replacement via <code>$1</code>, <code>$2</code>, etc.:</p>
+<pre><code>jq -rn '"2024-01-15" | sub("(?&lt;y&gt;\\d+)-(?&lt;m&gt;\\d+)-(?&lt;d&gt;\\d+)"; "\(.y).\(.m).\(.d)")'
+</code></pre>
+<h2 id="datetime"><a class="header" href="#datetime">Datetime</a></h2>
+<h3 id="now"><a class="header" href="#now">now</a></h3>
+<p>Return the current time as Unix epoch seconds (float).</p>
+<pre><code>jq -n 'now'               # 1705314600.22693
+</code></pre>
+<h3 id="strftime"><a class="header" href="#strftime">strftime</a></h3>
+<p>Formats a datetime (epoch seconds) to a string using a format specifier.</p>
+<pre><code>jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
+</code></pre>
+<h2 id="strptime"><a class="header" href="#strptime">strptime</a></h2>
+<p>Parses a string to epoch seconds using a format specifier.</p>
+<pre><code>jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
+</code></pre>
+<h3 id="fromdate"><a class="header" href="#fromdate">fromdate</a></h3>
+<p>Parse an ISO 8601 datetime string to Unix epoch seconds.</p>
+<pre><code>jq -n '"2024-01-15T10:30:00Z" | fromdate'   # 1705314600
+</code></pre>
+<h3 id="todate"><a class="header" href="#todate">todate</a></h3>
+<p>Convert Unix epoch seconds to an ISO 8601 datetime string.</p>
+<pre><code>jq -n 'now | todate'                        # "2024-05-18T12:34:56Z"
+</code></pre>
+<h3 id="strflocaltime"><a class="header" href="#strflocaltime">strflocaltime</a></h3>
+<p>Like <code>strftime</code> but formats in local timezone.</p>
+<pre><code>jq -n 'now | strflocaltime("%Y-%m-%d %H:%M:%S")'
+</code></pre>
+<h3 id="mktime--gmtime"><a class="header" href="#mktime--gmtime">mktime / gmtime</a></h3>
+<p>Convert between array representation and epoch seconds.</p>
+<pre><code>jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600 (local)
+jq -n '1705305600 | gmtime'                # [2024,0,15,0,0,0,1,14]
+</code></pre>
+<h2 id="cli-options"><a class="header" href="#cli-options">CLI Options</a></h2>
+<h3 id="-n"><a class="header" href="#-n"><code>-n</code></a></h3>
+<p>Use <code>null</code> as input — build data from scratch.</p>
+<pre><code>jq -n 'range(3)'
+</code></pre>
+<h3 id="-r"><a class="header" href="#-r"><code>-R</code></a></h3>
+<p>Read input as raw strings (not JSON). Each line becomes a string.</p>
+<pre><code>printf 'foo\nbar\n' | jq -R '.'    # "foo" "bar"
+</code></pre>
+<h3 id="-s"><a class="header" href="#-s"><code>-s</code></a></h3>
+<p>Slurp — read the entire input stream into a single array.</p>
+<pre><code>printf '{"x":1}\n{"x":2}\n' | jq -s 'map(.x) | add'    # 3
+</code></pre>
+<h3 id="-r-1"><a class="header" href="#-r-1"><code>-r</code></a></h3>
+<p>Raw output — print strings without JSON quotes/escaping.</p>
+<pre><code>$ jq -n '"hello"'
+"hello"
+$ jq -rn '"hello"'
+hello
+</code></pre>
+<h3 id="-b"><a class="header" href="#-b"><code>-b</code></a></h3>
+<p>Brief output — omit trailing newline. (e.g. <code>\r</code> on Windows)</p>
+<pre><code>$ jq -nb '42'
+</code></pre>
+<h3 id="-c"><a class="header" href="#-c"><code>-c</code></a></h3>
+<p>Compact output — each output on a single line.</p>
+<pre><code>$ jq -n '[1,2]'
+[
+  1,
+  2
+]
+$ jq -nc '[1,2]'
+[1,2]
+</code></pre>
+<h3 id="-e"><a class="header" href="#-e"><code>-e</code></a></h3>
+<p>Exit with code 0 if the last output is truthy, 1 otherwise.</p>
+<pre><code>jq -e 'has("foo")' data.json
+</code></pre>
+<h3 id="--arg"><a class="header" href="#--arg"><code>--arg</code></a></h3>
+<p>Set a variable <code>$name</code> to a string value.</p>
+<pre><code>jq -n --arg name foo '{$name}'    # {"name":"foo"}
+</code></pre>
+<h3 id="--argjson"><a class="header" href="#--argjson"><code>--argjson</code></a></h3>
+<p>Set a variable <code>$name</code> to a JSON value.</p>
+<pre><code>jq -n --argjson n 42 '{$n}'    # {"n":42}
+</code></pre>
+<h3 id="--args"><a class="header" href="#--args"><code>--args</code></a></h3>
+<p>Pass positional arguments as <code>$ARGS.positional</code> (strings).</p>
+<pre><code>jq -n '$ARGS.positional' --args hello world    # ["hello","world"]
+</code></pre>
+<h3 id="--jsonargs"><a class="header" href="#--jsonargs"><code>--jsonargs</code></a></h3>
+<p>Pass positional arguments as JSON values.</p>
+<pre><code>jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
+</code></pre>
+<h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
+<h3 id="env"><a class="header" href="#env"><code>$ENV</code></a></h3>
+<p>$ENV is an object representing the environment variables as set when the jq program started. $ENV is readonly</p>
+<pre><code>$ENV               Object of all environment variables
+$ENV | keys        List all env var names
+$ENV.PATH          Access env var via variable
+</code></pre>
+<h3 id="argsnamed"><a class="header" href="#argsnamed"><code>$ARGS.named</code></a></h3>
+<p>Access named arguments passed via <code>--arg</code> / <code>--argjson</code> programmatically.</p>
+<pre><code>jq -n --arg a 1 --argjson b 2 '$ARGS.named'    # {"a":"1","b":2}
+</code></pre>
+<h3 id="argspositional"><a class="header" href="#argspositional"><code>$ARGS.positional</code></a></h3>
+<p>Access positional arguments passed via <code>--args</code> / <code>--jsonargs</code> programmatically.</p>
+<pre><code>jq -n '$ARGS.positional' --args hello world  # ["hello","world"]
+jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
+</code></pre>
+<h3 id="multi-branches-conditional"><a class="header" href="#multi-branches-conditional">Multi Branches (Conditional)</a></h3>
+<pre><code>  [
+      { cond: (.type == "string"), result: { key: "foo" }},
+      { cond: (.type == "boolean"), result: { key: false }},
+      { cond: (.type == "number"), result: { key: 3.14 }},
+      ...
+      { cond: true, result: { key: null } } # default
+  ] | map(select(.cond) | .result) | first;
+</code></pre>
+<p>Simplify: <code>if .type == "string" then {key: "foo"} elif .type == "number" then {key: 3.14} else {key: null} end</code></p>
+<h3 id="user-defined-functions"><a class="header" href="#user-defined-functions">User Defined Functions</a></h3>
+<pre><code>def add1: . + 1;
+def map(f): [.[] | f];          # f is a filter parameter (def filter)
+def add(x; y): x + y;           # Multi-arg (note semicolons)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../tools/vim.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../tools/vim.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-c22b7243.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
