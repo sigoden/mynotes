@@ -1,5 +1,8 @@
 # JQ
 
+jq is a stream-oriented transformation language.
+Filters consume an input and may produce zero, one, or many outputs
+
 ## Basic Filters
 
 ```
@@ -9,7 +12,7 @@
 ."wired-key"   Key with special chars (quoted)
 .foo?          Safe access (null if missing)
 .[]            Iterate array elements
-.[]?           Safe iterate
+.[]?           Safe iterate overy arrays/objects
 .[0]           Index by number (also .[0] = .[0] |= ...)
 .[-1]          Last element (negative index)
 .[1:5]         Array slice from index 1 (inclusive) to index 5 (exclusive)
@@ -22,7 +25,7 @@
 ```
 [1, 2, .a]       Build array
 {key: .name}     Build object
-{($k): .v}         Computed key
+{($k): .v}       Computed key
 {name}           Shorthand for {name: .name}
 ```
 
@@ -41,14 +44,14 @@ keys | .[]          Chain filters — keys then iterate
 The fundamental composition primitive: everything left of `|` is evaluated, and its output becomes `.` on the right.
 
 ```
-jq -n '1 | . + 2'                   # 3
-jq -n '[1,2,3] | length'            # 3
-jq -n '{a:1,b:2} | keys | .[]'      # "a" "b"
+jq -n '1 | . + 2'               # 3
+jq -n '[1,2,3] | length'        # 3
+jq -n '{a:1,b:2} | keys | .[]'  # "a" "b"
 ```
 
 ### `//`
 
-Alternative operator — returns left operand if it is truthy (not `null` or `false`), otherwise returns right operand. Useful for defaults.
+Alternative operator — returns left operand if it is not `null` or `false`, otherwise returns right operand. Useful for defaults.
 
 ```
 .a // "default"      Use .a if present, else "default"
@@ -59,11 +62,11 @@ false // 42          → 42 (false is falsy too)
 
 ### `?`
 
-`?` suppresses errors from a filter (returns nothing on error).  Commonly paired with `//` for fallback defaults.
+? suppresses errors from a filter. Commonly paired with `//` for fallback defaults.
 
 ```
-.foo?                 null instead of error if key missing
-.[]?                  skip if not an array
+.foo?                 return null if key missing
+.[]?                  return empty if value is not iterable
 .foo?.bar? // "n/a"   chain safe accesses with default
 ```
 
@@ -72,6 +75,24 @@ jq -n '{} | .foo? // "no"'       # "no"
 jq -n '5 | .[]? // "empty"'      # "empty"
 jq -n 'null | .a?.b? // 0'       # 0
 ```
+
+### `,`
+
+Produce multiple values from a single input as a stream.
+Each expression after `,` generates a separate output.
+
+```
+.name, .age        Output name and age as separate values
+1, 2, 3            Stream of three numbers
+[.x, .x * 2]       Build array from multiple expressions
+```
+
+```
+jq -n '1, 2, 3'                 # 1 2 3 (three lines)
+jq -n '{a:1,b:2} | .a, .b'      # 1 2
+jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
+```
+
 
 ### as
 
@@ -90,23 +111,6 @@ Variables are prefixed with `$` and stay in scope for the rest of the pipeline.
 jq -n '1 as $x | $x + 2'            # 3
 jq -n '[1,2,3] | . as $a | $a | add' # 6
 jq -n '{a:1,b:2} | {a} as {$a} | $a' # 1
-```
-
-### `,`
-
-Produce multiple values from a single input as a stream.
-Each expression after `,` generates a separate output.
-
-```
-.name, .age        Output name and age as separate values
-1, 2, 3            Stream of three numbers
-[.x, .x * 2]       Build array from multiple expressions
-```
-
-```
-jq -n '1, 2, 3'                 # 1 2 3 (three lines)
-jq -n '{a:1,b:2} | .a, .b'      # 1 2
-jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
 ```
 
 ## Arithmetic
@@ -158,12 +162,11 @@ jq -n '{a:10} | .a /= 2'          # {"a":5}
 ## Condition
 
 ```
-.x > 1                  Keep item if condition true (filters out falsy)
+.x > 1
 .name == "foo"          String equality
+.name != "foo"          String not equality
 has("foo")              Object has key "foo"
-has(0)                  Array has element
-.foo != null            Exists check (works for arrays too)
-isempty(.[])            Empty array
+has(0)                  Array has index 0
 
 .a > 1 and .b < 5       Both true
 .a > 1 or  .b < 5       Either true
@@ -211,8 +214,8 @@ $ jq -nc '[0, false, [], {}, null, "hello"] | map(type)'
 Type filter functions — return only values of matching type.
 
 ```
-jq -n '[1, "a", true, null] | map(numbers)'
-jq -n '[1, "a", true, null] | map(strings)'    # [1], ["a"]
+jq -n '[1, "a", true, null] | map(numbers)'   # [1]
+jq -n '[1, "a", true, null] | map(strings)'   # ["a"]
 ```
 
 ### tonumber / toboolean / tostring
@@ -256,9 +259,27 @@ Inspect and manipulate nested paths.
 
 ```
 jq -n '{a:{b:1},c:2} | paths'
+jq -n '{a:{b:1},c:2} | paths(scalars)'
 jq -n '{} | setpath(["a","b"]; 1)'                  # {"a":{"b":1}}
 jq -n '{"a":{"b":1}} | getpath(["a","b"])'          # 1
 jq -n '{"a":{"b":1,"c":2}} | delpaths([["a","b"]])' # {"a":{"c":2}}
+```
+
+### ascii_downcase / ascii_upcase
+
+Convert string to lowercase/uppercase.
+
+```
+jq -n '"Hello" | ascii_downcase'    # "hello"
+jq -n '"Hello" | ascii_upcase'      # "HELLO"
+```
+
+### join
+
+Join array elements with a separator string.
+
+```
+jq -n '[1,2,3] | join(", ")'
 ```
 
 ### add
@@ -268,6 +289,7 @@ Sum array elements.
 ```
 jq -n '[1,2,3] | add'                # 6
 jq -n '[] | add'                     # null
+jq -n '[{a:1},{a:2}] | add(.[].a)'   # 3
 ```
 
 ### keys / keys_unsorted
@@ -306,15 +328,6 @@ Filter items by condition.
 jq -n '[1,2,3] | map(select(. > 1))'
 ```
 
-### first / last
-
-Return first or last element of an array.
-
-```
-jq -n '[1,2,3] | first'             # 1
-jq -n '[1,2,3] | last'              # 3
-```
-
 ### reverse
 
 Reverse an array.
@@ -340,6 +353,7 @@ Group elements into array of arrays based on a key expression.
 $ jq -nc '[{"name":"a","type":"x"},{"name":"b","type":"y"},{"name":"c","type":"x"}] | group_by(.type)'
 [[{"name":"a","type":"x"},{"name":"c","type":"x"}],[{"name":"b","type":"y"}]]
 ```
+> group_by(.x) requires prior sort_by(.x)
 
 ### unique / unique_by
 
@@ -360,6 +374,14 @@ jq -n '[3,1,2] | max'              # 3
 jq -n '[{"x":2},{"x":1}] | min_by(.x)'  # {"x":1}
 ```
 
+### transpose
+
+Transpose a matrix (array of arrays).
+
+```
+jq -n '[[1,2],[3,4]] | transpose'   # [[1,3],[2,4]]
+```
+
 ### flatten
 
 Flatten nested arrays to a specified depth (default: infinite).
@@ -376,6 +398,15 @@ Find all indices where a value/pattern occurs.
 ```
 jq -n '"abcabc" | indices("b")'     # [1,4]
 jq -n '[1,2,1,2] | indices(1)'      # [0,2]
+```
+
+### index
+
+Find the first index of a value in an array or string.
+
+```
+jq -n '"abcabc" | index("b")'       # 1
+jq -n '[1,2,1,2] | index(1)'        # 0
 ```
 
 ### inputs
@@ -396,12 +427,13 @@ jq -n 'range(1; 5)'                 # 1 2 3 4
 jq -n 'range(0; 10; 3)'             # 0 3 6 9
 ```
 
-### repeat
+### first / last
 
-Repeatedly apply a filter, emitting each result.
+Return first or last element.
 
 ```
-jq -n '0 | repeat(.+1) | limit(3; .)'  # 1 2 3
+jq -n '[1,2,3] | first'             # 1
+jq -n '[1,2,3] | last'              # 3
 ```
 
 ### limit
@@ -432,13 +464,24 @@ $ jq -nc '[1,2,3] | foreach .[] as $item (0; . + $item; {idx: ., sum: .})'
 {"idx":6,"sum":6}
 ```
 
-### while / until
+### recurse
 
-Loop constructs. `while(cond; update)` emits values while cond is true; `until(cond; update)` loops until cond is true then outputs result.
+Recursively descend into nested structures.
+
+`..` is alias for recurse.
 
 ```
-jq -n '[0, while(.<10; .+1)]'       # [0,1,2,3,4,5,6,7,8,9,10]
-jq -n '0 | until(.>10; .+1)'        # 11
+jq -n '{a:{b:1}} | recurse'
+jq -n '10 | recurse(. - 1; . > 0)'
+```
+
+### walk
+
+Recursively process all elements in a tree structure.
+
+```
+$ jq -nc '{a:{b:"c"},d:"e"} | walk(if type == "string" then ascii_upcase else . end)'
+{"a":{"b":"C"},"d":"E"}
 ```
 
 ### any / all
@@ -457,24 +500,15 @@ jq -n '[] | any'                   # false
 Check if a value contains another (strings, arrays, objects).
 
 ```
-jq -n '"foobar" | contains("foo")'  # true
-jq -n '[1,2,3] | contains([1,2])'   # true
-jq -n '{"a":1,"b":2} | contains({a:1})'  # true
+jq -n '"foobar" | contains("foo")'      # true
+jq -n '[1,3,2] | contains([1,2])'       # true
+jq -n '{"a":1,"b":2} | contains({a:1})' # true
 ```
 
 `inside` is the inverse — checks if input is inside argument.
 
 ```
 jq -n '"foo" | inside("foobar")'    # true
-```
-
-### walk
-
-Walk the entire tree and apply a filter `f` to every node (bottom-up).
-
-```
-$ jq -nc '{"a":{"b":1},"c":[2,3]} | walk(if type == "number" then . * 2 else . end)'
-{"a":{"b":2},"c":[4,6]}
 ```
 
 ### debug
@@ -493,9 +527,9 @@ Handle errors without halting the pipeline. `try expr` silently suppresses
 errors; `try expr catch handler` runs `handler` with the error message as `.`.
 
 ```
-try .a.b                               # null if path missing (silent)
-try .a.b catch "n/a"                   # null if path missing (explicit)
-try error("fail") catch "caught: \(.)" # "caught: fail"
+jq -n '3 | try .a'                              # (nothing)
+jq -n '3 | try .a catch "na"'                   # "na"
+jq -n 'try error("fail") catch "caught: \(.)"'  # "caught: fail"
 ```
 
 ## Format Strings
@@ -508,7 +542,7 @@ try error("fail") catch "caught: \(.)" # "caught: fail"
 - `@base64`: Base64 encode string, e.g. `jq -nr '"hello" | @base64'` → `aGVsbG8=`
 - `@base64d`: Base64 decode string, e.g. `jq -nr '"aGVsbG8=" | @base64d'` → `hello`
 - `@sh`: Escape for shell use (single-quote wrap), e.g. `jq -nr '"it'\''s" | @sh'` → `'it'\''s'`
-- `@text`: Output as plain text, e.g. `jq -nc '42 | @text'` → `"42"`
+- `@text`: Convert to string, e.g. `jq -nc '42 | @text'` → `"42"`
 
 ## Regex
 
@@ -581,22 +615,6 @@ Return the current time as Unix epoch seconds (float).
 jq -n 'now'               # 1705314600.22693
 ```
 
-### strftime 
-
-Formats a datetime (epoch seconds) to a string using a format specifier.
-
-```
-jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
-```
-
-## strptime
-
-Parses a string to epoch seconds using a format specifier.
-
-```
-jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
-```
-
 ### fromdate
 
 Parse an ISO 8601 datetime string to Unix epoch seconds.
@@ -613,6 +631,14 @@ Convert Unix epoch seconds to an ISO 8601 datetime string.
 jq -n 'now | todate'                        # "2024-05-18T12:34:56Z"
 ```
 
+### strftime 
+
+Formats a datetime (epoch seconds) to a string using a format specifier.
+
+```
+jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
+```
+
 ### strflocaltime
 
 Like `strftime` but formats in local timezone.
@@ -621,12 +647,21 @@ Like `strftime` but formats in local timezone.
 jq -n 'now | strflocaltime("%Y-%m-%d %H:%M:%S")'
 ```
 
+## strptime
+
+Parses a string to array  representation using a format specifier.
+
+```
+jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
+```
+
+
 ### mktime / gmtime
 
 Convert between array representation and epoch seconds.
 
 ```
-jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600 (local)
+jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600
 jq -n '1705305600 | gmtime'                # [2024,0,15,0,0,0,1,14]
 ```
 
@@ -669,7 +704,7 @@ hello
 
 ### `-b`
 
-Brief output — omit trailing newline. (e.g. `\r` on Windows)
+Ensure no CRLF conversion on Windows.
 
 ```
 $ jq -nb '42'
@@ -758,20 +793,11 @@ Access positional arguments passed via `--args` / `--jsonargs` programmatically.
 jq -n '$ARGS.positional' --args hello world  # ["hello","world"]
 jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
 ```
-
-### Multi Branches (Conditional)
+### String interpolation: `\(exp)`
 
 ```
-  [
-      { cond: (.type == "string"), result: { key: "foo" }},
-      { cond: (.type == "boolean"), result: { key: false }},
-      { cond: (.type == "number"), result: { key: 3.14 }},
-      ...
-      { cond: true, result: { key: null } } # default
-  ] | map(select(.cond) | .result) | first;
+jq -rn '42 | "The input was \(.), which is one less than \(.+1)"'
 ```
-
-Simplify: `if .type == "string" then {key: "foo"} elif .type == "number" then {key: 3.14} else {key: null} end`
 
 ### User Defined Functions
 
