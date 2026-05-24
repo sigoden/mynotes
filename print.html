@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-e726333d.js";
+            window.path_to_searchindex_js = "searchindex-6195a5f5.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a552f6ad.js"></script>
@@ -1999,6 +1999,8 @@ endif
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="jq-1"><a class="header" href="#jq-1">JQ</a></h1>
+<p>jq is a stream-oriented transformation language.
+Filters consume an input and may produce zero, one, or many outputs</p>
 <h2 id="basic-filters"><a class="header" href="#basic-filters">Basic Filters</a></h2>
 <pre><code>.              Identity (root)
 .foo           Object field access
@@ -2006,7 +2008,7 @@ endif
 ."wired-key"   Key with special chars (quoted)
 .foo?          Safe access (null if missing)
 .[]            Iterate array elements
-.[]?           Safe iterate
+.[]?           Safe iterate overy arrays/objects
 .[0]           Index by number (also .[0] = .[0] |= ...)
 .[-1]          Last element (negative index)
 .[1:5]         Array slice from index 1 (inclusive) to index 5 (exclusive)
@@ -2016,7 +2018,7 @@ endif
 <h2 id="array--object-construction"><a class="header" href="#array--object-construction">Array &amp; Object Construction</a></h2>
 <pre><code>[1, 2, .a]       Build array
 {key: .name}     Build object
-{($k): .v}         Computed key
+{($k): .v}       Computed key
 {name}           Shorthand for {name: .name}
 </code></pre>
 <h2 id="operators"><a class="header" href="#operators">Operators</a></h2>
@@ -2027,26 +2029,37 @@ endif
 keys | .[]          Chain filters — keys then iterate
 </code></pre>
 <p>The fundamental composition primitive: everything left of <code>|</code> is evaluated, and its output becomes <code>.</code> on the right.</p>
-<pre><code>jq -n '1 | . + 2'                   # 3
-jq -n '[1,2,3] | length'            # 3
-jq -n '{a:1,b:2} | keys | .[]'      # "a" "b"
+<pre><code>jq -n '1 | . + 2'               # 3
+jq -n '[1,2,3] | length'        # 3
+jq -n '{a:1,b:2} | keys | .[]'  # "a" "b"
 </code></pre>
 <h3 id="-1-1"><a class="header" href="#-1-1"><code>//</code></a></h3>
-<p>Alternative operator — returns left operand if it is truthy (not <code>null</code> or <code>false</code>), otherwise returns right operand. Useful for defaults.</p>
+<p>Alternative operator — returns left operand if it is not <code>null</code> or <code>false</code>, otherwise returns right operand. Useful for defaults.</p>
 <pre><code>.a // "default"      Use .a if present, else "default"
 null // 42           → 42
 false // 42          → 42 (false is falsy too)
 "" // "fallback"     → "" (empty string is truthy)
 </code></pre>
 <h3 id="-2"><a class="header" href="#-2"><code>?</code></a></h3>
-<p><code>?</code> suppresses errors from a filter (returns nothing on error).  Commonly paired with <code>//</code> for fallback defaults.</p>
-<pre><code>.foo?                 null instead of error if key missing
-.[]?                  skip if not an array
+<p>? suppresses errors from a filter. Commonly paired with <code>//</code> for fallback defaults.</p>
+<pre><code>.foo?                 return null if key missing
+.[]?                  return empty if value is not iterable
 .foo?.bar? // "n/a"   chain safe accesses with default
 </code></pre>
 <pre><code>jq -n '{} | .foo? // "no"'       # "no"
 jq -n '5 | .[]? // "empty"'      # "empty"
 jq -n 'null | .a?.b? // 0'       # 0
+</code></pre>
+<h3 id="-3"><a class="header" href="#-3"><code>,</code></a></h3>
+<p>Produce multiple values from a single input as a stream.
+Each expression after <code>,</code> generates a separate output.</p>
+<pre><code>.name, .age        Output name and age as separate values
+1, 2, 3            Stream of three numbers
+[.x, .x * 2]       Build array from multiple expressions
+</code></pre>
+<pre><code>jq -n '1, 2, 3'                 # 1 2 3 (three lines)
+jq -n '{a:1,b:2} | .a, .b'      # 1 2
+jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
 </code></pre>
 <h3 id="as"><a class="header" href="#as">as</a></h3>
 <p>Bind the current value (or destructured parts) to a variable for later use.</p>
@@ -2059,17 +2072,6 @@ jq -n 'null | .a?.b? // 0'       # 0
 <pre><code>jq -n '1 as $x | $x + 2'            # 3
 jq -n '[1,2,3] | . as $a | $a | add' # 6
 jq -n '{a:1,b:2} | {a} as {$a} | $a' # 1
-</code></pre>
-<h3 id="-3"><a class="header" href="#-3"><code>,</code></a></h3>
-<p>Produce multiple values from a single input as a stream.
-Each expression after <code>,</code> generates a separate output.</p>
-<pre><code>.name, .age        Output name and age as separate values
-1, 2, 3            Stream of three numbers
-[.x, .x * 2]       Build array from multiple expressions
-</code></pre>
-<pre><code>jq -n '1, 2, 3'                 # 1 2 3 (three lines)
-jq -n '{a:1,b:2} | .a, .b'      # 1 2
-jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
 </code></pre>
 <h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
 <pre><code>.a + .b     Add (numbers) or concat (strings/arrays)
@@ -2105,12 +2107,11 @@ jq -n '{a:1} | .a += 1'           # {"a":2}
 jq -n '{a:10} | .a /= 2'          # {"a":5}
 </code></pre>
 <h2 id="condition-1"><a class="header" href="#condition-1">Condition</a></h2>
-<pre><code>.x &gt; 1                  Keep item if condition true (filters out falsy)
+<pre><code>.x &gt; 1
 .name == "foo"          String equality
+.name != "foo"          String not equality
 has("foo")              Object has key "foo"
-has(0)                  Array has element
-.foo != null            Exists check (works for arrays too)
-isempty(.[])            Empty array
+has(0)                  Array has index 0
 
 .a &gt; 1 and .b &lt; 5       Both true
 .a &gt; 1 or  .b &lt; 5       Either true
@@ -2139,8 +2140,8 @@ jq -n 'if true then 42 else empty end'  # 42
 </code></pre>
 <h3 id="numbers--strings--booleans--arrays--objects--nulls"><a class="header" href="#numbers--strings--booleans--arrays--objects--nulls">numbers / strings / booleans / arrays / objects / nulls</a></h3>
 <p>Type filter functions — return only values of matching type.</p>
-<pre><code>jq -n '[1, "a", true, null] | map(numbers)'
-jq -n '[1, "a", true, null] | map(strings)'    # [1], ["a"]
+<pre><code>jq -n '[1, "a", true, null] | map(numbers)'   # [1]
+jq -n '[1, "a", true, null] | map(strings)'   # ["a"]
 </code></pre>
 <h3 id="tonumber--toboolean--tostring"><a class="header" href="#tonumber--toboolean--tostring">tonumber / toboolean / tostring</a></h3>
 <p>Convert between string and number.</p>
@@ -2164,14 +2165,25 @@ jq -n '{a:1} | tojson'              # "{\"a\":1}"
 <h3 id="paths--setpath--getpath--delpaths"><a class="header" href="#paths--setpath--getpath--delpaths">paths / setpath / getpath / delpaths</a></h3>
 <p>Inspect and manipulate nested paths.</p>
 <pre><code>jq -n '{a:{b:1},c:2} | paths'
+jq -n '{a:{b:1},c:2} | paths(scalars)'
 jq -n '{} | setpath(["a","b"]; 1)'                  # {"a":{"b":1}}
 jq -n '{"a":{"b":1}} | getpath(["a","b"])'          # 1
 jq -n '{"a":{"b":1,"c":2}} | delpaths([["a","b"]])' # {"a":{"c":2}}
+</code></pre>
+<h3 id="ascii_downcase--ascii_upcase"><a class="header" href="#ascii_downcase--ascii_upcase">ascii_downcase / ascii_upcase</a></h3>
+<p>Convert string to lowercase/uppercase.</p>
+<pre><code>jq -n '"Hello" | ascii_downcase'    # "hello"
+jq -n '"Hello" | ascii_upcase'      # "HELLO"
+</code></pre>
+<h3 id="join"><a class="header" href="#join">join</a></h3>
+<p>Join array elements with a separator string.</p>
+<pre><code>jq -n '[1,2,3] | join(", ")'
 </code></pre>
 <h3 id="add"><a class="header" href="#add">add</a></h3>
 <p>Sum array elements.</p>
 <pre><code>jq -n '[1,2,3] | add'                # 6
 jq -n '[] | add'                     # null
+jq -n '[{a:1},{a:2}] | add(.[].a)'   # 3
 </code></pre>
 <h3 id="keys--keys_unsorted"><a class="header" href="#keys--keys_unsorted">keys / keys_unsorted</a></h3>
 <p>Return the keys of an object (sorted/insertion-order).</p>
@@ -2193,11 +2205,6 @@ jq -n '{a:1,b:2} | map_values(. + 1)'
 <p>Filter items by condition.</p>
 <pre><code>jq -n '[1,2,3] | map(select(. &gt; 1))'
 </code></pre>
-<h3 id="first--last"><a class="header" href="#first--last">first / last</a></h3>
-<p>Return first or last element of an array.</p>
-<pre><code>jq -n '[1,2,3] | first'             # 1
-jq -n '[1,2,3] | last'              # 3
-</code></pre>
 <h3 id="reverse"><a class="header" href="#reverse">reverse</a></h3>
 <p>Reverse an array.</p>
 <pre><code>jq -n '[1,2,3] | reverse'           # [3,2,1]
@@ -2212,6 +2219,9 @@ jq -n '[{"age":2},{"age":1}] | sort_by(.age)'
 <pre><code>$ jq -nc '[{"name":"a","type":"x"},{"name":"b","type":"y"},{"name":"c","type":"x"}] | group_by(.type)'
 [[{"name":"a","type":"x"},{"name":"c","type":"x"}],[{"name":"b","type":"y"}]]
 </code></pre>
+<blockquote>
+<p>group_by(.x) requires prior sort_by(.x)</p>
+</blockquote>
 <h3 id="unique--unique_by"><a class="header" href="#unique--unique_by">unique / unique_by</a></h3>
 <p>Remove duplicate elements. <code>unique</code> uses value equality; <code>unique_by(f)</code> uses the result of <code>f</code> as the key.</p>
 <pre><code>jq -n '[1,2,1,3] | unique'                          # [1,2,3]
@@ -2223,6 +2233,10 @@ jq -n '[{"x":1},{"x":2},{"x":1}] | unique_by(.x)'   # [{"x":1},{"x":2}]
 jq -n '[3,1,2] | max'              # 3
 jq -n '[{"x":2},{"x":1}] | min_by(.x)'  # {"x":1}
 </code></pre>
+<h3 id="transpose"><a class="header" href="#transpose">transpose</a></h3>
+<p>Transpose a matrix (array of arrays).</p>
+<pre><code>jq -n '[[1,2],[3,4]] | transpose'   # [[1,3],[2,4]]
+</code></pre>
 <h3 id="flatten"><a class="header" href="#flatten">flatten</a></h3>
 <p>Flatten nested arrays to a specified depth (default: infinite).</p>
 <pre><code>jq -n '[[1,[2]],[3]] | flatten'    # [1,2,3]
@@ -2232,6 +2246,11 @@ jq -n '[[1,[2]],[3]] | flatten(1)' # [1,[2],3]
 <p>Find all indices where a value/pattern occurs.</p>
 <pre><code>jq -n '"abcabc" | indices("b")'     # [1,4]
 jq -n '[1,2,1,2] | indices(1)'      # [0,2]
+</code></pre>
+<h3 id="index"><a class="header" href="#index">index</a></h3>
+<p>Find the first index of a value in an array or string.</p>
+<pre><code>jq -n '"abcabc" | index("b")'       # 1
+jq -n '[1,2,1,2] | index(1)'        # 0
 </code></pre>
 <h3 id="inputs"><a class="header" href="#inputs">inputs</a></h3>
 <p>Read remaining input values (useful with <code>-n</code> for streaming).</p>
@@ -2243,9 +2262,10 @@ jq -n '[1,2,1,2] | indices(1)'      # [0,2]
 jq -n 'range(1; 5)'                 # 1 2 3 4
 jq -n 'range(0; 10; 3)'             # 0 3 6 9
 </code></pre>
-<h3 id="repeat"><a class="header" href="#repeat">repeat</a></h3>
-<p>Repeatedly apply a filter, emitting each result.</p>
-<pre><code>jq -n '0 | repeat(.+1) | limit(3; .)'  # 1 2 3
+<h3 id="first--last"><a class="header" href="#first--last">first / last</a></h3>
+<p>Return first or last element.</p>
+<pre><code>jq -n '[1,2,3] | first'             # 1
+jq -n '[1,2,3] | last'              # 3
 </code></pre>
 <h3 id="limit"><a class="header" href="#limit">limit</a></h3>
 <p>Limit the number of outputs from a stream.</p>
@@ -2263,10 +2283,16 @@ jq -n 'range(0; 10; 3)'             # 0 3 6 9
 {"idx":3,"sum":3}
 {"idx":6,"sum":6}
 </code></pre>
-<h3 id="while--until"><a class="header" href="#while--until">while / until</a></h3>
-<p>Loop constructs. <code>while(cond; update)</code> emits values while cond is true; <code>until(cond; update)</code> loops until cond is true then outputs result.</p>
-<pre><code>jq -n '[0, while(.&lt;10; .+1)]'       # [0,1,2,3,4,5,6,7,8,9,10]
-jq -n '0 | until(.&gt;10; .+1)'        # 11
+<h3 id="recurse"><a class="header" href="#recurse">recurse</a></h3>
+<p>Recursively descend into nested structures.</p>
+<p><code>..</code> is alias for recurse.</p>
+<pre><code>jq -n '{a:{b:1}} | recurse'
+jq -n '10 | recurse(. - 1; . &gt; 0)'
+</code></pre>
+<h3 id="walk"><a class="header" href="#walk">walk</a></h3>
+<p>Recursively process all elements in a tree structure.</p>
+<pre><code>$ jq -nc '{a:{b:"c"},d:"e"} | walk(if type == "string" then ascii_upcase else . end)'
+{"a":{"b":"C"},"d":"E"}
 </code></pre>
 <h3 id="any--all"><a class="header" href="#any--all">any / all</a></h3>
 <p>Check if any/all elements satisfy a condition.</p>
@@ -2277,17 +2303,12 @@ jq -n '[] | any'                   # false
 </code></pre>
 <h3 id="contains--inside"><a class="header" href="#contains--inside">contains / inside</a></h3>
 <p>Check if a value contains another (strings, arrays, objects).</p>
-<pre><code>jq -n '"foobar" | contains("foo")'  # true
-jq -n '[1,2,3] | contains([1,2])'   # true
-jq -n '{"a":1,"b":2} | contains({a:1})'  # true
+<pre><code>jq -n '"foobar" | contains("foo")'      # true
+jq -n '[1,3,2] | contains([1,2])'       # true
+jq -n '{"a":1,"b":2} | contains({a:1})' # true
 </code></pre>
 <p><code>inside</code> is the inverse — checks if input is inside argument.</p>
 <pre><code>jq -n '"foo" | inside("foobar")'    # true
-</code></pre>
-<h3 id="walk"><a class="header" href="#walk">walk</a></h3>
-<p>Walk the entire tree and apply a filter <code>f</code> to every node (bottom-up).</p>
-<pre><code>$ jq -nc '{"a":{"b":1},"c":[2,3]} | walk(if type == "number" then . * 2 else . end)'
-{"a":{"b":2},"c":[4,6]}
 </code></pre>
 <h3 id="debug"><a class="header" href="#debug">debug</a></h3>
 <p>Print value to stderr, pass through unchanged. Useful for tracing in pipelines.</p>
@@ -2297,9 +2318,9 @@ jq -n '{"a":1,"b":2} | contains({a:1})'  # true
 <h3 id="try--catch--error"><a class="header" href="#try--catch--error">try / catch / error</a></h3>
 <p>Handle errors without halting the pipeline. <code>try expr</code> silently suppresses
 errors; <code>try expr catch handler</code> runs <code>handler</code> with the error message as <code>.</code>.</p>
-<pre><code>try .a.b                               # null if path missing (silent)
-try .a.b catch "n/a"                   # null if path missing (explicit)
-try error("fail") catch "caught: \(.)" # "caught: fail"
+<pre><code>jq -n '3 | try .a'                              # (nothing)
+jq -n '3 | try .a catch "na"'                   # "na"
+jq -n 'try error("fail") catch "caught: \(.)"'  # "caught: fail"
 </code></pre>
 <h2 id="format-strings"><a class="header" href="#format-strings">Format Strings</a></h2>
 <ul>
@@ -2311,7 +2332,7 @@ try error("fail") catch "caught: \(.)" # "caught: fail"
 <li><code>@base64</code>: Base64 encode string, e.g. <code>jq -nr '"hello" | @base64'</code> → <code>aGVsbG8=</code></li>
 <li><code>@base64d</code>: Base64 decode string, e.g. <code>jq -nr '"aGVsbG8=" | @base64d'</code> → <code>hello</code></li>
 <li><code>@sh</code>: Escape for shell use (single-quote wrap), e.g. <code>jq -nr '"it'\''s" | @sh'</code> → <code>'it'\''s'</code></li>
-<li><code>@text</code>: Output as plain text, e.g. <code>jq -nc '42 | @text'</code> → <code>"42"</code></li>
+<li><code>@text</code>: Convert to string, e.g. <code>jq -nc '42 | @text'</code> → <code>"42"</code></li>
 </ul>
 <h2 id="regex-1"><a class="header" href="#regex-1">Regex</a></h2>
 <h3 id="test-1"><a class="header" href="#test-1">test</a></h3>
@@ -2355,14 +2376,6 @@ jq -rn '"hello world" | gsub("\\w+"; "***")'    # *** ***
 <p>Return the current time as Unix epoch seconds (float).</p>
 <pre><code>jq -n 'now'               # 1705314600.22693
 </code></pre>
-<h3 id="strftime"><a class="header" href="#strftime">strftime</a></h3>
-<p>Formats a datetime (epoch seconds) to a string using a format specifier.</p>
-<pre><code>jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
-</code></pre>
-<h2 id="strptime"><a class="header" href="#strptime">strptime</a></h2>
-<p>Parses a string to epoch seconds using a format specifier.</p>
-<pre><code>jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
-</code></pre>
 <h3 id="fromdate"><a class="header" href="#fromdate">fromdate</a></h3>
 <p>Parse an ISO 8601 datetime string to Unix epoch seconds.</p>
 <pre><code>jq -n '"2024-01-15T10:30:00Z" | fromdate'   # 1705314600
@@ -2371,13 +2384,21 @@ jq -rn '"hello world" | gsub("\\w+"; "***")'    # *** ***
 <p>Convert Unix epoch seconds to an ISO 8601 datetime string.</p>
 <pre><code>jq -n 'now | todate'                        # "2024-05-18T12:34:56Z"
 </code></pre>
+<h3 id="strftime"><a class="header" href="#strftime">strftime</a></h3>
+<p>Formats a datetime (epoch seconds) to a string using a format specifier.</p>
+<pre><code>jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
+</code></pre>
 <h3 id="strflocaltime"><a class="header" href="#strflocaltime">strflocaltime</a></h3>
 <p>Like <code>strftime</code> but formats in local timezone.</p>
 <pre><code>jq -n 'now | strflocaltime("%Y-%m-%d %H:%M:%S")'
 </code></pre>
+<h2 id="strptime"><a class="header" href="#strptime">strptime</a></h2>
+<p>Parses a string to array  representation using a format specifier.</p>
+<pre><code>jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
+</code></pre>
 <h3 id="mktime--gmtime"><a class="header" href="#mktime--gmtime">mktime / gmtime</a></h3>
 <p>Convert between array representation and epoch seconds.</p>
-<pre><code>jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600 (local)
+<pre><code>jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600
 jq -n '1705305600 | gmtime'                # [2024,0,15,0,0,0,1,14]
 </code></pre>
 <h2 id="cli-options"><a class="header" href="#cli-options">CLI Options</a></h2>
@@ -2401,7 +2422,7 @@ $ jq -rn '"hello"'
 hello
 </code></pre>
 <h3 id="-b"><a class="header" href="#-b"><code>-b</code></a></h3>
-<p>Brief output — omit trailing newline. (e.g. <code>\r</code> on Windows)</p>
+<p>Ensure no CRLF conversion on Windows.</p>
 <pre><code>$ jq -nb '42'
 </code></pre>
 <h3 id="-c"><a class="header" href="#-c"><code>-c</code></a></h3>
@@ -2450,16 +2471,9 @@ $ENV.PATH          Access env var via variable
 <pre><code>jq -n '$ARGS.positional' --args hello world  # ["hello","world"]
 jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
 </code></pre>
-<h3 id="multi-branches-conditional"><a class="header" href="#multi-branches-conditional">Multi Branches (Conditional)</a></h3>
-<pre><code>  [
-      { cond: (.type == "string"), result: { key: "foo" }},
-      { cond: (.type == "boolean"), result: { key: false }},
-      { cond: (.type == "number"), result: { key: 3.14 }},
-      ...
-      { cond: true, result: { key: null } } # default
-  ] | map(select(.cond) | .result) | first;
+<h3 id="string-interpolation-exp"><a class="header" href="#string-interpolation-exp">String interpolation: <code>\(exp)</code></a></h3>
+<pre><code>jq -rn '42 | "The input was \(.), which is one less than \(.+1)"'
 </code></pre>
-<p>Simplify: <code>if .type == "string" then {key: "foo"} elif .type == "number" then {key: 3.14} else {key: null} end</code></p>
 <h3 id="user-defined-functions"><a class="header" href="#user-defined-functions">User Defined Functions</a></h3>
 <pre><code>def add1: . + 1;
 def map(f): [.[] | f];          # f is a filter parameter (def filter)
