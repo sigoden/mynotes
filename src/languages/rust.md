@@ -34,9 +34,8 @@ rustup override set nightly
 - [crossbeam](https://docs.rs/crossbeam): Concurrency
 - [rayon](https://docs.rs/rayon): Concurrency computation
 - [axum](https://docs.rs/axum): web framework
-- [poem](https://docs.rs/poem): web framework，supports openapi
-- [sqlx](https://docs.rs/sqlx): sql
 - [sea-orm](https://docs.rs/sea-orm): orm
+- [sqlx](https://docs.rs/sqlx): sql
 - [reqwest](https://docs.rs/reqwest): http client
 - [anyhow](https://docs.rs/anyhow): generic error framework
 - [thiserror](https://docs.rs/thiserror): library error framework

@@ -15,12 +15,10 @@ nvm i --lts --reinstall-packages-from=node
 | name              | explain                   |
 | ----------------- | ------------------------- |
 | npm-check-updates | check updates             |
-| pkg               | pack as single executable |
 | pm2               | process managment         |
 | zx                | js like bash              |
 | prettier          | code style                |
-| yargs             | cli framework             |
-| leran             | monorepo                  |
+| commander         | cli framework             |
 
 ## NPM
 

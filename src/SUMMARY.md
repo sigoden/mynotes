@@ -2,7 +2,6 @@
 
 - [Collections](collections/README.md)
   - [CLI Tools](collections/cli.md)
-  - [SASS Tools](collections/sass.md)
   - [Utility Websites](collections/websites.md)
 
 - [Languages](languages/README.md)
@@ -18,3 +17,4 @@
   - [Linux](tools/linux.md)
   - [Redis](tools/redis.md)
   - [Vim](tools/vim.md)
+  - [Jq](tools/jq.md)

@@ -12,7 +12,7 @@
 | disk       | `lsblk`                         |
 | CPU        | `lscpu`                         |
 | port       | `netstat -tulpn \| grep LISTEN` |
-| process    | `top`                           |
+| process    | `ps aux`                        |
 | trafic     | `vnstat -i eth0 -l`             |
 | ip         | `curl ipinfo.io`                |
 | timezone   | `cat /etc/timezone`             |
@@ -359,8 +359,18 @@ sed -i -E 's/\w+.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.lis
 sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 ```
 
-### Load environment variables from .env
+## Editing Shortcuts
 
-```sh
-eval $(cat .env | sed 's/^/export /')
-```
+| Shortcut | Action                            |
+| -------- | --------------------------------- |
+| `ctrl+a` | Move to start of current line     |
+| `ctrl+e` | Move to end of current line       |
+| `ctrl+b` | Move cursor back one character    |
+| `ctrl+f` | Move cursor forward one character |
+| `alt+b`  | Move cursor back one word         |
+| `alt+f`  | Move cursor forward one word      |
+| `ctrl+d` | Delete character under cursor     |
+| `alt+d`  | Kill next word                    |
+| `ctrl+k` | Kill to end of line               |
+| `ctrl+u` | Kill to start of line             |
+| `ctrl+w` | Kill previous word                |

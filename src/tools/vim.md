@@ -1,4 +1,4 @@
-# vim hotkeys
+# vim
 
 ## switch mode
 
@@ -218,7 +218,7 @@ examples：
 
 ## command mode
 
-## files
+### files
 
 | command   | description       |
 | --------- | ----------------- |
@@ -229,7 +229,7 @@ examples：
 | `:xa`     | save all and quit |
 | `:e file` | open file         |
 
-## global
+### global
 
 | command          | description                                |
 | ---------------- | ------------------------------------------ |
@@ -240,3 +240,38 @@ examples：
 | `:!cmd`          | run shell command                          |
 | `:r !cmd`        | insert shell output                        |
 | `:w !sudo tee %` | save current file as root (classic rescue) |
+
+
+## vimrc
+
+```
+syntax on
+filetype plugin indent on
+
+set nonumber
+set linebreak
+set showbreak=+++
+set textwidth=100
+set showmatch
+set ruler
+set visualbell
+ 
+set hlsearch
+set smartcase
+set ignorecase
+set incsearch
+ 
+set autoindent
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+
+set undolevels=1000
+set backspace=indent,eol,start
+if has('win32')
+    set clipboard=unnamed
+else
+    set clipboard=unnamedplus
+endif
+```
