@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-6195a5f5.js";
+            window.path_to_searchindex_js = "../searchindex-70f39d02.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a552f6ad.js"></script>
@@ -180,7 +180,61 @@
                         <h1 id="jq"><a class="header" href="#jq">JQ</a></h1>
 <p>jq is a stream-oriented transformation language.
 Filters consume an input and may produce zero, one, or many outputs</p>
-<h2 id="basic-filters"><a class="header" href="#basic-filters">Basic Filters</a></h2>
+<h2 id="cli-options"><a class="header" href="#cli-options">CLI Options</a></h2>
+<h3 id="input"><a class="header" href="#input">Input</a></h3>
+<h4 id="-n"><a class="header" href="#-n"><code>-n</code></a></h4>
+<p>Use <code>null</code> as input — build data from scratch.</p>
+<pre><code>jq -n 'range(3)'
+</code></pre>
+<h4 id="-r"><a class="header" href="#-r"><code>-R</code></a></h4>
+<p>Read input as raw strings (not JSON). Each line becomes a string.</p>
+<pre><code>printf 'foo\nbar\n' | jq -R '.'    # "foo" "bar"
+</code></pre>
+<h4 id="-s"><a class="header" href="#-s"><code>-s</code></a></h4>
+<p>Slurp — read the entire input stream into a single array.</p>
+<pre><code>printf '{"x":1}\n{"x":2}\n' | jq -s 'map(.x) | add'    # 3
+</code></pre>
+<h3 id="output"><a class="header" href="#output">Output</a></h3>
+<h4 id="-r-1"><a class="header" href="#-r-1"><code>-r</code></a></h4>
+<p>Raw output — print strings without JSON quotes/escaping.</p>
+<pre><code>$ jq -n '"hello"'
+"hello"
+$ jq -rn '"hello"'
+hello
+</code></pre>
+<h4 id="-b"><a class="header" href="#-b"><code>-b</code></a></h4>
+<p>Ensure no CRLF conversion on Windows.</p>
+<pre><code>$ jq -nb '42'
+</code></pre>
+<h4 id="-c"><a class="header" href="#-c"><code>-c</code></a></h4>
+<p>Compact output — each output on a single line.</p>
+<pre><code>$ jq -n '[1,2]'
+[
+  1,
+  2
+]
+$ jq -nc '[1,2]'
+[1,2]
+</code></pre>
+<h3 id="variables"><a class="header" href="#variables">Variables</a></h3>
+<h4 id="--arg"><a class="header" href="#--arg"><code>--arg</code></a></h4>
+<p>Set a variable <code>$name</code> to a string value.</p>
+<pre><code>jq -n --arg name foo '{$name}'    # {"name":"foo"}
+</code></pre>
+<h4 id="--argjson"><a class="header" href="#--argjson"><code>--argjson</code></a></h4>
+<p>Set a variable <code>$name</code> to a JSON value.</p>
+<pre><code>jq -n --argjson n 42 '{$n}'    # {"n":42}
+</code></pre>
+<h4 id="--args"><a class="header" href="#--args"><code>--args</code></a></h4>
+<p>Pass positional arguments as <code>$ARGS.positional</code> (strings).</p>
+<pre><code>jq -n '$ARGS.positional' --args hello world    # ["hello","world"]
+</code></pre>
+<h4 id="--jsonargs"><a class="header" href="#--jsonargs"><code>--jsonargs</code></a></h4>
+<p>Pass positional arguments as JSON values.</p>
+<pre><code>jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
+</code></pre>
+<h2 id="core-language"><a class="header" href="#core-language">Core language</a></h2>
+<h3 id="path-expr"><a class="header" href="#path-expr">Path Expr</a></h3>
 <pre><code>.              Identity (root)
 .foo           Object field access
 .foo.bar       Nested object field access
@@ -194,14 +248,15 @@ Filters consume an input and may produce zero, one, or many outputs</p>
 .[1:]
 .[:5]
 </code></pre>
-<h2 id="array--object-construction"><a class="header" href="#array--object-construction">Array &amp; Object Construction</a></h2>
+<h3 id="construction"><a class="header" href="#construction">Construction</a></h3>
+<h4 id="array--object-construction"><a class="header" href="#array--object-construction">Array &amp; Object Construction</a></h4>
 <pre><code>[1, 2, .a]       Build array
 {key: .name}     Build object
 {($k): .v}       Computed key
 {name}           Shorthand for {name: .name}
 </code></pre>
-<h2 id="operators"><a class="header" href="#operators">Operators</a></h2>
-<h3 id=""><a class="header" href="#"><code>|</code></a></h3>
+<h3 id="operator"><a class="header" href="#operator">Operator</a></h3>
+<h4 id=""><a class="header" href="#"><code>|</code></a></h4>
 <p>Pipe the output of a filter as input to the next filter.</p>
 <pre><code>. | .name           Feed current value into field access
 . | map(. + 1)      Feed array into map
@@ -212,14 +267,14 @@ keys | .[]          Chain filters — keys then iterate
 jq -n '[1,2,3] | length'        # 3
 jq -n '{a:1,b:2} | keys | .[]'  # "a" "b"
 </code></pre>
-<h3 id="-1"><a class="header" href="#-1"><code>//</code></a></h3>
+<h4 id="-1"><a class="header" href="#-1"><code>//</code></a></h4>
 <p>Alternative operator — returns left operand if it is not <code>null</code> or <code>false</code>, otherwise returns right operand. Useful for defaults.</p>
 <pre><code>.a // "default"      Use .a if present, else "default"
 null // 42           → 42
 false // 42          → 42 (false is falsy too)
 "" // "fallback"     → "" (empty string is truthy)
 </code></pre>
-<h3 id="-2"><a class="header" href="#-2"><code>?</code></a></h3>
+<h4 id="-2"><a class="header" href="#-2"><code>?</code></a></h4>
 <p>? suppresses errors from a filter. Commonly paired with <code>//</code> for fallback defaults.</p>
 <pre><code>.foo?                 return null if key missing
 .[]?                  return empty if value is not iterable
@@ -229,7 +284,7 @@ false // 42          → 42 (false is falsy too)
 jq -n '5 | .[]? // "empty"'      # "empty"
 jq -n 'null | .a?.b? // 0'       # 0
 </code></pre>
-<h3 id="-3"><a class="header" href="#-3"><code>,</code></a></h3>
+<h4 id="-3"><a class="header" href="#-3"><code>,</code></a></h4>
 <p>Produce multiple values from a single input as a stream.
 Each expression after <code>,</code> generates a separate output.</p>
 <pre><code>.name, .age        Output name and age as separate values
@@ -240,7 +295,7 @@ Each expression after <code>,</code> generates a separate output.</p>
 jq -n '{a:1,b:2} | .a, .b'      # 1 2
 jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
 </code></pre>
-<h3 id="as"><a class="header" href="#as">as</a></h3>
+<h4 id="as"><a class="header" href="#as">as</a></h4>
 <p>Bind the current value (or destructured parts) to a variable for later use.</p>
 <pre><code>. as $x | $x + 1
 .a as $val | {$val}
@@ -252,7 +307,22 @@ jq -nc '[1,2,3] | .[], .[]'     # 1 1 2 2 3 3
 jq -n '[1,2,3] | . as $a | $a | add' # 6
 jq -n '{a:1,b:2} | {a} as {$a} | $a' # 1
 </code></pre>
-<h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
+<h4 id="exp"><a class="header" href="#exp"><code>\(exp)</code></a></h4>
+<p>String interpolation</p>
+<pre><code>jq -rn '42 | "The input was \(.), which is one less than \(.+1)"'
+</code></pre>
+<h4 id="assignment"><a class="header" href="#assignment">Assignment</a></h4>
+<pre><code>=        Assign
+|=       Update value (e.g. .arr |= sort)
++= -= *= /= %=    Arithmetic update-assignment
+</code></pre>
+<pre><code>jq -n '[1,2,3] | .[0] = 99'       # [99,2,3]
+jq -n '{a:1} | .a |= . + 1'       # {"a":2}
+jq -n '{a:1} | .a = (.a | . + 1)' # {"a":2}
+jq -n '{a:1} | .a += 1'           # {"a":2}
+jq -n '{a:10} | .a /= 2'          # {"a":5}
+</code></pre>
+<h4 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h4>
 <pre><code>.a + .b     Add (numbers) or concat (strings/arrays)
 .a - .b     Subtract (or set diff: [1,2] - [2,3] → [1])
 .a * .b     Multiply (or repeat string: "a" * 3 → "aaa")
@@ -266,7 +336,7 @@ jq -n '{"a":1} * {"a":2,"b":3}'   # {"a":2,"b":3}  (merge, rhs wins)
 jq -n '"a" * 3'                   # "aaa"
 jq -n '"a,b" / ","'               # ["a","b"]
 </code></pre>
-<h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
+<h4 id="comparison"><a class="header" href="#comparison">Comparison</a></h4>
 <pre><code>.a == .b     Equal (type-sensitive, no coercion)
 .a != .b     Not equal
 .a &gt; .b      Greater than
@@ -274,74 +344,131 @@ jq -n '"a,b" / ","'               # ["a","b"]
 .a &lt; .b      Less than
 .a &lt;= .b     Less or equal
 </code></pre>
-<h2 id="assignment"><a class="header" href="#assignment">Assignment</a></h2>
-<pre><code>=        Assign
-|=       Update value (e.g. .arr |= sort)
-+= -= *= /= %=    Arithmetic update-assignment
-</code></pre>
-<pre><code>jq -n '[1,2,3] | .[0] = 99'       # [99,2,3]
-jq -n '{a:1} | .a |= . + 1'       # {"a":2}
-jq -n '{a:1} | .a = (.a | . + 1)' # {"a":2}
-jq -n '{a:1} | .a += 1'           # {"a":2}
-jq -n '{a:10} | .a /= 2'          # {"a":5}
-</code></pre>
-<h2 id="condition"><a class="header" href="#condition">Condition</a></h2>
-<pre><code>.x &gt; 1
-.name == "foo"          String equality
-.name != "foo"          String not equality
-has("foo")              Object has key "foo"
-has(0)                  Array has index 0
-
-.a &gt; 1 and .b &lt; 5       Both true
+<h4 id="logic"><a class="header" href="#logic">Logic</a></h4>
+<pre><code>.a &gt; 1 and .b &lt; 5       Both true
 .a &gt; 1 or  .b &lt; 5       Either true
 .flag | not             Negate via pipe (preferred idiom)
 .a &gt; 1 and (.b | not)   Group with parens
 </code></pre>
-<pre><code>select(has("foo"))
-if .x &gt; 1 then "big" else "small" end
-if .x &gt; 1 then "big" elif .x &gt; 0 then "mid" else "small" end
-</code></pre>
-<h2 id="built-in-functions"><a class="header" href="#built-in-functions">Built-in Functions</a></h2>
-<h3 id="length"><a class="header" href="#length">length</a></h3>
+<h2 id="standard-library"><a class="header" href="#standard-library">Standard library</a></h2>
+<h3 id="basic"><a class="header" href="#basic">Basic</a></h3>
+<h4 id="length"><a class="header" href="#length">length</a></h4>
 <p>Length of string, array, or object.</p>
 <pre><code>jq -n '"abc" | length'
 </code></pre>
-<h3 id="empty"><a class="header" href="#empty">empty</a></h3>
-<p>Return nothing (zero outputs). Useful as a no-op or to suppress output in conditional branches.</p>
-<pre><code>jq -n 'empty'                           # (no output)
-jq -n '[1, empty, 2]'                   # [1, 2]
-jq -n 'if true then 42 else empty end'  # 42
+<h4 id="keys--keys_unsorted"><a class="header" href="#keys--keys_unsorted">keys / keys_unsorted</a></h4>
+<p>Return the keys of an object (sorted/insertion-order).</p>
+<pre><code>jq -n '{b:1,a:2} | keys'           # ["a","b"]
+jq -n '{b:1,a:2} | keys_unsorted'  # ["b","a"]
 </code></pre>
-<h3 id="type"><a class="header" href="#type">type</a></h3>
-<p>Return the type of a value as a string.</p>
-<pre><code>$ jq -nc '[0, false, [], {}, null, "hello"] | map(type)'
-["number","boolean","array","object","null","string"]
+<h4 id="to_entries--from_entries--with_entries"><a class="header" href="#to_entries--from_entries--with_entries">to_entries / from_entries / with_entries</a></h4>
+<p>Convert between objects and arrays of key-value entries.</p>
+<pre><code>jq -n '{a:1} | to_entries'
+jq -n '[{"key":"a","value":1}] | from_entries'
+jq -n '{a:1,b:2} | with_entries(.value *= 2)'
 </code></pre>
-<h3 id="numbers--strings--booleans--arrays--objects--nulls"><a class="header" href="#numbers--strings--booleans--arrays--objects--nulls">numbers / strings / booleans / arrays / objects / nulls</a></h3>
+<h3 id="selection"><a class="header" href="#selection">Selection</a></h3>
+<h4 id="numbers--strings--booleans--arrays--objects--nulls"><a class="header" href="#numbers--strings--booleans--arrays--objects--nulls">numbers / strings / booleans / arrays / objects / nulls</a></h4>
 <p>Type filter functions — return only values of matching type.</p>
 <pre><code>jq -n '[1, "a", true, null] | map(numbers)'   # [1]
 jq -n '[1, "a", true, null] | map(strings)'   # ["a"]
 </code></pre>
-<h3 id="tonumber--toboolean--tostring"><a class="header" href="#tonumber--toboolean--tostring">tonumber / toboolean / tostring</a></h3>
+<h4 id="type"><a class="header" href="#type">type</a></h4>
+<p>Return the type of a value as a string.</p>
+<pre><code>$ jq -nc '[0, false, [], {}, null, "hello"] | map(type)'
+["number","boolean","array","object","null","string"]
+</code></pre>
+<h4 id="select"><a class="header" href="#select">select</a></h4>
+<p>Filter items by condition.</p>
+<pre><code>jq -n '[1,2,3] | map(select(. &gt; 1))'
+</code></pre>
+<h3 id="conversions"><a class="header" href="#conversions">Conversions</a></h3>
+<h4 id="tonumber--toboolean--tostring"><a class="header" href="#tonumber--toboolean--tostring">tonumber / toboolean / tostring</a></h4>
 <p>Convert between string and number.</p>
 <pre><code>jq -n '"42" | tonumber'
 jq -n '"true" | toboolean'
 jq -n '42 | tostring'
 </code></pre>
-<h3 id="fromjson--tojson"><a class="header" href="#fromjson--tojson">fromjson / tojson</a></h3>
+<h4 id="fromjson--tojson"><a class="header" href="#fromjson--tojson">fromjson / tojson</a></h4>
 <p>Parse a JSON string or serialize to JSON string.</p>
 <pre><code>jq -n '"{\"a\":1}" | fromjson'      # {"a":1}
 jq -n '{a:1} | tojson'              # "{\"a\":1}"
 </code></pre>
-<h3 id="pick"><a class="header" href="#pick">pick</a></h3>
-<p>Select only specified keys from an object.</p>
-<pre><code>jq -n '{a:1,b:2,c:3} | pick(.a, .c)'    # {"a":1,"c":3}
+<h3 id="stream-generators"><a class="header" href="#stream-generators">Stream generators</a></h3>
+<h4 id="empty"><a class="header" href="#empty">empty</a></h4>
+<p>Return nothing (zero outputs). Useful as a no-op or to suppress output in conditional branches.</p>
+<pre><code>jq -n 'empty'                           # (no output)
+jq -n '[1, empty, 2]'                   # [1, 2]
+jq -n 'if true then 42 else empty end'  # 42
 </code></pre>
-<h3 id="del"><a class="header" href="#del">del</a></h3>
+<h4 id="range"><a class="header" href="#range">range</a></h4>
+<p>Generate a sequence of numbers.</p>
+<pre><code>jq -n 'range(3)'                    # 0 1 2
+jq -n 'range(1; 5)'                 # 1 2 3 4
+jq -n 'range(0; 10; 3)'             # 0 3 6 9
+</code></pre>
+<h4 id="recurse"><a class="header" href="#recurse">recurse</a></h4>
+<p>Recursively descend into nested structures.</p>
+<p><code>..</code> is alias for recurse.</p>
+<pre><code>jq -n '{a:{b:1}} | recurse'
+jq -n '10 | recurse(. - 1; . &gt; 0)'
+</code></pre>
+<h3 id="stream-consumers"><a class="header" href="#stream-consumers">Stream consumers</a></h3>
+<h4 id="add"><a class="header" href="#add">add</a></h4>
+<p>Sum array elements.</p>
+<pre><code>jq -n '[1,2,3] | add'                # 6
+jq -n '[] | add'                     # null
+jq -n '[{a:1},{a:2}] | add(.[].a)'   # 3
+</code></pre>
+<h4 id="first--last"><a class="header" href="#first--last">first / last</a></h4>
+<p>Return first or last element.</p>
+<pre><code>jq -n '[1,2,3] | first'             # 1
+jq -n '[1,2,3] | last'              # 3
+</code></pre>
+<h4 id="limit"><a class="header" href="#limit">limit</a></h4>
+<p>Limit the number of outputs from a stream.</p>
+<pre><code>jq -n '[1,2,3,4,5] | limit(3; .[])'    # 1, 2, 3
+</code></pre>
+<h4 id="reduce"><a class="header" href="#reduce">reduce</a></h4>
+<p>Accumulate array elements into a single value. Takes <code>(init; update)</code> where
+<code>.</code> is the accumulator and <code>$item</code> is each element.</p>
+<pre><code>jq -n '[1,2,3] | reduce .[] as $item (0; . + $item)'      # 6
+</code></pre>
+<h4 id="foreach"><a class="header" href="#foreach">foreach</a></h4>
+<p>Iterate with state and emit a value per element. Takes <code>(init; update; extract)</code>.</p>
+<pre><code>$ jq -nc '[1,2,3] | foreach .[] as $item (0; . + $item; {idx: ., sum: .})'
+{"idx":1,"sum":1}
+{"idx":3,"sum":3}
+{"idx":6,"sum":6}
+</code></pre>
+<h4 id="any--all"><a class="header" href="#any--all">any / all</a></h4>
+<p>Check if any/all elements satisfy a condition.</p>
+<pre><code>jq -n '[1,2,3] | any(. &gt; 2)'       # true
+jq -n '[1,2,3] | all(. &gt; 0)'       # true
+jq -n '[1,2,3] | any'              # true (any truthy)
+jq -n '[] | any'                   # false
+</code></pre>
+<h3 id="updates"><a class="header" href="#updates">Updates</a></h3>
+<h4 id="map--map_values"><a class="header" href="#map--map_values">map / map_values</a></h4>
+<p>Apply a filter to each array element / object value.</p>
+<pre><code>jq -n '[1,2,3] | map(. * 2)'
+jq -n '{a:1,b:2} | map_values(. + 1)'
+</code></pre>
+<h4 id="walk"><a class="header" href="#walk">walk</a></h4>
+<p>Recursively process all elements in a tree structure.</p>
+<pre><code>$ jq -nc '{a:{b:"c"},d:"e"} | walk(if type == "string" then ascii_upcase else . end)'
+{"a":{"b":"C"},"d":"E"}
+</code></pre>
+<h4 id="del"><a class="header" href="#del">del</a></h4>
 <p>Delete a key from an object.</p>
 <pre><code>jq -n '{a:1,b:2} | del(.b)'
 </code></pre>
-<h3 id="paths--setpath--getpath--delpaths"><a class="header" href="#paths--setpath--getpath--delpaths">paths / setpath / getpath / delpaths</a></h3>
+<h3 id="paths"><a class="header" href="#paths">Paths</a></h3>
+<h4 id="pick"><a class="header" href="#pick">pick</a></h4>
+<p>Select only specified keys from an object.</p>
+<pre><code>jq -n '{a:1,b:2,c:3} | pick(.a, .c)'    # {"a":1,"c":3}
+</code></pre>
+<h4 id="paths--setpath--getpath--delpaths"><a class="header" href="#paths--setpath--getpath--delpaths">paths / setpath / getpath / delpaths</a></h4>
 <p>Inspect and manipulate nested paths.</p>
 <pre><code>jq -n '{a:{b:1},c:2} | paths'
 jq -n '{a:{b:1},c:2} | paths(scalars)'
@@ -349,138 +476,8 @@ jq -n '{} | setpath(["a","b"]; 1)'                  # {"a":{"b":1}}
 jq -n '{"a":{"b":1}} | getpath(["a","b"])'          # 1
 jq -n '{"a":{"b":1,"c":2}} | delpaths([["a","b"]])' # {"a":{"c":2}}
 </code></pre>
-<h3 id="ascii_downcase--ascii_upcase"><a class="header" href="#ascii_downcase--ascii_upcase">ascii_downcase / ascii_upcase</a></h3>
-<p>Convert string to lowercase/uppercase.</p>
-<pre><code>jq -n '"Hello" | ascii_downcase'    # "hello"
-jq -n '"Hello" | ascii_upcase'      # "HELLO"
-</code></pre>
-<h3 id="join"><a class="header" href="#join">join</a></h3>
-<p>Join array elements with a separator string.</p>
-<pre><code>jq -n '[1,2,3] | join(", ")'
-</code></pre>
-<h3 id="add"><a class="header" href="#add">add</a></h3>
-<p>Sum array elements.</p>
-<pre><code>jq -n '[1,2,3] | add'                # 6
-jq -n '[] | add'                     # null
-jq -n '[{a:1},{a:2}] | add(.[].a)'   # 3
-</code></pre>
-<h3 id="keys--keys_unsorted"><a class="header" href="#keys--keys_unsorted">keys / keys_unsorted</a></h3>
-<p>Return the keys of an object (sorted/insertion-order).</p>
-<pre><code>jq -n '{b:1,a:2} | keys'           # ["a","b"]
-jq -n '{b:1,a:2} | keys_unsorted'  # ["b","a"]
-</code></pre>
-<h3 id="to_entries--from_entries--with_entries"><a class="header" href="#to_entries--from_entries--with_entries">to_entries / from_entries / with_entries</a></h3>
-<p>Convert between objects and arrays of key-value entries.</p>
-<pre><code>jq -n '{a:1} | to_entries'
-jq -n '[{"key":"a","value":1}] | from_entries'
-jq -n '{a:1,b:2} | with_entries(.value *= 2)' 
-</code></pre>
-<h3 id="map--map_values"><a class="header" href="#map--map_values">map / map_values</a></h3>
-<p>Apply a filter to each array element / object value.</p>
-<pre><code>jq -n '[1,2,3] | map(. * 2)'
-jq -n '{a:1,b:2} | map_values(. + 1)'
-</code></pre>
-<h3 id="select"><a class="header" href="#select">select</a></h3>
-<p>Filter items by condition.</p>
-<pre><code>jq -n '[1,2,3] | map(select(. &gt; 1))'
-</code></pre>
-<h3 id="reverse"><a class="header" href="#reverse">reverse</a></h3>
-<p>Reverse an array.</p>
-<pre><code>jq -n '[1,2,3] | reverse'           # [3,2,1]
-</code></pre>
-<h3 id="sort--sort_by"><a class="header" href="#sort--sort_by">sort / sort_by</a></h3>
-<p>Sort array; <code>sort_by(f)</code> sorts by the result of applying <code>f</code> to each element.</p>
-<pre><code>jq -n '[3,1,2] | sort'
-jq -n '[{"age":2},{"age":1}] | sort_by(.age)'
-</code></pre>
-<h3 id="group_by"><a class="header" href="#group_by">group_by</a></h3>
-<p>Group elements into array of arrays based on a key expression.</p>
-<pre><code>$ jq -nc '[{"name":"a","type":"x"},{"name":"b","type":"y"},{"name":"c","type":"x"}] | group_by(.type)'
-[[{"name":"a","type":"x"},{"name":"c","type":"x"}],[{"name":"b","type":"y"}]]
-</code></pre>
-<blockquote>
-<p>group_by(.x) requires prior sort_by(.x)</p>
-</blockquote>
-<h3 id="unique--unique_by"><a class="header" href="#unique--unique_by">unique / unique_by</a></h3>
-<p>Remove duplicate elements. <code>unique</code> uses value equality; <code>unique_by(f)</code> uses the result of <code>f</code> as the key.</p>
-<pre><code>jq -n '[1,2,1,3] | unique'                          # [1,2,3]
-jq -n '[{"x":1},{"x":2},{"x":1}] | unique_by(.x)'   # [{"x":1},{"x":2}]
-</code></pre>
-<h3 id="min--max--min_by--max_by"><a class="header" href="#min--max--min_by--max_by">min / max / min_by / max_by</a></h3>
-<p>Find minimum or maximum values.</p>
-<pre><code>jq -n '[3,1,2] | min'              # 1
-jq -n '[3,1,2] | max'              # 3
-jq -n '[{"x":2},{"x":1}] | min_by(.x)'  # {"x":1}
-</code></pre>
-<h3 id="transpose"><a class="header" href="#transpose">transpose</a></h3>
-<p>Transpose a matrix (array of arrays).</p>
-<pre><code>jq -n '[[1,2],[3,4]] | transpose'   # [[1,3],[2,4]]
-</code></pre>
-<h3 id="flatten"><a class="header" href="#flatten">flatten</a></h3>
-<p>Flatten nested arrays to a specified depth (default: infinite).</p>
-<pre><code>jq -n '[[1,[2]],[3]] | flatten'    # [1,2,3]
-jq -n '[[1,[2]],[3]] | flatten(1)' # [1,[2],3]
-</code></pre>
-<h3 id="indices"><a class="header" href="#indices">indices</a></h3>
-<p>Find all indices where a value/pattern occurs.</p>
-<pre><code>jq -n '"abcabc" | indices("b")'     # [1,4]
-jq -n '[1,2,1,2] | indices(1)'      # [0,2]
-</code></pre>
-<h3 id="index"><a class="header" href="#index">index</a></h3>
-<p>Find the first index of a value in an array or string.</p>
-<pre><code>jq -n '"abcabc" | index("b")'       # 1
-jq -n '[1,2,1,2] | index(1)'        # 0
-</code></pre>
-<h3 id="inputs"><a class="header" href="#inputs">inputs</a></h3>
-<p>Read remaining input values (useful with <code>-n</code> for streaming).</p>
-<pre><code>printf '1\n2\n3\n' | jq -n '[inputs] | add'    # 6
-</code></pre>
-<h3 id="range"><a class="header" href="#range">range</a></h3>
-<p>Generate a sequence of numbers.</p>
-<pre><code>jq -n 'range(3)'                    # 0 1 2
-jq -n 'range(1; 5)'                 # 1 2 3 4
-jq -n 'range(0; 10; 3)'             # 0 3 6 9
-</code></pre>
-<h3 id="first--last"><a class="header" href="#first--last">first / last</a></h3>
-<p>Return first or last element.</p>
-<pre><code>jq -n '[1,2,3] | first'             # 1
-jq -n '[1,2,3] | last'              # 3
-</code></pre>
-<h3 id="limit"><a class="header" href="#limit">limit</a></h3>
-<p>Limit the number of outputs from a stream.</p>
-<pre><code>jq -n '[1,2,3,4,5] | limit(3; .[])'    # 1, 2, 3
-</code></pre>
-<h3 id="reduce"><a class="header" href="#reduce">reduce</a></h3>
-<p>Accumulate array elements into a single value. Takes <code>(init; update)</code> where
-<code>.</code> is the accumulator and <code>$item</code> is each element.</p>
-<pre><code>jq -n '[1,2,3] | reduce .[] as $item (0; . + $item)'      # 6
-</code></pre>
-<h3 id="foreach"><a class="header" href="#foreach">foreach</a></h3>
-<p>Iterate with state and emit a value per element. Takes <code>(init; update; extract)</code>.</p>
-<pre><code>$ jq -nc '[1,2,3] | foreach .[] as $item (0; . + $item; {idx: ., sum: .})'     
-{"idx":1,"sum":1}
-{"idx":3,"sum":3}
-{"idx":6,"sum":6}
-</code></pre>
-<h3 id="recurse"><a class="header" href="#recurse">recurse</a></h3>
-<p>Recursively descend into nested structures.</p>
-<p><code>..</code> is alias for recurse.</p>
-<pre><code>jq -n '{a:{b:1}} | recurse'
-jq -n '10 | recurse(. - 1; . &gt; 0)'
-</code></pre>
-<h3 id="walk"><a class="header" href="#walk">walk</a></h3>
-<p>Recursively process all elements in a tree structure.</p>
-<pre><code>$ jq -nc '{a:{b:"c"},d:"e"} | walk(if type == "string" then ascii_upcase else . end)'
-{"a":{"b":"C"},"d":"E"}
-</code></pre>
-<h3 id="any--all"><a class="header" href="#any--all">any / all</a></h3>
-<p>Check if any/all elements satisfy a condition.</p>
-<pre><code>jq -n '[1,2,3] | any(. &gt; 2)'       # true
-jq -n '[1,2,3] | all(. &gt; 0)'       # true
-jq -n '[1,2,3] | any'              # true (any truthy)
-jq -n '[] | any'                   # false
-</code></pre>
-<h3 id="contains--inside"><a class="header" href="#contains--inside">contains / inside</a></h3>
+<h3 id="membership"><a class="header" href="#membership">Membership</a></h3>
+<h4 id="contains--inside"><a class="header" href="#contains--inside">contains / inside</a></h4>
 <p>Check if a value contains another (strings, arrays, objects).</p>
 <pre><code>jq -n '"foobar" | contains("foo")'      # true
 jq -n '[1,3,2] | contains([1,2])'       # true
@@ -489,19 +486,65 @@ jq -n '{"a":1,"b":2} | contains({a:1})' # true
 <p><code>inside</code> is the inverse — checks if input is inside argument.</p>
 <pre><code>jq -n '"foo" | inside("foobar")'    # true
 </code></pre>
-<h3 id="debug"><a class="header" href="#debug">debug</a></h3>
-<p>Print value to stderr, pass through unchanged. Useful for tracing in pipelines.</p>
-<pre><code>jq -n '1, 2 | debug'
+<h4 id="indices"><a class="header" href="#indices">indices</a></h4>
+<p>Find all indices where a value/pattern occurs.</p>
+<pre><code>jq -n '"abcabc" | indices("b")'     # [1,4]
+jq -n '[1,2,1,2] | indices(1)'      # [0,2]
 </code></pre>
-<p>stderr output: <code>["DEBUG:",1]</code> <code>["DEBUG:",2]</code></p>
-<h3 id="try--catch--error"><a class="header" href="#try--catch--error">try / catch / error</a></h3>
-<p>Handle errors without halting the pipeline. <code>try expr</code> silently suppresses
-errors; <code>try expr catch handler</code> runs <code>handler</code> with the error message as <code>.</code>.</p>
-<pre><code>jq -n '3 | try .a'                              # (nothing)
-jq -n '3 | try .a catch "na"'                   # "na"
-jq -n 'try error("fail") catch "caught: \(.)"'  # "caught: fail"
+<h4 id="index"><a class="header" href="#index">index</a></h4>
+<p>Find the first index of a value in an array or string.</p>
+<pre><code>jq -n '"abcabc" | index("b")'       # 1
+jq -n '[1,2,1,2] | index(1)'        # 0
 </code></pre>
-<h2 id="format-strings"><a class="header" href="#format-strings">Format Strings</a></h2>
+<h3 id="arrays"><a class="header" href="#arrays">Arrays</a></h3>
+<h4 id="sort--sort_by"><a class="header" href="#sort--sort_by">sort / sort_by</a></h4>
+<p>Sort array; <code>sort_by(f)</code> sorts by the result of applying <code>f</code> to each element.</p>
+<pre><code>jq -n '[3,1,2] | sort'
+jq -n '[{"age":2},{"age":1}] | sort_by(.age)'
+</code></pre>
+<h4 id="group_by"><a class="header" href="#group_by">group_by</a></h4>
+<p>Group elements into array of arrays based on a key expression.</p>
+<pre><code>$ jq -nc '[{"name":"a","type":"x"},{"name":"b","type":"y"},{"name":"c","type":"x"}] | group_by(.type)'
+[[{"name":"a","type":"x"},{"name":"c","type":"x"}],[{"name":"b","type":"y"}]]
+</code></pre>
+<blockquote>
+<p>group_by(.x) requires prior sort_by(.x)</p>
+</blockquote>
+<h4 id="unique--unique_by"><a class="header" href="#unique--unique_by">unique / unique_by</a></h4>
+<p>Remove duplicate elements. <code>unique</code> uses value equality; <code>unique_by(f)</code> uses the result of <code>f</code> as the key.</p>
+<pre><code>jq -n '[1,2,1,3] | unique'                          # [1,2,3]
+jq -n '[{"x":1},{"x":2},{"x":1}] | unique_by(.x)'   # [{"x":1},{"x":2}]
+</code></pre>
+<h4 id="min--max--min_by--max_by"><a class="header" href="#min--max--min_by--max_by">min / max / min_by / max_by</a></h4>
+<p>Find minimum or maximum values.</p>
+<pre><code>jq -n '[3,1,2] | min'              # 1
+jq -n '[3,1,2] | max'              # 3
+jq -n '[{"x":2},{"x":1}] | min_by(.x)'  # {"x":1}
+</code></pre>
+<h4 id="reverse"><a class="header" href="#reverse">reverse</a></h4>
+<p>Reverse an array.</p>
+<pre><code>jq -n '[1,2,3] | reverse'           # [3,2,1]
+</code></pre>
+<h4 id="transpose"><a class="header" href="#transpose">transpose</a></h4>
+<p>Transpose a matrix (array of arrays).</p>
+<pre><code>jq -n '[[1,2],[3,4]] | transpose'   # [[1,3],[2,4]]
+</code></pre>
+<h4 id="flatten"><a class="header" href="#flatten">flatten</a></h4>
+<p>Flatten nested arrays to a specified depth (default: infinite).</p>
+<pre><code>jq -n '[[1,[2]],[3]] | flatten'    # [1,2,3]
+jq -n '[[1,[2]],[3]] | flatten(1)' # [1,[2],3]
+</code></pre>
+<h3 id="text-strings"><a class="header" href="#text-strings">Text strings</a></h3>
+<h4 id="ascii_downcase--ascii_upcase"><a class="header" href="#ascii_downcase--ascii_upcase">ascii_downcase / ascii_upcase</a></h4>
+<p>Convert string to lowercase/uppercase.</p>
+<pre><code>jq -n '"Hello" | ascii_downcase'    # "hello"
+jq -n '"Hello" | ascii_upcase'      # "HELLO"
+</code></pre>
+<h4 id="join"><a class="header" href="#join">join</a></h4>
+<p>Join array elements with a separator string.</p>
+<pre><code>jq -n '[1,2,3] | join(", ")'
+</code></pre>
+<h3 id="text-string-formatting"><a class="header" href="#text-string-formatting">Text string formatting</a></h3>
 <ul>
 <li><code>@json</code>: Format value as JSON string, e.g. <code>jq -nc '42 | @json'</code> → <code>"42"</code></li>
 <li><code>@csv</code>: Convert array to CSV line, e.g. <code>jq -nr '["a","b"] | @csv'</code> → <code>"a","b"</code></li>
@@ -513,24 +556,24 @@ jq -n 'try error("fail") catch "caught: \(.)"'  # "caught: fail"
 <li><code>@sh</code>: Escape for shell use (single-quote wrap), e.g. <code>jq -nr '"it'\''s" | @sh'</code> → <code>'it'\''s'</code></li>
 <li><code>@text</code>: Convert to string, e.g. <code>jq -nc '42 | @text'</code> → <code>"42"</code></li>
 </ul>
-<h2 id="regex"><a class="header" href="#regex">Regex</a></h2>
-<h3 id="test"><a class="header" href="#test">test</a></h3>
+<h3 id="regular-expressions"><a class="header" href="#regular-expressions">Regular expressions</a></h3>
+<h4 id="test"><a class="header" href="#test">test</a></h4>
 <p>Check if string matches regex — returns <code>true</code>/<code>false</code>.</p>
 <pre><code>jq -n '"hello 42" | test("\\d+")'
 jq -n '"Hello" | test("^[a-z]+$"; "i")'
 </code></pre>
-<h3 id="match"><a class="header" href="#match">match</a></h3>
+<h4 id="match"><a class="header" href="#match">match</a></h4>
 <p>Return match objects with details (offset, length, captures).</p>
 <pre><code>$ jq -nc '"abc123" | match("[a-z]+|\\d+"; "g")'
 {"offset":0,"length":3,"string":"abc","captures":[]}
 {"offset":3,"length":3,"string":"123","captures":[]}
 </code></pre>
-<h3 id="capture"><a class="header" href="#capture">capture</a></h3>
+<h4 id="capture"><a class="header" href="#capture">capture</a></h4>
 <p>Extract named groups into an object.</p>
 <pre><code>$ jq -nc '"2024-01-15" | capture("(?&lt;y&gt;\\d+)-(?&lt;m&gt;\\d+)-(?&lt;d&gt;\\d+)")'
 {"y":"2024","m":"01","d":"15"}
 </code></pre>
-<h3 id="split--splits"><a class="header" href="#split--splits">split / splits</a></h3>
+<h4 id="split--splits"><a class="header" href="#split--splits">split / splits</a></h4>
 <p>Split string by regex. <code>split</code> returns array; <code>splits</code> streams results.</p>
 <pre><code>$ jq -rn '"a,b" | split(",")'
 [
@@ -542,118 +585,77 @@ $ jq -rn '"a,b" | splits(",")'
 a
 b
 </code></pre>
-<h3 id="sub--gsub"><a class="header" href="#sub--gsub">sub / gsub</a></h3>
+<h4 id="sub--gsub"><a class="header" href="#sub--gsub">sub / gsub</a></h4>
 <p>Replace matched substrings. <code>sub</code> replaces first match, <code>gsub</code> replaces all.</p>
-<pre><code>jq -rn '"hello world" | sub("\\w+"; "***")'     # *** world 
+<pre><code>jq -rn '"hello world" | sub("\\w+"; "***")'     # *** world
 jq -rn '"hello world" | gsub("\\w+"; "***")'    # *** ***
 </code></pre>
 <p>Capture groups in replacement via <code>$1</code>, <code>$2</code>, etc.:</p>
 <pre><code>jq -rn '"2024-01-15" | sub("(?&lt;y&gt;\\d+)-(?&lt;m&gt;\\d+)-(?&lt;d&gt;\\d+)"; "\(.y).\(.m).\(.d)")'
 </code></pre>
-<h2 id="datetime"><a class="header" href="#datetime">Datetime</a></h2>
-<h3 id="now"><a class="header" href="#now">now</a></h3>
+<h3 id="date--time"><a class="header" href="#date--time">Date &amp; Time</a></h3>
+<h4 id="now"><a class="header" href="#now">now</a></h4>
 <p>Return the current time as Unix epoch seconds (float).</p>
 <pre><code>jq -n 'now'               # 1705314600.22693
 </code></pre>
-<h3 id="fromdate"><a class="header" href="#fromdate">fromdate</a></h3>
+<h4 id="fromdate"><a class="header" href="#fromdate">fromdate</a></h4>
 <p>Parse an ISO 8601 datetime string to Unix epoch seconds.</p>
 <pre><code>jq -n '"2024-01-15T10:30:00Z" | fromdate'   # 1705314600
 </code></pre>
-<h3 id="todate"><a class="header" href="#todate">todate</a></h3>
+<h4 id="todate"><a class="header" href="#todate">todate</a></h4>
 <p>Convert Unix epoch seconds to an ISO 8601 datetime string.</p>
 <pre><code>jq -n 'now | todate'                        # "2024-05-18T12:34:56Z"
 </code></pre>
-<h3 id="strftime"><a class="header" href="#strftime">strftime</a></h3>
+<h4 id="strftime"><a class="header" href="#strftime">strftime</a></h4>
 <p>Formats a datetime (epoch seconds) to a string using a format specifier.</p>
 <pre><code>jq -n 'now | strftime("%Y-%m-%d")'                # "2024-05-18"
 </code></pre>
-<h3 id="strflocaltime"><a class="header" href="#strflocaltime">strflocaltime</a></h3>
+<h4 id="strflocaltime"><a class="header" href="#strflocaltime">strflocaltime</a></h4>
 <p>Like <code>strftime</code> but formats in local timezone.</p>
 <pre><code>jq -n 'now | strflocaltime("%Y-%m-%d %H:%M:%S")'
 </code></pre>
-<h2 id="strptime"><a class="header" href="#strptime">strptime</a></h2>
-<p>Parses a string to array  representation using a format specifier.</p>
+<h4 id="strptime"><a class="header" href="#strptime">strptime</a></h4>
+<p>Parses a string to array representation using a format specifier.</p>
 <pre><code>jq -n '"2024-01-15" | strptime("%Y-%m-%d")'       # [2024,0,15,0,0,0,1,14]
 </code></pre>
-<h3 id="mktime--gmtime"><a class="header" href="#mktime--gmtime">mktime / gmtime</a></h3>
+<h4 id="mktime--gmtime"><a class="header" href="#mktime--gmtime">mktime / gmtime</a></h4>
 <p>Convert between array representation and epoch seconds.</p>
 <pre><code>jq -n '[2024,0,15,0,0,0,1,14] | mktime'    # 1705305600
 jq -n '1705305600 | gmtime'                # [2024,0,15,0,0,0,1,14]
 </code></pre>
-<h2 id="cli-options"><a class="header" href="#cli-options">CLI Options</a></h2>
-<h3 id="-n"><a class="header" href="#-n"><code>-n</code></a></h3>
-<p>Use <code>null</code> as input — build data from scratch.</p>
-<pre><code>jq -n 'range(3)'
+<h3 id="io"><a class="header" href="#io">I/O</a></h3>
+<h4 id="inputs"><a class="header" href="#inputs">inputs</a></h4>
+<p>Read remaining input values (useful with <code>-n</code> for streaming).</p>
+<pre><code>printf '1\n2\n3\n' | jq -n '[inputs] | add'    # 6
 </code></pre>
-<h3 id="-r"><a class="header" href="#-r"><code>-R</code></a></h3>
-<p>Read input as raw strings (not JSON). Each line becomes a string.</p>
-<pre><code>printf 'foo\nbar\n' | jq -R '.'    # "foo" "bar"
+<h4 id="debug"><a class="header" href="#debug">debug</a></h4>
+<p>Print value to stderr, pass through unchanged. Useful for tracing in pipelines.</p>
+<pre><code>jq -n '1, 2 | debug'
 </code></pre>
-<h3 id="-s"><a class="header" href="#-s"><code>-s</code></a></h3>
-<p>Slurp — read the entire input stream into a single array.</p>
-<pre><code>printf '{"x":1}\n{"x":2}\n' | jq -s 'map(.x) | add'    # 3
+<p>stderr output: <code>["DEBUG:",1]</code> <code>["DEBUG:",2]</code></p>
+<h4 id="try--catch--error"><a class="header" href="#try--catch--error">try / catch / error</a></h4>
+<p>Handle errors without halting the pipeline. <code>try expr</code> silently suppresses
+errors; <code>try expr catch handler</code> runs <code>handler</code> with the error message as <code>.</code>.</p>
+<pre><code>jq -n '3 | try .a'                              # (nothing)
+jq -n '3 | try .a catch "na"'                   # "na"
+jq -n 'try error("fail") catch "caught: \(.)"'  # "caught: fail"
 </code></pre>
-<h3 id="-r-1"><a class="header" href="#-r-1"><code>-r</code></a></h3>
-<p>Raw output — print strings without JSON quotes/escaping.</p>
-<pre><code>$ jq -n '"hello"'
-"hello"
-$ jq -rn '"hello"'
-hello
-</code></pre>
-<h3 id="-b"><a class="header" href="#-b"><code>-b</code></a></h3>
-<p>Ensure no CRLF conversion on Windows.</p>
-<pre><code>$ jq -nb '42'
-</code></pre>
-<h3 id="-c"><a class="header" href="#-c"><code>-c</code></a></h3>
-<p>Compact output — each output on a single line.</p>
-<pre><code>$ jq -n '[1,2]'
-[
-  1,
-  2
-]
-$ jq -nc '[1,2]'
-[1,2]
-</code></pre>
-<h3 id="-e"><a class="header" href="#-e"><code>-e</code></a></h3>
-<p>Exit with code 0 if the last output is truthy, 1 otherwise.</p>
-<pre><code>jq -e 'has("foo")' data.json
-</code></pre>
-<h3 id="--arg"><a class="header" href="#--arg"><code>--arg</code></a></h3>
-<p>Set a variable <code>$name</code> to a string value.</p>
-<pre><code>jq -n --arg name foo '{$name}'    # {"name":"foo"}
-</code></pre>
-<h3 id="--argjson"><a class="header" href="#--argjson"><code>--argjson</code></a></h3>
-<p>Set a variable <code>$name</code> to a JSON value.</p>
-<pre><code>jq -n --argjson n 42 '{$n}'    # {"n":42}
-</code></pre>
-<h3 id="--args"><a class="header" href="#--args"><code>--args</code></a></h3>
-<p>Pass positional arguments as <code>$ARGS.positional</code> (strings).</p>
-<pre><code>jq -n '$ARGS.positional' --args hello world    # ["hello","world"]
-</code></pre>
-<h3 id="--jsonargs"><a class="header" href="#--jsonargs"><code>--jsonargs</code></a></h3>
-<p>Pass positional arguments as JSON values.</p>
-<pre><code>jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
-</code></pre>
-<h2 id="misc"><a class="header" href="#misc">Misc</a></h2>
-<h3 id="env"><a class="header" href="#env"><code>$ENV</code></a></h3>
+<h4 id="env"><a class="header" href="#env"><code>$ENV</code></a></h4>
 <p>$ENV is an object representing the environment variables as set when the jq program started. $ENV is readonly</p>
 <pre><code>$ENV               Object of all environment variables
 $ENV | keys        List all env var names
 $ENV.PATH          Access env var via variable
 </code></pre>
-<h3 id="argsnamed"><a class="header" href="#argsnamed"><code>$ARGS.named</code></a></h3>
+<h4 id="argsnamed"><a class="header" href="#argsnamed"><code>$ARGS.named</code></a></h4>
 <p>Access named arguments passed via <code>--arg</code> / <code>--argjson</code> programmatically.</p>
 <pre><code>jq -n --arg a 1 --argjson b 2 '$ARGS.named'    # {"a":"1","b":2}
 </code></pre>
-<h3 id="argspositional"><a class="header" href="#argspositional"><code>$ARGS.positional</code></a></h3>
+<h4 id="argspositional"><a class="header" href="#argspositional"><code>$ARGS.positional</code></a></h4>
 <p>Access positional arguments passed via <code>--args</code> / <code>--jsonargs</code> programmatically.</p>
 <pre><code>jq -n '$ARGS.positional' --args hello world  # ["hello","world"]
 jq -n '$ARGS.positional' --jsonargs 1 2 3    # [1,2,3]
 </code></pre>
-<h3 id="string-interpolation-exp"><a class="header" href="#string-interpolation-exp">String interpolation: <code>\(exp)</code></a></h3>
-<pre><code>jq -rn '42 | "The input was \(.), which is one less than \(.+1)"'
-</code></pre>
-<h3 id="user-defined-functions"><a class="header" href="#user-defined-functions">User Defined Functions</a></h3>
+<h2 id="defining-functions"><a class="header" href="#defining-functions">Defining Functions</a></h2>
 <pre><code>def add1: . + 1;
 def map(f): [.[] | f];          # f is a filter parameter (def filter)
 def add(x; y): x + y;           # Multi-arg (note semicolons)
