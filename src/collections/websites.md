@@ -20,6 +20,6 @@ Draw ascii diagrams.
 
 Pick icons to create your own icon fonts.
 
-### [getimg](https://getimg.co/)
+### [squoosh](https://squoosh.app/)
 
-Fast and Free Online Image Processing Tool.
+A image compression and format conversion tool.
