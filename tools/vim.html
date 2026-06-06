@@ -35,7 +35,7 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-9f7f0974.js";
+            window.path_to_searchindex_js = "../searchindex-2b641c64.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc-a552f6ad.js"></script>
@@ -211,7 +211,6 @@
 <tr><td><code>w</code> / <code>W</code></td><td>next word / WORD</td></tr>
 <tr><td><code>b</code> / <code>B</code></td><td>previous word / WORD</td></tr>
 <tr><td><code>e</code> / <code>E</code></td><td>next word / WORD end</td></tr>
-<tr><td><code>ge</code> / <code>gE</code></td><td>prev word / WORD end</td></tr>
 <tr><td><code>0</code></td><td>first column</td></tr>
 <tr><td><code>^</code></td><td>first non-blank</td></tr>
 <tr><td><code>$</code></td><td>end of line</td></tr>
@@ -233,14 +232,13 @@
 <tr><td><code>?pat</code></td><td>backward search</td></tr>
 <tr><td><code>n N</code></td><td>next/prev result</td></tr>
 <tr><td><code>* #</code></td><td>search word under cursor</td></tr>
-<tr><td><code>g* g#</code></td><td>partial word search</td></tr>
 <tr><td><code>f</code> / <code>F</code></td><td>find char forward/backward</td></tr>
 <tr><td><code>t</code> / <code>T</code></td><td>until char forward/backward</td></tr>
 <tr><td><code>;</code> / <code>,</code></td><td>f/t repeat / reverse</td></tr>
-<tr><td><code>:s/a/b/g</code></td><td>replace in current line</td></tr>
+<tr><td><code>:%s/a/b/g </code></td><td>replace in whole file</td></tr>
 <tr><td><code>:%s/a/b/gc</code></td><td>replace in whole file (confirm)</td></tr>
-<tr><td><code>:%s/\Ca/b/gc</code></td><td>case-sensitive match</td></tr>
-<tr><td><code>:%s/\ca/b/gc</code></td><td>case-insensitive match</td></tr>
+<tr><td><code>:%s/\Ca/b/g</code></td><td>case-sensitive match</td></tr>
+<tr><td><code>:s/a/b/g</code></td><td>replace in current line</td></tr>
 </tbody>
 </table>
 </div>
@@ -254,25 +252,7 @@
 <tr><td><code>d</code></td><td>delete</td></tr>
 <tr><td><code>c</code></td><td>change</td></tr>
 <tr><td><code>y</code></td><td>yank</td></tr>
-<tr><td><code>&gt;</code> / <code>&lt;</code></td><td>indent / outdent</td></tr>
 <tr><td><code>=</code></td><td>format</td></tr>
-<tr><td><code>gu</code> / <code>gU</code></td><td>lowercase /uppercase</td></tr>
-</tbody>
-</table>
-</div>
-<p>examples：</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>key</th><th>description</th></tr>
-</thead>
-<tbody>
-<tr><td><code>dw</code></td><td>delete word</td></tr>
-<tr><td><code>ciw</code></td><td>change inner word</td></tr>
-<tr><td><code>yy</code></td><td>yank line</td></tr>
-<tr><td><code>dd</code></td><td>delete line</td></tr>
-<tr><td><code>cc</code></td><td>change line</td></tr>
-<tr><td><code>d$</code></td><td>delete to EOL</td></tr>
 </tbody>
 </table>
 </div>
@@ -314,14 +294,13 @@
 <tr><th>key</th><th>description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>x</code> / <code>X</code></td><td>delete character (forward / backward)</td></tr>
+<tr><td><code>x</code></td><td>delete character (forward / backward)</td></tr>
 <tr><td><code>r</code></td><td>replace single char</td></tr>
 <tr><td><code>dd</code></td><td>delete line</td></tr>
 <tr><td><code>cc</code></td><td>change line</td></tr>
 <tr><td><code>C</code></td><td>change to end of line</td></tr>
 <tr><td><code>yy</code></td><td>yank line</td></tr>
 <tr><td><code>p</code> / <code>P</code></td><td>paste (after / before cursor)</td></tr>
-<tr><td><code>~</code></td><td>toggle case</td></tr>
 <tr><td><code>J</code></td><td>join lines</td></tr>
 <tr><td><code>.</code></td><td>repeat last change</td></tr>
 </tbody>
@@ -356,27 +335,47 @@
 <tr><td><code>r{char}</code></td><td>replace all selected with char</td></tr>
 <tr><td><code>I</code> / <code>A</code></td><td>block insert at start/end of lines</td></tr>
 <tr><td><code>:</code></td><td>auto <code>:'&lt;,'&gt;</code></td></tr>
-<tr><td><code>o</code></td><td>swap visual endpoint</td></tr>
+<tr><td><code>o</code></td><td>switch to other end of selection</td></tr>
 </tbody>
 </table>
 </div>
-<h2 id="jump-list--change-list"><a class="header" href="#jump-list--change-list">jump list / change list</a></h2>
+<h2 id="jump-list"><a class="header" href="#jump-list">jump list</a></h2>
 <div class="table-wrapper">
 <table>
 <thead>
-<tr><th>key</th><th>description</th></tr>
+<tr><th>Key</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>Ctrl-o</code></td><td>jump back</td></tr>
-<tr><td><code>Ctrl-i</code></td><td>jump forward</td></tr>
-<tr><td><code>gd</code></td><td>jump to definition</td></tr>
-<tr><td><code>gi</code></td><td>jump last insert</td></tr>
-<tr><td><code>g;</code></td><td>older change</td></tr>
-<tr><td><code>g,</code></td><td>newer change</td></tr>
-<tr><td><code>`.</code></td><td>jump last edit</td></tr>
+<tr><td><code>Ctrl-o</code></td><td>Jump back (older location)</td></tr>
+<tr><td><code>Ctrl-i</code></td><td>Jump forward (newer location)</td></tr>
+<tr><td><code>``</code></td><td>Jump to previous position</td></tr>
+<tr><td><code>gd</code></td><td>Jump to definition</td></tr>
+<tr><td><code>gr</code></td><td>Jump to references</td></tr>
+<tr><td><code>gI</code></td><td>Jump to implementions</td></tr>
+<tr><td><code>gy</code></td><td>Jump to type definition</td></tr>
 </tbody>
 </table>
 </div>
+<blockquote>
+<p><code>:jumps</code> to view current jump list</p>
+</blockquote>
+<h2 id="change-list"><a class="header" href="#change-list">change list</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Key</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>g;</code></td><td>Older change</td></tr>
+<tr><td><code>g,</code></td><td>Newer change</td></tr>
+<tr><td><code>gi</code></td><td>Jump to last insert</td></tr>
+<tr><td><code>`.</code></td><td>Jump to last edit</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p><code>:changes</code> to view current change list</p>
+</blockquote>
 <h2 id="mark"><a class="header" href="#mark">mark</a></h2>
 <div class="table-wrapper">
 <table>
@@ -387,8 +386,7 @@
 <tr><td><code>ma</code></td><td>set mark</td></tr>
 <tr><td><code>`a</code></td><td>jump exact</td></tr>
 <tr><td><code>'a</code></td><td>jump line</td></tr>
-<tr><td><code> </code> ``</td><td>previous jump exact</td></tr>
-<tr><td><code>''</code></td><td>previous jump line</td></tr>
+<tr><td><code>``</code></td><td>previous jump exact</td></tr>
 </tbody>
 </table>
 </div>
@@ -405,6 +403,9 @@
 </tbody>
 </table>
 </div>
+<blockquote>
+<p><code>:reg</code> to view registers</p>
+</blockquote>
 <h2 id="undo-redo"><a class="header" href="#undo-redo">undo redo</a></h2>
 <div class="table-wrapper">
 <table>
@@ -424,8 +425,8 @@
 <tr><th>key</th><th>description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>qa</code></td><td>record macro</td></tr>
-<tr><td><code>q</code></td><td>stop</td></tr>
+<tr><td><code>qa</code></td><td>start recording</td></tr>
+<tr><td><code>q</code></td><td>stop recording</td></tr>
 <tr><td><code>@a</code></td><td>play macro</td></tr>
 <tr><td><code>@@</code></td><td>repeat</td></tr>
 <tr><td><code>10@a</code></td><td>play 10 times</td></tr>
@@ -440,12 +441,13 @@
 </thead>
 <tbody>
 <tr><td style="text-align: left"><code>za</code></td><td style="text-align: left">toggle fold</td></tr>
-<tr><td style="text-align: left"><code>zo</code> / <code>zc</code></td><td style="text-align: left">open / close fold</td></tr>
-<tr><td style="text-align: left"><code>zO</code> / <code>zC</code></td><td style="text-align: left">recursive open / close all nested folds</td></tr>
-<tr><td style="text-align: left"><code>zR</code> / <code>zM</code></td><td style="text-align: left">open / close <strong>all</strong> folds</td></tr>
+<tr><td style="text-align: left"><code>zo</code> / <code>zc</code></td><td style="text-align: left">open/close fold</td></tr>
+<tr><td style="text-align: left"><code>zO</code> / <code>zC</code></td><td style="text-align: left">recursive open/close all nested folds</td></tr>
+<tr><td style="text-align: left"><code>zR</code> / <code>zM</code></td><td style="text-align: left">open/close <strong>all</strong> folds</td></tr>
+<tr><td style="text-align: left"><code>zj</code> / <code>zk</code></td><td style="text-align: left">jump to next/prev fold</td></tr>
 <tr><td style="text-align: left"><code>zz</code></td><td style="text-align: left">scroll to center screen</td></tr>
-<tr><td style="text-align: left"><code>zt</code></td><td style="text-align: left">scroll to top (top)</td></tr>
-<tr><td style="text-align: left"><code>zb</code></td><td style="text-align: left">scroll to bottom (bottom)</td></tr>
+<tr><td style="text-align: left"><code>zt</code></td><td style="text-align: left">scroll to top</td></tr>
+<tr><td style="text-align: left"><code>zb</code></td><td style="text-align: left">scroll to bottom</td></tr>
 </tbody>
 </table>
 </div>
@@ -476,9 +478,9 @@
 <tbody>
 <tr><td><code>:w</code></td><td>save</td></tr>
 <tr><td><code>:x</code></td><td>save and quit</td></tr>
-<tr><td><code>:q!</code></td><td>force quit</td></tr>
 <tr><td><code>:wa</code></td><td>save all</td></tr>
 <tr><td><code>:xa</code></td><td>save all and quit</td></tr>
+<tr><td><code>:q!</code></td><td>force quit</td></tr>
 <tr><td><code>:e file</code></td><td>open file</td></tr>
 </tbody>
 </table>
@@ -493,7 +495,7 @@
 <tr><td><code>:g/pat/cmd</code></td><td>execute cmd on matching lines</td></tr>
 <tr><td><code>:v/pat/cmd</code></td><td>execute cmd on non-matching lines</td></tr>
 <tr><td><code>:%norm cmd</code></td><td>execute normal command on all lines</td></tr>
-<tr><td><code>:%!cmd</code></td><td>modify with shell command</td></tr>
+<tr><td><code>:%!cmd</code></td><td>replace buffer with shell output</td></tr>
 <tr><td><code>:!cmd</code></td><td>run shell command</td></tr>
 <tr><td><code>:r !cmd</code></td><td>insert shell output</td></tr>
 <tr><td><code>:w !sudo tee %</code></td><td>save current file as root (classic rescue)</td></tr>
@@ -507,7 +509,6 @@ filetype plugin indent on
 set nonumber
 set linebreak
 set showbreak=+++
-set textwidth=100
 set showmatch
 set ruler
 set visualbell
