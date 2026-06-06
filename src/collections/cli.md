@@ -12,17 +12,17 @@ A better grep
 
 Command-line JSON processor
 
-### [yq](https://github.com/mikefarah/yq)
+### [jaq](https://github.com/01mf02/jaq)
 
-Process YAML, JSON, XML, CSV and properties documents from the CLI
+A clone of jq that supports YAML, CBOR, TOML, and XML.
+
+### [fx](https://github.com/antonmedv/fx)
+
+Terminal JSON viewer & processor
 
 ### [bat](https://github.com/sharkdp/bat)
 
 Cat with syntax highlight
-
-### [jless](https://github.com/PaulJuliusMartinez/jless)
-
-A command-line JSON viewer
 
 ### [just](https://github.com/casey/just)
 
@@ -52,10 +52,6 @@ Create book from markdown files.
 
 A terminal multiplexer similar to tmux.
 
-### [mcfly](https://github.com/cantino/mcfly)
-
-Search shell history
-
 ### [croc](https://github.com/schollz/croc)
 
 Easily and securely send things from one computer to another with cli
@@ -68,10 +64,14 @@ A proxy tools supports intranet penetration, port forwarding.
 
 Run command with proxy network
 
-### [webhookd](https://github.com/ncarlier/webhookd)
-
-Use shell scripts to handle webhook request.
-
 ### [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
 A feature-rich command-line audio/video downloader
+
+### [witr](https://github.com/pranshuparmar/witr)
+
+Why is this running?
+
+### [zoxide](https://github.com/ajeetdsouza/zoxide)
+
+A smarter cd command. 
