@@ -16,8 +16,8 @@
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
         <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-0392ca55.css">
-        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -36,7 +36,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-2b641c64.js";
+            window.path_to_searchindex_js = "searchindex-78fa8827.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a552f6ad.js"></script>
@@ -716,7 +716,7 @@ impl From&lt;&amp;'a str&gt; for State {
 <h2 id="link"><a class="header" href="#link">Link</a></h2>
 <p><a href="http://a.com">Link</a></p>
 <h2 id="image"><a class="header" href="#image">Image</a></h2>
-<p><img src="https://dummyimage.com/200x100/e0e0e0" alt="Image"></p>
+<p><label class="checkbox-label"><input class="checkbox-img" type="checkbox"><img src="https://dummyimage.com/200x100/e0e0e0" alt="Image"><span class="img-wrapper"><img src="https://dummyimage.com/200x100/e0e0e0" alt="Image"></span></label></p>
 <h2 id="horizontal-rule"><a class="header" href="#horizontal-rule">Horizontal Rule</a></h2>
 <hr>
 <h2 id="autolink-literals"><a class="header" href="#autolink-literals">Autolink literals</a></h2>
@@ -1704,7 +1704,6 @@ docker exec -it $server redis-cli -a ${1:-pass}
 <tr><td><code>t</code> / <code>T</code></td><td>until char forward/backward</td></tr>
 <tr><td><code>;</code> / <code>,</code></td><td>f/t repeat / reverse</td></tr>
 <tr><td><code>:%s/a/b/g </code></td><td>replace in whole file</td></tr>
-<tr><td><code>:%s/a/b/gc</code></td><td>replace in whole file (confirm)</td></tr>
 <tr><td><code>:%s/\Ca/b/g</code></td><td>case-sensitive match</td></tr>
 <tr><td><code>:s/a/b/g</code></td><td>replace in current line</td></tr>
 </tbody>
@@ -1742,7 +1741,7 @@ docker exec -it $server redis-cli -a ${1:-pass}
 </tbody>
 </table>
 </div>
-<p>例如：</p>
+<p>For examples:</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -1783,8 +1782,6 @@ docker exec -it $server redis-cli -a ${1:-pass}
 <tbody>
 <tr><td><code>&lt;C-w&gt;</code></td><td>delete previous word</td></tr>
 <tr><td><code>&lt;C-u&gt;</code></td><td>delete to line start</td></tr>
-<tr><td><code>&lt;C-r&gt;"</code></td><td>insert from register</td></tr>
-<tr><td><code>&lt;C-o&gt;</code></td><td>execute one normal command</td></tr>
 </tbody>
 </table>
 </div>
@@ -1804,6 +1801,19 @@ docker exec -it $server redis-cli -a ${1:-pass}
 <tr><td><code>I</code> / <code>A</code></td><td>block insert at start/end of lines</td></tr>
 <tr><td><code>:</code></td><td>auto <code>:'&lt;,'&gt;</code></td></tr>
 <tr><td><code>o</code></td><td>switch to other end of selection</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="mark"><a class="header" href="#mark">mark</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>key</th><th>description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ma</code></td><td>set mark</td></tr>
+<tr><td><code>`a</code></td><td>jump exact</td></tr>
+<tr><td><code>'a</code></td><td>jump line</td></tr>
 </tbody>
 </table>
 </div>
@@ -1844,20 +1854,6 @@ docker exec -it $server redis-cli -a ${1:-pass}
 <blockquote>
 <p><code>:changes</code> to view current change list</p>
 </blockquote>
-<h2 id="mark"><a class="header" href="#mark">mark</a></h2>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>key</th><th>description</th></tr>
-</thead>
-<tbody>
-<tr><td><code>ma</code></td><td>set mark</td></tr>
-<tr><td><code>`a</code></td><td>jump exact</td></tr>
-<tr><td><code>'a</code></td><td>jump line</td></tr>
-<tr><td><code>``</code></td><td>previous jump exact</td></tr>
-</tbody>
-</table>
-</div>
 <h2 id="register"><a class="header" href="#register">register</a></h2>
 <div class="table-wrapper">
 <table>
@@ -1964,8 +1960,6 @@ docker exec -it $server redis-cli -a ${1:-pass}
 <tr><td><code>:v/pat/cmd</code></td><td>execute cmd on non-matching lines</td></tr>
 <tr><td><code>:%norm cmd</code></td><td>execute normal command on all lines</td></tr>
 <tr><td><code>:%!cmd</code></td><td>replace buffer with shell output</td></tr>
-<tr><td><code>:!cmd</code></td><td>run shell command</td></tr>
-<tr><td><code>:r !cmd</code></td><td>insert shell output</td></tr>
 <tr><td><code>:w !sudo tee %</code></td><td>save current file as root (classic rescue)</td></tr>
 </tbody>
 </table>
@@ -2521,7 +2515,7 @@ def add(x; y): x + y;           # Multi-arg (note semicolons)
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-c22b7243.js"></script>
+        <script src="book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
 
