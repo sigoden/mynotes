@@ -46,7 +46,6 @@
 | `t` / `T`     | until char forward/backward     |
 | `;` / `,`     | f/t repeat / reverse            |
 | `:%s/a/b/g `  | replace in whole file           |
-| `:%s/a/b/gc`  | replace in whole file (confirm) |
 | `:%s/\Ca/b/g` | case-sensitive match            |
 | `:s/a/b/g`    | replace in current line         |
 
@@ -72,7 +71,7 @@
 | `it` `at` | tag          |
 | `ip` `ap` | paragraph    |
 
-例如：
+For examples:
 
 | key   | description        |
 | ----- | ------------------ |
@@ -103,8 +102,6 @@
 | -------- | -------------------------- |
 | `<C-w>`  | delete previous word       |
 | `<C-u>`  | delete to line start       |
-| `<C-r>"` | insert from register       |
-| `<C-o>`  | execute one normal command |
 
 ## visual mode
 
@@ -119,6 +116,14 @@
 | `I` / `A` | block insert at start/end of lines    |
 | `:`       | auto `:'<,'>`                         |
 | `o`       | switch to other end of selection      |
+
+## mark
+
+| key      | description         |
+| -------- | ------------------- |
+| `ma`     | set mark            |
+| `` `a `` | jump exact          |
+| `'a`     | jump line           |
 
 ## jump list
 
@@ -145,15 +150,6 @@
 | `` `. `` | Jump to last edit   |
 
 > `:changes` to view current change list
-
-## mark
-
-| key      | description         |
-| -------- | ------------------- |
-| `ma`     | set mark            |
-| `` `a `` | jump exact          |
-| `'a`     | jump line           |
-| ` `` `   | previous jump exact |
 
 ## register
 
@@ -232,8 +228,6 @@
 | `:v/pat/cmd`     | execute cmd on non-matching lines          |
 | `:%norm cmd`     | execute normal command on all lines        |
 | `:%!cmd`         | replace buffer with shell output           |
-| `:!cmd`          | run shell command                          |
-| `:r !cmd`        | insert shell output                        |
 | `:w !sudo tee %` | save current file as root (classic rescue) |
 
 
